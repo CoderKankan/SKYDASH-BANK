@@ -1,85 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Skydash Admin</title>
-  <!-- plugins:css -->
+
+  <!-- ═══ Security Headers (PCI-DSS Req.6.4 / OWASP) ═══ -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>SkyDash Bank — Connexion Sécurisée</title>
+
   <link rel="stylesheet" href="../../vendors/feather/feather.css">
   <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
-  <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
+
+  <style>
+    body { background: linear-gradient(135deg, #4B49AC 0%, #7978E9 60%, #4747A1 100%); min-height: 100vh; }
+    .auth-card { background: #fff; border-radius: 16px; padding: 40px; max-width: 440px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .brand-logo img { width: 140px; }
+    .security-badge { display:flex; align-items:center; gap:8px; background:#f0f9f0; border:1px solid #c3e6cb; border-radius:8px; padding:8px 14px; font-size:12px; color:#155724; margin-bottom:18px; }
+    .security-badge i { color:#28a745; }
+    .form-control:focus { border-color:#4B49AC; box-shadow:0 0 0 3px rgba(75,73,172,.15); }
+    .field-wrapper { position:relative; }
+    .field-wrapper .toggle-pwd { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#6c757d; padding:0; }
+    .btn-signin { background:linear-gradient(135deg,#4B49AC,#7978E9); border:none; color:#fff; font-weight:600; letter-spacing:.5px; transition:all .3s; }
+    .btn-signin:hover:not(:disabled) { background:linear-gradient(135deg,#3d3c9a,#6b6ad0); color:#fff; transform:translateY(-1px); box-shadow:0 5px 15px rgba(75,73,172,.4); }
+    .btn-signin:disabled { opacity:.65; cursor:not-allowed; }
+    .alert-danger { display:none; border-radius:8px; font-size:13px; }
+    .session-info { font-size:11px; color:#6c757d; text-align:center; margin-top:14px; }
+    .divider { border-top:1px solid #e9ecef; margin:20px 0; }
+    .pwd-strength { height:4px; border-radius:2px; margin-top:6px; transition:all .3s; }
+  </style>
 </head>
 
 <body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo">
-                <img src="../../images/logo.svg" alt="logo">
-              </div>
-              <h4>Hello! let's get started</h4>
-              <h6 class="font-weight-light">Sign in to continue.</h6>
-              <form class="pt-3">
-                <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN IN</a>
-                </div>
-                <div class="my-2 d-flex justify-content-between align-items-center">
-                  <div class="form-check">
-                    <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input">
-                      Keep me signed in
-                    </label>
-                  </div>
-                  <a href="#" class="auth-link text-black">Forgot password?</a>
-                </div>
-                <div class="mb-2">
-                  <button type="button" class="btn btn-block btn-facebook auth-form-btn">
-                    <i class="ti-facebook mr-2"></i>Connect using facebook
-                  </button>
-                </div>
-                <div class="text-center mt-4 font-weight-light">
-                  Don't have an account? <a href="register.html" class="text-primary">Create</a>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="../../vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="../../js/off-canvas.js"></script>
-  <script src="../../js/hoverable-collapse.js"></script>
-  <script src="../../js/template.js"></script>
-  <script src="../../js/settings.js"></script>
-  <script src="../../js/todolist.js"></script>
-  <!-- endinject -->
-</body>
+  <div class="container-fluid full-page-wrapper d-flex align-items-center justify-content-center px-0" style="min-height:100vh;">
+    <div class="auth-card">
 
+      <div class="brand-logo mb-3">
+        <img src="../../images/logo.svg" alt="SkyDash Bank">
+      </div>
+
+      <h4 class="font-weight-bold" style="color:#2d2d2d;">Connexion sécurisée</h4>
+      <h6 class="font-weight-light text-muted mb-3">Accédez à votre espace bancaire</h6>
+
+      <div class="security-badge">
+        <i class="ti-lock"></i>
+        <span>Connexion chiffrée — Session de 15 minutes</span>
+      </div>
+
+      <!-- Message d'erreur -->
+      <div class="alert alert-danger d-flex align-items-center" id="error-msg" role="alert" aria-live="assertive">
+        <i class="ti-close mr-2"></i>
+        <span id="error-text"></span>
+      </div>
+
+      <!-- Formulaire sécurisé -->
+      <form id="login-form" novalidate autocomplete="on">
+
+        <div class="form-group">
+          <label for="email" class="font-weight-medium small">Adresse email</label>
+          <input type="email" class="form-control form-control-lg" id="email" name="email"
+                 placeholder="votre@email.com" autocomplete="username"
+                 required maxlength="254" aria-describedby="email-err">
+          <div id="email-err" class="invalid-feedback"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="font-weight-medium small">Mot de passe</label>
+          <div class="field-wrapper">
+            <input type="password" class="form-control form-control-lg pr-5" id="password" name="password"
+                   placeholder="Votre mot de passe" autocomplete="current-password"
+                   required minlength="12" maxlength="128" aria-describedby="pwd-err">
+            <button type="button" class="toggle-pwd" id="toggle-pwd" aria-label="Afficher le mot de passe">
+              <i class="ti-eye" id="eye-icon"></i>
+            </button>
+          </div>
+          <div id="pwd-err" class="invalid-feedback"></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="form-check">
+            <label class="form-check-label text-muted" for="remember">
+              <input type="checkbox" class="form-check-input" id="remember" name="remember">
+              <small>Rester connecté</small>
+            </label>
+          </div>
+          <a href="forgot-password.html" class="text-primary small font-weight-medium">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit" id="btn-signin" class="btn btn-block btn-lg btn-signin font-weight-medium">
+          <span id="btn-text">SE CONNECTER</span>
+          <span id="btn-spinner" class="spinner-border spinner-border-sm ml-2" role="status" hidden>
+            <span class="sr-only">Chargement...</span>
+          </span>
+        </button>
+
+        <p class="session-info">
+          <i class="ti-time mr-1"></i>Session automatiquement fermée après 15 min d'inactivité
+        </p>
+
+      </form>
+
+      <div class="divider"></div>
+
+      <div class="text-center">
+        <small class="font-weight-light">Pas encore client ?
+          <a href="register.html" class="text-primary font-weight-medium">Ouvrir un compte</a>
+        </small>
+      </div>
+
+      <div class="text-center mt-3">
+        <small class="text-muted" style="font-size:11px;">
+          En vous connectant, vous acceptez nos <a href="#" class="text-muted">Conditions d'utilisation</a>
+          et notre <a href="#" class="text-muted">Politique de confidentialité RGPD</a>.
+        </small>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+
+  <script>
+    /* SKYDASH BANK — Authentification sécurisée
+     * Token stocké en mémoire uniquement (OWASP — jamais localStorage)
+     * Communication via API backend REST
+     */
+    (function () {
+      'use strict';
+
+      var form      = document.getElementById('login-form');
+      var btnSignin = document.getElementById('btn-signin');
+      var btnText   = document.getElementById('btn-text');
+      var btnSpnr   = document.getElementById('btn-spinner');
+      var errMsg    = document.getElementById('error-msg');
+      var errText   = document.getElementById('error-text');
+      var toggleBtn = document.getElementById('toggle-pwd');
+      var pwdInput  = document.getElementById('password');
+      var eyeIcon   = document.getElementById('eye-icon');
+
+      /* Toggle visibilité mot de passe */
+      toggleBtn.addEventListener('click', function () {
+        var show = pwdInput.type === 'password';
+        pwdInput.type = show ? 'text' : 'password';
+        eyeIcon.className = show ? 'ti-eye-off' : 'ti-eye';
+        toggleBtn.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+      });
+
+      function showError(msg) {
+        errText.textContent = msg;
+        errMsg.style.display = 'flex';
+      }
+
+      function hideError() {
+        errMsg.style.display = 'none';
+      }
+
+      function setLoading(on) {
+        btnSignin.disabled = on;
+        btnText.textContent = on ? 'Connexion...' : 'SE CONNECTER';
+        btnSpnr.hidden = !on;
+      }
+
+      function validate(email, pwd) {
+        var valid = true;
+        document.getElementById('email').classList.remove('is-invalid');
+        pwdInput.classList.remove('is-invalid');
+
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          document.getElementById('email').classList.add('is-invalid');
+          document.getElementById('email-err').textContent = 'Email invalide.';
+          valid = false;
+        }
+        if (!pwd || pwd.length < 12) {
+          pwdInput.classList.add('is-invalid');
+          document.getElementById('pwd-err').textContent = 'Mot de passe trop court (12 caractères minimum).';
+          valid = false;
+        }
+        return valid;
+      }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        hideError();
+
+        var email = document.getElementById('email').value.trim().toLowerCase();
+        var pwd   = pwdInput.value;
+
+        if (!validate(email, pwd)) return;
+
+        setLoading(true);
+
+        try {
+          var resp = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ email: email, password: pwd }),
+            credentials: 'include'
+          });
+
+          var data = await resp.json();
+
+          if (!resp.ok) {
+            var msg = resp.status === 423
+              ? 'Compte verrouillé après trop de tentatives. Réessayez dans 30 min.'
+              : resp.status === 429
+                ? 'Trop de tentatives. Veuillez patienter.'
+                : (data.error || 'Identifiants incorrects.');
+            showError(msg);
+            return;
+          }
+
+          if (data.mfaRequired) {
+            sessionStorage.setItem('mfa_temp', data.tempToken);
+            window.location.replace('mfa-verify.html');
+            return;
+          }
+
+          /* Connexion réussie — token en mémoire, infos minimales en sessionStorage */
+          window._accessToken = data.data.accessToken;
+          sessionStorage.setItem('sb_role', data.data.user.role);
+          sessionStorage.setItem('sb_name', data.data.user.firstName);
+          window.location.replace('../../index.html');
+
+        } catch (err) {
+          showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
+        } finally {
+          setLoading(false);
+          /* Effacement du mot de passe de la mémoire DOM */
+          pwdInput.value = '';
+        }
+      });
+
+      /* Prévention cache navigateur */
+      window.addEventListener('pageshow', function (e) {
+        if (e.persisted) { form.reset(); pwdInput.value = ''; }
+      });
+
+    }());
+  </script>
+
+</body>
 </html>

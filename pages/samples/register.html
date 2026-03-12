@@ -1,92 +1,394 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Skydash Admin</title>
-  <!-- plugins:css -->
+
+  <!-- ═══ Security Headers ═══ -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>SkyDash Bank — Créer un compte</title>
+
   <link rel="stylesheet" href="../../vendors/feather/feather.css">
   <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
-  <!-- endinject -->
   <link rel="shortcut icon" href="../../images/favicon.png" />
+
+  <style>
+    body { background: linear-gradient(135deg, #4B49AC 0%, #7978E9 60%, #4747A1 100%); min-height:100vh; }
+    .auth-card { background:#fff; border-radius:16px; padding:40px; max-width:520px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+    .brand-logo img { width:140px; }
+    .form-control:focus { border-color:#4B49AC; box-shadow:0 0 0 3px rgba(75,73,172,.15); }
+    .field-wrapper { position:relative; }
+    .field-wrapper .toggle-pwd { position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#6c757d; padding:0; }
+    .btn-register { background:linear-gradient(135deg,#4B49AC,#7978E9); border:none; color:#fff; font-weight:600; letter-spacing:.5px; transition:all .3s; }
+    .btn-register:hover:not(:disabled) { background:linear-gradient(135deg,#3d3c9a,#6b6ad0); color:#fff; transform:translateY(-1px); box-shadow:0 5px 15px rgba(75,73,172,.4); }
+    .btn-register:disabled { opacity:.65; cursor:not-allowed; }
+    .alert-danger { border-radius:8px; font-size:13px; display:none; }
+    .alert-success { border-radius:8px; font-size:13px; display:none; }
+    .pwd-strength-bar { height:5px; border-radius:3px; transition:all .3s; }
+    .strength-label { font-size:11px; font-weight:600; }
+    .pwd-req { font-size:11px; color:#6c757d; list-style:none; padding:0; margin:6px 0 0; }
+    .pwd-req li { display:flex; align-items:center; gap:5px; margin-bottom:2px; }
+    .pwd-req li.ok { color:#28a745; }
+    .pwd-req li.ok::before { content:"✓"; }
+    .pwd-req li:not(.ok)::before { content:"○"; }
+    .divider { border-top:1px solid #e9ecef; margin:20px 0; }
+    .steps-indicator { display:flex; gap:8px; margin-bottom:24px; }
+    .step { flex:1; height:4px; border-radius:2px; background:#e9ecef; transition:background .3s; }
+    .step.active { background:#4B49AC; }
+  </style>
 </head>
 
 <body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo">
-                <img src="../../images/logo.svg" alt="logo">
+  <div class="container-fluid full-page-wrapper d-flex align-items-center justify-content-center px-0 py-4" style="min-height:100vh;">
+    <div class="auth-card">
+
+      <div class="brand-logo mb-2">
+        <img src="../../images/logo.svg" alt="SkyDash Bank">
+      </div>
+
+      <h4 class="font-weight-bold mt-2" style="color:#2d2d2d;">Ouvrir un compte</h4>
+      <h6 class="font-weight-light text-muted mb-4">Rejoignez SkyDash Bank en quelques étapes</h6>
+
+      <!-- Indicateur de progression -->
+      <div class="steps-indicator">
+        <div class="step active" id="step1-bar"></div>
+        <div class="step" id="step2-bar"></div>
+        <div class="step" id="step3-bar"></div>
+      </div>
+
+      <!-- Messages -->
+      <div class="alert alert-danger d-flex align-items-center" id="error-msg" role="alert" aria-live="assertive">
+        <i class="ti-close mr-2"></i><span id="error-text"></span>
+      </div>
+      <div class="alert alert-success" id="success-msg" role="status" aria-live="polite">
+        <i class="ti-check mr-2"></i><span id="success-text"></span>
+      </div>
+
+      <!-- Formulaire d'inscription -->
+      <form id="register-form" novalidate autocomplete="on">
+
+        <!-- Étape 1 : Identité -->
+        <div id="step-1">
+          <p class="text-muted small mb-3"><strong>Étape 1/3 :</strong> Vos informations personnelles</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firstName" class="font-weight-medium small">Prénom</label>
+                <input type="text" class="form-control form-control-lg" id="firstName" name="firstName"
+                       placeholder="Marie" autocomplete="given-name"
+                       required minlength="2" maxlength="50" pattern="[a-zA-ZÀ-ÿ\s'\-]+"
+                       aria-describedby="fn-err">
+                <div id="fn-err" class="invalid-feedback"></div>
               </div>
-              <h4>New here?</h4>
-              <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
-              <form class="pt-3">
-                <div class="form-group">
-                  <input type="text" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Username">
-                </div>
-                <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
-                </div>
-                <div class="form-group">
-                  <select class="form-control form-control-lg" id="exampleFormControlSelect2">
-                    <option>Country</option>
-                    <option>United States of America</option>
-                    <option>United Kingdom</option>
-                    <option>India</option>
-                    <option>Germany</option>
-                    <option>Argentina</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="mb-4">
-                  <div class="form-check">
-                    <label class="form-check-label text-muted">
-                      <input type="checkbox" class="form-check-input">
-                      I agree to all Terms & Conditions
-                    </label>
-                  </div>
-                </div>
-                <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN UP</a>
-                </div>
-                <div class="text-center mt-4 font-weight-light">
-                  Already have an account? <a href="login.html" class="text-primary">Login</a>
-                </div>
-              </form>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="lastName" class="font-weight-medium small">Nom de famille</label>
+                <input type="text" class="form-control form-control-lg" id="lastName" name="lastName"
+                       placeholder="Dupont" autocomplete="family-name"
+                       required minlength="2" maxlength="50" pattern="[a-zA-ZÀ-ÿ\s'\-]+"
+                       aria-describedby="ln-err">
+                <div id="ln-err" class="invalid-feedback"></div>
+              </div>
             </div>
           </div>
+          <div class="form-group">
+            <label for="email" class="font-weight-medium small">Adresse email</label>
+            <input type="email" class="form-control form-control-lg" id="email" name="email"
+                   placeholder="marie.dupont@email.com" autocomplete="email"
+                   required maxlength="254" aria-describedby="em-err">
+            <div id="em-err" class="invalid-feedback"></div>
+          </div>
+          <button type="button" id="btn-next1" class="btn btn-block btn-lg btn-register font-weight-medium">
+            Continuer <i class="ti-arrow-right ml-1"></i>
+          </button>
         </div>
-      </div>
-      <!-- content-wrapper ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="../../vendors/js/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="../../js/off-canvas.js"></script>
-  <script src="../../js/hoverable-collapse.js"></script>
-  <script src="../../js/template.js"></script>
-  <script src="../../js/settings.js"></script>
-  <script src="../../js/todolist.js"></script>
-  <!-- endinject -->
-</body>
 
+        <!-- Étape 2 : Sécurité -->
+        <div id="step-2" hidden>
+          <p class="text-muted small mb-3"><strong>Étape 2/3 :</strong> Sécurisez votre compte</p>
+          <div class="form-group">
+            <label for="password" class="font-weight-medium small">Mot de passe</label>
+            <div class="field-wrapper">
+              <input type="password" class="form-control form-control-lg pr-5" id="password" name="password"
+                     placeholder="Minimum 12 caractères" autocomplete="new-password"
+                     required minlength="12" maxlength="128" aria-describedby="pwd-err">
+              <button type="button" class="toggle-pwd" id="toggle-pwd" aria-label="Afficher le mot de passe">
+                <i class="ti-eye" id="eye-icon"></i>
+              </button>
+            </div>
+            <!-- Jauge de solidité -->
+            <div class="pwd-strength-bar mt-2" id="strength-bar" style="background:#e9ecef;"></div>
+            <div class="d-flex justify-content-between mt-1">
+              <span class="strength-label" id="strength-label"></span>
+            </div>
+            <!-- Exigences -->
+            <ul class="pwd-req mt-2" id="pwd-reqs">
+              <li id="req-len">12 caractères minimum</li>
+              <li id="req-upper">Une majuscule (A-Z)</li>
+              <li id="req-lower">Une minuscule (a-z)</li>
+              <li id="req-digit">Un chiffre (0-9)</li>
+              <li id="req-special">Un caractère spécial (!@#$...)</li>
+            </ul>
+            <div id="pwd-err" class="invalid-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword" class="font-weight-medium small">Confirmer le mot de passe</label>
+            <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword"
+                   placeholder="Répétez votre mot de passe" autocomplete="new-password"
+                   required minlength="12" maxlength="128" aria-describedby="cpwd-err">
+            <div id="cpwd-err" class="invalid-feedback"></div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" id="btn-back1" class="btn btn-outline-secondary btn-lg mr-2">
+              <i class="ti-arrow-left"></i> Retour
+            </button>
+            <button type="button" id="btn-next2" class="btn btn-lg btn-register font-weight-medium flex-fill">
+              Continuer <i class="ti-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Étape 3 : Consentement & Soumission -->
+        <div id="step-3" hidden>
+          <p class="text-muted small mb-3"><strong>Étape 3/3 :</strong> Acceptation des conditions</p>
+
+          <div class="mb-3">
+            <div class="form-check mb-2">
+              <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+              <label class="form-check-label small" for="terms">
+                J'accepte les <a href="#" class="text-primary">Conditions Générales d'Utilisation</a>
+                et la <a href="#" class="text-primary">Politique de confidentialité RGPD</a>. <span class="text-danger">*</span>
+              </label>
+            </div>
+            <div class="form-check mb-2">
+              <input type="checkbox" class="form-check-input" id="age-confirm" name="age-confirm" required>
+              <label class="form-check-label small" for="age-confirm">
+                Je certifie avoir au moins 18 ans. <span class="text-danger">*</span>
+              </label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="marketing" name="marketing">
+              <label class="form-check-label small text-muted" for="marketing">
+                J'accepte de recevoir des offres commerciales de SkyDash Bank (optionnel).
+              </label>
+            </div>
+          </div>
+
+          <div class="alert alert-light border mb-3" style="font-size:12px;">
+            <i class="ti-shield-alt text-primary mr-1"></i>
+            <strong>Protection RGPD :</strong> Vos données personnelles sont traitées conformément au RGPD.
+            Vous disposez d'un droit d'accès, rectification et suppression.
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="button" id="btn-back2" class="btn btn-outline-secondary btn-lg mr-2">
+              <i class="ti-arrow-left"></i> Retour
+            </button>
+            <button type="submit" id="btn-submit" class="btn btn-lg btn-register font-weight-medium flex-fill">
+              <span id="btn-submit-text">CRÉER MON COMPTE</span>
+              <span id="btn-submit-spinner" class="spinner-border spinner-border-sm ml-2" role="status" hidden>
+                <span class="sr-only">Création en cours...</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="divider"></div>
+
+      <div class="text-center">
+        <small class="font-weight-light">Déjà client ?
+          <a href="login.html" class="text-primary font-weight-medium">Se connecter</a>
+        </small>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+
+  <script>
+    /* SKYDASH BANK — Inscription sécurisée multi-étapes
+     * Validation renforcée côté client + communication API sécurisée
+     */
+    (function () {
+      'use strict';
+
+      /* DOM */
+      var form    = document.getElementById('register-form');
+      var errMsg  = document.getElementById('error-msg');
+      var errText = document.getElementById('error-text');
+      var sucMsg  = document.getElementById('success-msg');
+      var sucText = document.getElementById('success-text');
+
+      function showError(msg) { errText.textContent = msg; errMsg.style.display = 'flex'; sucMsg.style.display = 'none'; }
+      function showSuccess(msg) { sucText.textContent = msg; sucMsg.style.display = 'block'; errMsg.style.display = 'none'; }
+      function hideMessages() { errMsg.style.display = 'none'; sucMsg.style.display = 'none'; }
+
+      /* ── Navigation étapes ───────────────────────────────────── */
+      function goStep(n) {
+        [1,2,3].forEach(function(i) {
+          document.getElementById('step-' + i).hidden = (i !== n);
+          document.getElementById('step' + i + '-bar').classList.toggle('active', i <= n);
+        });
+        hideMessages();
+        window.scrollTo(0, 0);
+      }
+
+      /* ── Validation Étape 1 ──────────────────────────────────── */
+      document.getElementById('btn-next1').addEventListener('click', function () {
+        var fn   = document.getElementById('firstName').value.trim();
+        var ln   = document.getElementById('lastName').value.trim();
+        var em   = document.getElementById('email').value.trim();
+        var ok   = true;
+        var nameRx = /^[a-zA-ZÀ-ÿ\s'\-]{2,50}$/;
+        var emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        ['firstName','lastName','email'].forEach(function(id) {
+          document.getElementById(id).classList.remove('is-invalid');
+        });
+
+        if (!nameRx.test(fn)) { document.getElementById('firstName').classList.add('is-invalid'); document.getElementById('fn-err').textContent = 'Prénom invalide (2-50 caractères alphabétiques).'; ok = false; }
+        if (!nameRx.test(ln)) { document.getElementById('lastName').classList.add('is-invalid'); document.getElementById('ln-err').textContent = 'Nom invalide (2-50 caractères alphabétiques).'; ok = false; }
+        if (!emailRx.test(em)) { document.getElementById('email').classList.add('is-invalid'); document.getElementById('em-err').textContent = 'Adresse email invalide.'; ok = false; }
+
+        if (ok) goStep(2);
+      });
+
+      /* ── Jauge solidité mot de passe ──────────────────────────── */
+      var reqs = {
+        len:     { el: document.getElementById('req-len'),     test: function(p) { return p.length >= 12; } },
+        upper:   { el: document.getElementById('req-upper'),   test: function(p) { return /[A-Z]/.test(p); } },
+        lower:   { el: document.getElementById('req-lower'),   test: function(p) { return /[a-z]/.test(p); } },
+        digit:   { el: document.getElementById('req-digit'),   test: function(p) { return /[0-9]/.test(p); } },
+        special: { el: document.getElementById('req-special'), test: function(p) { return /[^A-Za-z0-9]/.test(p); } }
+      };
+
+      document.getElementById('password').addEventListener('input', function () {
+        var p = this.value;
+        var score = Object.keys(reqs).filter(function(k) { return reqs[k].test(p); }).length;
+        Object.keys(reqs).forEach(function(k) {
+          reqs[k].el.classList.toggle('ok', reqs[k].test(p));
+        });
+        var bar = document.getElementById('strength-bar');
+        var label = document.getElementById('strength-label');
+        var colors = ['#e9ecef','#dc3545','#fd7e14','#ffc107','#28a745','#20c997'];
+        var labels = ['','Très faible','Faible','Moyen','Fort','Très fort'];
+        var labelColors = ['','#dc3545','#fd7e14','#856404','#155724','#0c6040'];
+        bar.style.background = colors[score] || colors[0];
+        bar.style.width = (score * 20) + '%';
+        label.textContent = labels[score] || '';
+        label.style.color = labelColors[score] || '';
+      });
+
+      /* Toggle visibilité mot de passe */
+      document.getElementById('toggle-pwd').addEventListener('click', function () {
+        var inp = document.getElementById('password');
+        var show = inp.type === 'password';
+        inp.type = show ? 'text' : 'password';
+        document.getElementById('eye-icon').className = show ? 'ti-eye-off' : 'ti-eye';
+      });
+
+      /* ── Validation Étape 2 ──────────────────────────────────── */
+      document.getElementById('btn-next2').addEventListener('click', function () {
+        var p  = document.getElementById('password').value;
+        var cp = document.getElementById('confirmPassword').value;
+        var ok = true;
+
+        document.getElementById('password').classList.remove('is-invalid');
+        document.getElementById('confirmPassword').classList.remove('is-invalid');
+
+        var allReqs = Object.keys(reqs).every(function(k) { return reqs[k].test(p); });
+        if (!allReqs) {
+          document.getElementById('password').classList.add('is-invalid');
+          document.getElementById('pwd-err').textContent = 'Le mot de passe ne respecte pas toutes les exigences.';
+          ok = false;
+        }
+        if (p !== cp) {
+          document.getElementById('confirmPassword').classList.add('is-invalid');
+          document.getElementById('cpwd-err').textContent = 'Les mots de passe ne correspondent pas.';
+          ok = false;
+        }
+
+        if (ok) goStep(3);
+      });
+
+      /* Retour arrière */
+      document.getElementById('btn-back1').addEventListener('click', function() { goStep(1); });
+      document.getElementById('btn-back2').addEventListener('click', function() { goStep(2); });
+
+      /* ── Soumission finale ──────────────────────────────────── */
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        hideMessages();
+
+        var terms = document.getElementById('terms').checked;
+        var age   = document.getElementById('age-confirm').checked;
+
+        if (!terms || !age) {
+          showError('Vous devez accepter les conditions obligatoires pour continuer.');
+          return;
+        }
+
+        var btn = document.getElementById('btn-submit');
+        var txt = document.getElementById('btn-submit-text');
+        var spn = document.getElementById('btn-submit-spinner');
+        btn.disabled = true; txt.textContent = 'Création...'; spn.hidden = false;
+
+        try {
+          var resp = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+              firstName: document.getElementById('firstName').value.trim(),
+              lastName:  document.getElementById('lastName').value.trim(),
+              email:     document.getElementById('email').value.trim().toLowerCase(),
+              password:  document.getElementById('password').value,
+              marketing: document.getElementById('marketing').checked
+            }),
+            credentials: 'include'
+          });
+
+          var data = await resp.json();
+
+          if (!resp.ok) {
+            showError(data.error || 'Une erreur est survenue lors de la création du compte.');
+            return;
+          }
+
+          form.reset();
+          showSuccess('Compte créé avec succès ! Redirection vers la page de connexion...');
+
+          setTimeout(function() {
+            window.location.replace('login.html');
+          }, 2500);
+
+        } catch (err) {
+          showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
+        } finally {
+          btn.disabled = false; txt.textContent = 'CRÉER MON COMPTE'; spn.hidden = true;
+          /* Effacement des mots de passe */
+          document.getElementById('password').value = '';
+          document.getElementById('confirmPassword').value = '';
+        }
+      });
+
+    }());
+  </script>
+
+</body>
 </html>

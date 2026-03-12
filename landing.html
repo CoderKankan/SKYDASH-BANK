@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- ═══ Security Headers ═══ -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- SEO -->
+  <meta name="description" content="SkyDash Bank — La banque digitale sécurisée pour particuliers et professionnels. Gérez vos finances en toute confiance.">
+  <meta name="keywords" content="banque digitale, compte bancaire, sécurité, PCI-DSS, virement, épargne">
+  <meta property="og:title" content="SkyDash Bank — La banque digitale sécurisée">
+  <meta property="og:description" content="Gérez vos finances avec la sécurité bancaire de niveau professionnel.">
+
+  <title>SkyDash Bank — La banque digitale de confiance</title>
+
+  <!-- CSS Vendors -->
+  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="vendors/feather/feather.css">
+  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       SKYDASH BANK — Landing Page Styles
+       Palette : #4B49AC (primary) | #7978E9 (secondary)
+                 #F09397 (accent)  | #FFC100 (gold)
+    ═══════════════════════════════════════════════════════ */
+
+    :root {
+      --primary: #4B49AC;
+      --primary-dark: #3d3c9a;
+      --secondary: #7978E9;
+      --accent: #F09397;
+      --gold: #FFC100;
+      --dark: #1a1a2e;
+      --text: #2d2d2d;
+      --text-light: #6c757d;
+      --bg-light: #f8f9fc;
+      --white: #ffffff;
+      --border: #e9ecef;
+      --success: #28a745;
+      --gradient: linear-gradient(135deg, #4B49AC 0%, #7978E9 50%, #6764cc 100%);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Manrope', 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLL SMOOTH ── */
+    html { scroll-behavior: smooth; }
+
+    /* ══════════════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════════════ */
+    .sb-navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      transition: box-shadow .3s;
+    }
+    .sb-navbar.scrolled { box-shadow: 0 4px 20px rgba(75,73,172,.12); }
+    .sb-navbar .container { display:flex; align-items:center; justify-content:space-between; }
+    .sb-navbar .logo img { height: 36px; }
+    .sb-navbar .nav-links { display:flex; align-items:center; gap:32px; list-style:none; }
+    .sb-navbar .nav-links a {
+      color: var(--text); text-decoration:none; font-size:14px; font-weight:600;
+      transition: color .2s; position: relative;
+    }
+    .sb-navbar .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; right:0;
+      height:2px; background:var(--primary); border-radius:2px;
+      transform:scaleX(0); transition:transform .2s;
+    }
+    .sb-navbar .nav-links a:hover { color:var(--primary); }
+    .sb-navbar .nav-links a:hover::after { transform:scaleX(1); }
+    .sb-navbar .nav-actions { display:flex; align-items:center; gap:12px; }
+    .btn-outline-primary-sb {
+      border: 2px solid var(--primary); color:var(--primary);
+      padding: 8px 20px; border-radius: 8px; font-weight:600; font-size:14px;
+      background:transparent; cursor:pointer; transition:all .2s; text-decoration:none; display:inline-block;
+    }
+    .btn-outline-primary-sb:hover { background:var(--primary); color:#fff; text-decoration:none; }
+    .btn-primary-sb {
+      background: var(--gradient); color:#fff; border:none;
+      padding: 10px 24px; border-radius: 8px; font-weight:700; font-size:14px;
+      cursor:pointer; transition:all .2s; text-decoration:none; display:inline-block;
+      box-shadow: 0 4px 15px rgba(75,73,172,.3);
+    }
+    .btn-primary-sb:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(75,73,172,.4); color:#fff; text-decoration:none; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; border:none; background:none; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--text); border-radius:2px; transition:all .3s; }
+
+    /* ══════════════════════════════════════════════
+       HERO SECTION
+    ══════════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      background: var(--gradient);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 800px; height: 800px;
+      background: rgba(255,255,255,.05);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%; left: -10%;
+      width: 600px; height: 600px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+    }
+    .hero .container { position:relative; z-index:2; }
+    .hero-badge {
+      display: inline-flex; align-items:center; gap:8px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 100px; padding: 6px 16px;
+      color: #fff; font-size: 13px; font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .hero-badge .dot { width:8px; height:8px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800; color: #fff;
+      line-height: 1.15; margin-bottom: 24px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p {
+      font-size: 1.15rem; color: rgba(255,255,255,.85);
+      max-width: 520px; line-height: 1.7; margin-bottom: 36px;
+    }
+    .hero-actions { display:flex; gap:16px; flex-wrap:wrap; margin-bottom: 48px; }
+    .btn-hero-primary {
+      background: #fff; color: var(--primary);
+      padding: 16px 32px; border-radius: 12px; font-weight:800; font-size:16px;
+      border:none; cursor:pointer; transition:all .3s; text-decoration:none; display:inline-block;
+      box-shadow: 0 8px 25px rgba(0,0,0,.15);
+    }
+    .btn-hero-primary:hover { transform:translateY(-2px); box-shadow:0 12px 35px rgba(0,0,0,.2); color:var(--primary-dark); text-decoration:none; }
+    .btn-hero-outline {
+      background: transparent; color: #fff;
+      padding: 16px 32px; border-radius: 12px; font-weight:700; font-size:16px;
+      border: 2px solid rgba(255,255,255,.5); cursor:pointer; transition:all .3s;
+      text-decoration:none; display:inline-block;
+    }
+    .btn-hero-outline:hover { background:rgba(255,255,255,.1); border-color:#fff; color:#fff; text-decoration:none; }
+    .hero-trust {
+      display: flex; align-items:center; gap:24px; flex-wrap:wrap;
+    }
+    .trust-item { display:flex; align-items:center; gap:8px; color:rgba(255,255,255,.75); font-size:13px; font-weight:500; }
+    .trust-item i { color: #4ade80; font-size: 16px; }
+
+    /* Dashboard mockup */
+    .hero-visual {
+      position: relative;
+      display: flex; justify-content:center; align-items:center;
+    }
+    .dashboard-mock {
+      background: rgba(255,255,255,.95);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.3);
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+    }
+    .mock-header {
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;
+    }
+    .mock-logo { font-weight:800; font-size:18px; color:var(--primary); }
+    .mock-avatar { width:36px; height:36px; border-radius:50%; background:var(--gradient); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:14px; }
+    .mock-balance-card {
+      background: var(--gradient);
+      border-radius: 16px; padding: 24px; margin-bottom: 20px;
+      position: relative; overflow:hidden;
+    }
+    .mock-balance-card::before {
+      content:''; position:absolute; top:-40%; right:-20%;
+      width:160px; height:160px; background:rgba(255,255,255,.1); border-radius:50%;
+    }
+    .mock-balance-card .label { color:rgba(255,255,255,.7); font-size:12px; font-weight:500; margin-bottom:4px; }
+    .mock-balance-card .amount { color:#fff; font-size:28px; font-weight:800; margin-bottom:16px; }
+    .mock-balance-card .card-info { display:flex; justify-content:space-between; }
+    .mock-balance-card .card-info span { color:rgba(255,255,255,.8); font-size:12px; }
+    .mock-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+    .mock-stat {
+      background: var(--bg-light); border-radius:12px; padding:16px;
+      text-align:center;
+    }
+    .mock-stat .stat-val { font-size:18px; font-weight:800; color:var(--primary); margin-bottom:2px; }
+    .mock-stat .stat-lbl { font-size:11px; color:var(--text-light); font-weight:500; }
+    .mock-transactions { }
+    .mock-tx-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:12px; }
+    .mock-tx-item {
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 10px 0; border-bottom:1px solid var(--border);
+    }
+    .mock-tx-item:last-child { border-bottom:none; }
+    .mock-tx-icon {
+      width:36px; height:36px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:14px; margin-right:12px; flex-shrink:0;
+    }
+    .mock-tx-info { flex:1; }
+    .mock-tx-info .name { font-size:13px; font-weight:600; color:var(--text); }
+    .mock-tx-info .date { font-size:11px; color:var(--text-light); }
+    .mock-tx-amount { font-size:14px; font-weight:700; }
+    .mock-tx-amount.credit { color:var(--success); }
+    .mock-tx-amount.debit { color:#dc3545; }
+    .floating-badge {
+      position:absolute; top:-16px; right:-16px;
+      background:#fff; border-radius:12px; padding:12px 16px;
+      box-shadow:0 8px 25px rgba(0,0,0,.15);
+      display:flex; align-items:center; gap:10px;
+    }
+    .floating-badge .badge-icon { width:36px; height:36px; background:#e8f5e9; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+    .floating-badge .badge-icon i { color:var(--success); font-size:18px; }
+    .floating-badge .badge-text .title { font-size:12px; font-weight:700; color:var(--text); }
+    .floating-badge .badge-text .sub { font-size:10px; color:var(--text-light); }
+    .floating-badge2 {
+      position:absolute; bottom:-16px; left:-16px;
+      background:#fff; border-radius:12px; padding:12px 16px;
+      box-shadow:0 8px 25px rgba(0,0,0,.15);
+      display:flex; align-items:center; gap:10px;
+    }
+    .floating-badge2 .badge-icon2 { width:36px; height:36px; background:#fff3e0; border-radius:10px; display:flex; align-items:center; justify-content:center; }
+    .floating-badge2 .badge-icon2 i { color:#f57c00; font-size:18px; }
+
+    /* ══════════════════════════════════════════════
+       STATS BANNER
+    ══════════════════════════════════════════════ */
+    .stats-banner {
+      background: var(--dark);
+      padding: 48px 0;
+    }
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:40px; text-align:center; }
+    .stat-block .number { font-size: 2.5rem; font-weight:800; color:#fff; margin-bottom:4px; }
+    .stat-block .number span { color:var(--gold); }
+    .stat-block .label { color:rgba(255,255,255,.55); font-size:14px; font-weight:500; }
+
+    /* ══════════════════════════════════════════════
+       SECTION GÉNÉRIQUE
+    ══════════════════════════════════════════════ */
+    section { padding: 96px 0; }
+    .section-label {
+      display:inline-block;
+      background: rgba(75,73,172,.1); color:var(--primary);
+      padding: 6px 16px; border-radius: 100px; font-size:13px; font-weight:700;
+      margin-bottom: 16px; letter-spacing:.5px;
+    }
+    .section-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight:800; color:var(--dark); line-height:1.2; margin-bottom:16px; }
+    .section-subtitle { font-size:1.05rem; color:var(--text-light); line-height:1.7; max-width:600px; }
+
+    /* ══════════════════════════════════════════════
+       SERVICES
+    ══════════════════════════════════════════════ */
+    .services { background: var(--bg-light); }
+    .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
+    .service-card {
+      background: #fff;
+      border-radius: 20px; padding:32px; border:1px solid var(--border);
+      transition: all .3s; cursor:default;
+      position: relative; overflow:hidden;
+    }
+    .service-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:4px;
+      background: var(--gradient); transform:scaleX(0); transform-origin:left;
+      transition:transform .3s;
+    }
+    .service-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(75,73,172,.12); }
+    .service-card:hover::before { transform:scaleX(1); }
+    .service-icon {
+      width:60px; height:60px; border-radius:16px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px; margin-bottom:20px;
+    }
+    .service-card h3 { font-size:1.15rem; font-weight:800; color:var(--dark); margin-bottom:10px; }
+    .service-card p { font-size:14px; color:var(--text-light); line-height:1.65; margin-bottom:16px; }
+    .service-link { color:var(--primary); font-size:14px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:6px; transition:gap .2s; }
+    .service-link:hover { gap:10px; color:var(--primary-dark); text-decoration:none; }
+
+    /* ══════════════════════════════════════════════
+       SÉCURITÉ
+    ══════════════════════════════════════════════ */
+    .security-section { background:#fff; }
+    .security-content { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+    .security-features { display:flex; flex-direction:column; gap:28px; margin-top:40px; }
+    .security-feature {
+      display:flex; gap:16px; align-items:flex-start;
+    }
+    .sec-icon {
+      width:48px; height:48px; border-radius:14px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; font-size:20px;
+    }
+    .sec-info h4 { font-size:16px; font-weight:700; color:var(--dark); margin-bottom:6px; }
+    .sec-info p { font-size:13px; color:var(--text-light); line-height:1.6; }
+    .security-visual {
+      position:relative; display:flex; align-items:center; justify-content:center;
+    }
+    .security-shield-wrap {
+      width:320px; height:320px;
+      background: var(--gradient);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      position:relative;
+    }
+    .security-shield-wrap i { font-size:120px; color:rgba(255,255,255,.9); }
+    .cert-badge {
+      position:absolute; background:#fff; border-radius:14px; padding:14px 18px;
+      box-shadow:0 8px 30px rgba(0,0,0,.12);
+      display:flex; align-items:center; gap:12px;
+    }
+    .cert-badge-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .cert-badge-text .title { font-size:13px; font-weight:700; color:var(--dark); }
+    .cert-badge-text .sub { font-size:11px; color:var(--text-light); }
+    .cert1 { top:16px; right:-30px; }
+    .cert2 { bottom:16px; left:-30px; }
+    .cert3 { top:50%; right:-50px; transform:translateY(-50%); }
+
+    /* ══════════════════════════════════════════════
+       COMPTES / TARIFS
+    ══════════════════════════════════════════════ */
+    .pricing { background: var(--bg-light); }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
+    .pricing-card {
+      background:#fff; border-radius:20px; padding:36px;
+      border:1px solid var(--border); position:relative; transition:all .3s;
+    }
+    .pricing-card:hover { transform:translateY(-4px); box-shadow:0 15px 40px rgba(75,73,172,.1); }
+    .pricing-card.featured {
+      background: var(--gradient);
+      border-color:transparent;
+      transform:scale(1.04);
+    }
+    .pricing-card.featured:hover { transform:scale(1.04) translateY(-4px); }
+    .pricing-badge {
+      position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+      background:var(--gold); color:#1a1a2e; padding:4px 16px; border-radius:100px;
+      font-size:12px; font-weight:800; white-space:nowrap;
+    }
+    .pricing-card .plan-name { font-size:14px; font-weight:700; margin-bottom:8px; }
+    .pricing-card .plan-price { font-size:2.5rem; font-weight:900; margin-bottom:4px; line-height:1; }
+    .pricing-card .plan-price sup { font-size:1.2rem; vertical-align:super; font-weight:700; }
+    .pricing-card .plan-period { font-size:13px; opacity:.7; margin-bottom:24px; }
+    .pricing-card .plan-desc { font-size:13px; margin-bottom:24px; line-height:1.6; }
+    .pricing-card ul { list-style:none; padding:0; margin-bottom:28px; display:flex; flex-direction:column; gap:10px; }
+    .pricing-card ul li { display:flex; align-items:center; gap:10px; font-size:13px; }
+    .pricing-card ul li i { font-size:16px; }
+    .pricing-card.featured * { color:#fff; }
+    .pricing-card.featured ul li i.ti-check { color:rgba(255,255,255,.9); }
+    .btn-pricing {
+      display:block; text-align:center; padding:14px; border-radius:12px;
+      font-weight:700; font-size:14px; text-decoration:none; transition:all .3s;
+    }
+    .btn-pricing-outline {
+      border:2px solid var(--primary); color:var(--primary); background:transparent;
+    }
+    .btn-pricing-outline:hover { background:var(--primary); color:#fff; text-decoration:none; }
+    .btn-pricing-white {
+      background:#fff; color:var(--primary); border:2px solid #fff;
+    }
+    .btn-pricing-white:hover { background:transparent; color:#fff; text-decoration:none; }
+
+    /* ══════════════════════════════════════════════
+       TÉMOIGNAGES
+    ══════════════════════════════════════════════ */
+    .testimonials { background:#fff; }
+    .testimonials-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:56px; }
+    .testimonial-card {
+      background:var(--bg-light); border-radius:20px; padding:28px;
+      border:1px solid var(--border); transition:all .3s;
+    }
+    .testimonial-card:hover { transform:translateY(-4px); box-shadow:0 12px 35px rgba(75,73,172,.1); }
+    .stars { display:flex; gap:4px; margin-bottom:16px; }
+    .stars i { color:var(--gold); font-size:14px; }
+    .testimonial-text { font-size:14px; color:var(--text); line-height:1.7; margin-bottom:20px; font-style:italic; }
+    .testimonial-author { display:flex; align-items:center; gap:12px; }
+    .author-avatar {
+      width:44px; height:44px; border-radius:50%; background:var(--gradient);
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; font-weight:800; font-size:15px;
+    }
+    .author-info .name { font-size:14px; font-weight:700; color:var(--dark); }
+    .author-info .role { font-size:12px; color:var(--text-light); }
+
+    /* ══════════════════════════════════════════════
+       CTA FINAL
+    ══════════════════════════════════════════════ */
+    .cta-section {
+      background: var(--gradient); padding: 96px 0;
+      text-align:center; position:relative; overflow:hidden;
+    }
+    .cta-section::before {
+      content:''; position:absolute; top:-50%; left:-20%;
+      width:600px; height:600px; background:rgba(255,255,255,.05); border-radius:50%;
+    }
+    .cta-section h2 { font-size:clamp(2rem,4vw,3rem); font-weight:900; color:#fff; margin-bottom:16px; }
+    .cta-section p { font-size:1.1rem; color:rgba(255,255,255,.8); margin-bottom:36px; max-width:540px; margin-left:auto; margin-right:auto; }
+    .cta-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+    .compliance-badges {
+      display:flex; justify-content:center; align-items:center; gap:24px;
+      flex-wrap:wrap; margin-top:48px;
+    }
+    .comp-badge {
+      background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3);
+      border-radius:10px; padding:10px 18px;
+      color:rgba(255,255,255,.9); font-size:12px; font-weight:700;
+      display:flex; align-items:center; gap:8px;
+    }
+    .comp-badge i { font-size:16px; }
+
+    /* ══════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════ */
+    footer {
+      background: var(--dark); color:rgba(255,255,255,.6);
+      padding: 64px 0 32px;
+    }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+    .footer-brand .logo { height:36px; filter:brightness(0) invert(1); margin-bottom:16px; }
+    .footer-brand p { font-size:13px; line-height:1.7; max-width:260px; }
+    .footer-col h4 { color:#fff; font-size:14px; font-weight:700; margin-bottom:16px; }
+    .footer-col ul { list-style:none; padding:0; display:flex; flex-direction:column; gap:10px; }
+    .footer-col ul a { color:rgba(255,255,255,.55); font-size:13px; text-decoration:none; transition:color .2s; }
+    .footer-col ul a:hover { color:#fff; }
+    .footer-bottom {
+      border-top:1px solid rgba(255,255,255,.1); padding-top:24px;
+      display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
+    }
+    .footer-bottom p { font-size:12px; }
+    .footer-legal { display:flex; gap:20px; }
+    .footer-legal a { color:rgba(255,255,255,.45); font-size:12px; text-decoration:none; }
+    .footer-legal a:hover { color:#fff; }
+    .rgpd-notice {
+      background:rgba(75,73,172,.3); border-radius:8px; padding:12px 16px;
+      font-size:12px; margin-bottom:24px; display:flex; align-items:center; gap:10px;
+    }
+    .rgpd-notice i { color:var(--gold); flex-shrink:0; }
+
+    /* ══════════════════════════════════════════════
+       UTILITAIRES & RESPONSIVE
+    ══════════════════════════════════════════════ */
+    .container { max-width:1200px; margin:0 auto; padding:0 24px; }
+    .text-center { text-align:center; }
+    .text-primary-sb { color:var(--primary); }
+    .d-none { display:none; }
+
+    @media (max-width: 992px) {
+      .nav-links, .nav-actions .btn-outline-primary-sb { display:none; }
+      .hamburger { display:flex; }
+      .services-grid, .pricing-grid, .testimonials-grid { grid-template-columns:1fr; }
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .security-content { grid-template-columns:1fr; }
+      .security-visual { display:none; }
+      .footer-grid { grid-template-columns:1fr 1fr; }
+      .pricing-card.featured { transform:none; }
+      .hero { padding-bottom:60px; }
+      .hero-visual { margin-top:48px; }
+    }
+
+    @media (max-width: 576px) {
+      .stats-grid { grid-template-columns:1fr 1fr; gap:20px; }
+      .footer-grid { grid-template-columns:1fr; }
+      .cta-actions { flex-direction:column; align-items:center; }
+      .hero-actions { flex-direction:column; align-items:flex-start; }
+    }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity:0; transform:translateY(30px);
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
+    .fade-up-delay-1 { transition-delay:.1s; }
+    .fade-up-delay-2 { transition-delay:.2s; }
+    .fade-up-delay-3 { transition-delay:.3s; }
+    .fade-up-delay-4 { transition-delay:.4s; }
+
+    /* ── Cookie Banner RGPD ── */
+    #cookie-banner {
+      position:fixed; bottom:0; left:0; right:0; z-index:9999;
+      background:#1a1a2e; color:#fff; padding:20px 24px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      flex-wrap:wrap; border-top:3px solid var(--primary);
+    }
+    #cookie-banner p { font-size:13px; margin:0; flex:1; }
+    #cookie-banner a { color:var(--secondary); }
+    .cookie-actions { display:flex; gap:10px; flex-shrink:0; }
+    .btn-cookie-accept { background:var(--primary); color:#fff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:700; font-size:13px; }
+    .btn-cookie-refuse { background:transparent; color:rgba(255,255,255,.6); border:1px solid rgba(255,255,255,.3); padding:10px 20px; border-radius:8px; cursor:pointer; font-size:13px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════════ -->
+  <nav class="sb-navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+    <div class="container">
+      <a href="landing.html" class="logo" aria-label="SkyDash Bank — Accueil">
+        <img src="images/logo.svg" alt="SkyDash Bank">
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#securite">Sécurité</a></li>
+        <li><a href="#tarifs">Tarifs</a></li>
+        <li><a href="#temoignages">Avis clients</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="pages/samples/login.html" class="btn-outline-primary-sb">Se connecter</a>
+        <a href="pages/samples/register.html" class="btn-primary-sb">Ouvrir un compte</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════ -->
+  <section class="hero" id="accueil">
+    <div class="container">
+      <div class="row align-items-center" style="display:grid;grid-template-columns:1fr 1fr;gap:64px;">
+
+        <div>
+          <div class="hero-badge">
+            <span class="dot"></span>
+            <span>Certifié PCI-DSS Niveau 1 &amp; ISO 27001</span>
+          </div>
+          <h1>
+            La banque digitale qui met votre <span>sécurité</span> en premier
+          </h1>
+          <p>
+            SkyDash Bank combine la puissance du digital avec les standards de sécurité
+            bancaire les plus exigeants. Gérez, épargnez et investissez en toute confiance.
+          </p>
+          <div class="hero-actions">
+            <a href="pages/samples/register.html" class="btn-hero-primary">
+              Ouvrir un compte gratuit
+            </a>
+            <a href="#services" class="btn-hero-outline">
+              <i class="ti-play mr-2"></i> Découvrir
+            </a>
+          </div>
+          <div class="hero-trust">
+            <div class="trust-item"><i class="ti-shield-alt"></i> Chiffrement TLS 1.3</div>
+            <div class="trust-item"><i class="ti-check-box"></i> MFA obligatoire</div>
+            <div class="trust-item"><i class="ti-lock"></i> Zéro frais cachés</div>
+            <div class="trust-item"><i class="ti-star"></i> 4.9/5 clients</div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <!-- Dashboard mockup animé -->
+          <div class="dashboard-mock" role="img" aria-label="Aperçu de l'interface SkyDash Bank">
+            <div class="mock-header">
+              <div class="mock-logo">SkyDash</div>
+              <div class="mock-avatar">MD</div>
+            </div>
+            <div class="mock-balance-card">
+              <div class="label">Solde disponible</div>
+              <div class="amount">12 847,50 €</div>
+              <div class="card-info">
+                <span>•••• •••• •••• 4821</span>
+                <span>Visa Platinum</span>
+              </div>
+            </div>
+            <div class="mock-stats">
+              <div class="mock-stat">
+                <div class="stat-val">+3 200 €</div>
+                <div class="stat-lbl">Revenus mars</div>
+              </div>
+              <div class="mock-stat">
+                <div class="stat-val">-1 480 €</div>
+                <div class="stat-lbl">Dépenses mars</div>
+              </div>
+            </div>
+            <div class="mock-transactions">
+              <div class="mock-tx-title">Transactions récentes</div>
+              <div class="mock-tx-item">
+                <div class="mock-tx-icon" style="background:#e8f5e9;">💼</div>
+                <div class="mock-tx-info">
+                  <div class="name">Salaire Mars</div>
+                  <div class="date">12 mars 2026</div>
+                </div>
+                <div class="mock-tx-amount credit">+3 200,00 €</div>
+              </div>
+              <div class="mock-tx-item">
+                <div class="mock-tx-icon" style="background:#fce4ec;">🏠</div>
+                <div class="mock-tx-info">
+                  <div class="name">Loyer</div>
+                  <div class="date">5 mars 2026</div>
+                </div>
+                <div class="mock-tx-amount debit">-950,00 €</div>
+              </div>
+              <div class="mock-tx-item">
+                <div class="mock-tx-icon" style="background:#e3f2fd;">📈</div>
+                <div class="mock-tx-info">
+                  <div class="name">Épargne auto</div>
+                  <div class="date">1 mars 2026</div>
+                </div>
+                <div class="mock-tx-amount credit">+500,00 €</div>
+              </div>
+            </div>
+          </div>
+          <!-- Badges flottants -->
+          <div class="floating-badge" aria-hidden="true">
+            <div class="badge-icon"><i class="ti-shield" style="color:#28a745;font-size:18px;"></i></div>
+            <div class="badge-text">
+              <div class="title">Compte sécurisé</div>
+              <div class="sub">MFA activé ✓</div>
+            </div>
+          </div>
+          <div class="floating-badge2" aria-hidden="true">
+            <div class="badge-icon2"><i class="ti-stats-up" style="color:#f57c00;font-size:18px;"></i></div>
+            <div class="badge-text">
+              <div class="title">+8,4% épargne</div>
+              <div class="sub">Ce trimestre</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       STATS BANNER
+  ══════════════════════════════════════════════ -->
+  <div class="stats-banner">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-block fade-up">
+          <div class="number"><span>500</span>K+</div>
+          <div class="label">Clients satisfaits</div>
+        </div>
+        <div class="stat-block fade-up fade-up-delay-1">
+          <div class="number"><span>12</span>B€</div>
+          <div class="label">Actifs gérés</div>
+        </div>
+        <div class="stat-block fade-up fade-up-delay-2">
+          <div class="number"><span>99.99</span>%</div>
+          <div class="label">Disponibilité SLA</div>
+        </div>
+        <div class="stat-block fade-up fade-up-delay-3">
+          <div class="number"><span>0</span></div>
+          <div class="label">Incident sécurité</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SERVICES
+  ══════════════════════════════════════════════ -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">NOS SERVICES</span>
+        <h2 class="section-title">Tout ce dont vous avez besoin,<br>dans une seule application</h2>
+        <p class="section-subtitle" style="margin:0 auto;">Des services bancaires complets conçus pour simplifier votre quotidien financier.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card fade-up">
+          <div class="service-icon" style="background:rgba(75,73,172,.1);">
+            <i class="ti-credit-card" style="color:#4B49AC;"></i>
+          </div>
+          <h3>Compte courant intelligent</h3>
+          <p>Gérez vos dépenses en temps réel, recevez des alertes instantanées et catégorisez automatiquement vos transactions.</p>
+          <a href="pages/samples/register.html" class="service-link">Ouvrir un compte <i class="ti-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-up fade-up-delay-1">
+          <div class="service-icon" style="background:rgba(240,147,151,.1);">
+            <i class="ti-arrow-circle-right" style="color:#F09397;"></i>
+          </div>
+          <h3>Virements instantanés</h3>
+          <p>Envoyez de l'argent en France et en Europe en quelques secondes via SEPA Instant, disponible 24h/24 et 7j/7.</p>
+          <a href="pages/samples/register.html" class="service-link">En savoir plus <i class="ti-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-up fade-up-delay-2">
+          <div class="service-icon" style="background:rgba(255,193,0,.1);">
+            <i class="ti-bar-chart" style="color:#FFC100;"></i>
+          </div>
+          <h3>Épargne &amp; Investissement</h3>
+          <p>Faites fructifier votre épargne avec des plans d'investissement automatisés et des taux compétitifs jusqu'à 4,5% annuels.</p>
+          <a href="pages/samples/register.html" class="service-link">Calculer mes gains <i class="ti-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-up">
+          <div class="service-icon" style="background:rgba(40,167,69,.1);">
+            <i class="ti-shield" style="color:#28a745;"></i>
+          </div>
+          <h3>Assurance Dépôts</h3>
+          <p>Vos dépôts sont garantis jusqu'à 100 000€ par le Fonds de Garantie des Dépôts et de Résolution (FGDR).</p>
+          <a href="#securite" class="service-link">Détails garanties <i class="ti-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-up fade-up-delay-1">
+          <div class="service-icon" style="background:rgba(23,162,184,.1);">
+            <i class="ti-mobile" style="color:#17a2b8;"></i>
+          </div>
+          <h3>Application mobile</h3>
+          <p>Accédez à tous vos services depuis votre smartphone. Notifications push, Face ID / empreinte digitale inclus.</p>
+          <a href="#" class="service-link">Télécharger l'app <i class="ti-arrow-right"></i></a>
+        </div>
+
+        <div class="service-card fade-up fade-up-delay-2">
+          <div class="service-icon" style="background:rgba(111,66,193,.1);">
+            <i class="ti-headphone" style="color:#6f42c1;"></i>
+          </div>
+          <h3>Support 24/7</h3>
+          <p>Une équipe dédiée disponible à tout moment. Chat en ligne, téléphone et email avec un temps de réponse moyen de 2 minutes.</p>
+          <a href="#contact" class="service-link">Nous contacter <i class="ti-arrow-right"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       SÉCURITÉ
+  ══════════════════════════════════════════════ -->
+  <section class="security-section" id="securite">
+    <div class="container">
+      <div class="security-content">
+        <div>
+          <span class="section-label">SÉCURITÉ BANCAIRE</span>
+          <h2 class="section-title">Votre argent protégé par des standards militaires</h2>
+          <p class="section-subtitle">Nous appliquons les mêmes standards de sécurité que les plus grandes institutions financières mondiales.</p>
+          <div class="security-features">
+            <div class="security-feature fade-up">
+              <div class="sec-icon" style="background:rgba(75,73,172,.1);">
+                <i class="ti-lock" style="color:#4B49AC;"></i>
+              </div>
+              <div class="sec-info">
+                <h4>Chiffrement de bout en bout AES-256</h4>
+                <p>Toutes vos données bancaires sont chiffrées avec l'algorithme AES-256, le standard utilisé par les gouvernements pour les informations classifiées.</p>
+              </div>
+            </div>
+            <div class="security-feature fade-up fade-up-delay-1">
+              <div class="sec-icon" style="background:rgba(40,167,69,.1);">
+                <i class="ti-key" style="color:#28a745;"></i>
+              </div>
+              <div class="sec-info">
+                <h4>Authentification multi-facteurs (MFA/TOTP)</h4>
+                <p>Double vérification obligatoire à chaque connexion via une application d'authentification (Google Authenticator, Authy). Conforme DSP2 SCA.</p>
+              </div>
+            </div>
+            <div class="security-feature fade-up fade-up-delay-2">
+              <div class="sec-icon" style="background:rgba(255,193,0,.1);">
+                <i class="ti-eye" style="color:#f57c00;"></i>
+              </div>
+              <div class="sec-info">
+                <h4>Surveillance des transactions 24/7</h4>
+                <p>Notre système d'IA analyse chaque transaction en temps réel pour détecter les comportements suspects et bloquer les fraudes avant qu'elles n'arrivent.</p>
+              </div>
+            </div>
+            <div class="security-feature fade-up fade-up-delay-3">
+              <div class="sec-icon" style="background:rgba(220,53,69,.1);">
+                <i class="ti-alarm" style="color:#dc3545;"></i>
+              </div>
+              <div class="sec-info">
+                <h4>Alertes et blocage instantané</h4>
+                <p>Recevez une notification immédiate pour chaque opération et blocquez votre carte en un seul tap depuis l'application en cas de perte ou vol.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="security-visual" aria-hidden="true">
+          <div class="security-shield-wrap">
+            <i class="ti-shield" style="font-size:120px;color:rgba(255,255,255,.85);"></i>
+          </div>
+          <div class="cert-badge cert1">
+            <div class="cert-badge-icon" style="background:rgba(75,73,172,.1);">
+              <i class="ti-check" style="color:#4B49AC;"></i>
+            </div>
+            <div class="cert-badge-text">
+              <div class="title">PCI-DSS Niveau 1</div>
+              <div class="sub">Certifié 2026</div>
+            </div>
+          </div>
+          <div class="cert-badge cert2">
+            <div class="cert-badge-icon" style="background:rgba(40,167,69,.1);">
+              <i class="ti-check" style="color:#28a745;"></i>
+            </div>
+            <div class="cert-badge-text">
+              <div class="title">ISO 27001</div>
+              <div class="sub">Sécurité de l'info</div>
+            </div>
+          </div>
+          <div class="cert-badge cert3">
+            <div class="cert-badge-icon" style="background:rgba(255,193,0,.1);">
+              <i class="ti-crown" style="color:#f57c00;"></i>
+            </div>
+            <div class="cert-badge-text">
+              <div class="title">RGPD Conforme</div>
+              <div class="sub">Données protégées</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       TARIFS
+  ══════════════════════════════════════════════ -->
+  <section class="pricing" id="tarifs">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">OFFRES &amp; TARIFS</span>
+        <h2 class="section-title">Choisissez l'offre qui vous correspond</h2>
+        <p class="section-subtitle" style="margin:0 auto;">Aucun frais caché. Changez d'offre à tout moment sans pénalité.</p>
+      </div>
+      <div class="pricing-grid">
+
+        <!-- Essentiel -->
+        <div class="pricing-card fade-up">
+          <div class="plan-name text-primary-sb">Essentiel</div>
+          <div class="plan-price">0 <sup>€</sup></div>
+          <div class="plan-period">/ mois — pour toujours</div>
+          <div class="plan-desc" style="color:var(--text-light);">Idéal pour débuter avec la banque digitale.</div>
+          <ul style="color:var(--text);">
+            <li><i class="ti-check" style="color:#28a745;"></i> Compte courant</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> Carte Visa Standard</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> Virements SEPA</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> App mobile complète</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> MFA activé</li>
+            <li style="color:var(--text-light);"><i class="ti-close" style="color:#dc3545;"></i> Épargne rémunérée</li>
+            <li style="color:var(--text-light);"><i class="ti-close" style="color:#dc3545;"></i> Support prioritaire</li>
+          </ul>
+          <a href="pages/samples/register.html" class="btn-pricing btn-pricing-outline">Commencer gratuitement</a>
+        </div>
+
+        <!-- Premium (featured) -->
+        <div class="pricing-card featured fade-up fade-up-delay-1">
+          <div class="pricing-badge">⭐ Le plus populaire</div>
+          <div class="plan-name">Premium</div>
+          <div class="plan-price">9,90 <sup>€</sup></div>
+          <div class="plan-period">/ mois, sans engagement</div>
+          <div class="plan-desc">Pour les particuliers exigeants qui veulent le meilleur.</div>
+          <ul>
+            <li><i class="ti-check"></i> Tout de l'offre Essentiel</li>
+            <li><i class="ti-check"></i> Carte Visa Platinum</li>
+            <li><i class="ti-check"></i> Épargne à 4,5% annuels</li>
+            <li><i class="ti-check"></i> Retraits illimités gratuits</li>
+            <li><i class="ti-check"></i> Assurance voyage incluse</li>
+            <li><i class="ti-check"></i> Support 24/7 prioritaire</li>
+            <li><i class="ti-check"></i> Conseiller dédié</li>
+          </ul>
+          <a href="pages/samples/register.html" class="btn-pricing btn-pricing-white">Choisir Premium</a>
+        </div>
+
+        <!-- Business -->
+        <div class="pricing-card fade-up fade-up-delay-2">
+          <div class="plan-name text-primary-sb">Business</div>
+          <div class="plan-price">29 <sup>€</sup></div>
+          <div class="plan-period">/ mois par utilisateur</div>
+          <div class="plan-desc" style="color:var(--text-light);">Solution complète pour les entreprises et les professionnels.</div>
+          <ul style="color:var(--text);">
+            <li><i class="ti-check" style="color:#28a745;"></i> Tout du Premium</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> Comptes multi-utilisateurs</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> API bancaire complète</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> Comptabilité intégrée</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> SLA 99.99% garanti</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> Audit trail complet</li>
+            <li><i class="ti-check" style="color:#28a745;"></i> Conformité DSP2 native</li>
+          </ul>
+          <a href="#contact" class="btn-pricing btn-pricing-outline">Contacter les ventes</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       TÉMOIGNAGES
+  ══════════════════════════════════════════════ -->
+  <section class="testimonials" id="temoignages">
+    <div class="container">
+      <div class="text-center">
+        <span class="section-label">AVIS CLIENTS</span>
+        <h2 class="section-title">Ce que disent nos 500 000 clients</h2>
+        <p class="section-subtitle" style="margin:0 auto;">Une satisfaction client de 4.9/5 — Rejoignez une communauté de confiance.</p>
+      </div>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card fade-up">
+          <div class="stars">
+            <i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i>
+          </div>
+          <p class="testimonial-text">"J'ai migré vers SkyDash Bank après un incident de sécurité chez mon ancienne banque. La configuration MFA et les alertes en temps réel me donnent enfin la tranquillité d'esprit que je cherchais."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">MC</div>
+            <div class="author-info">
+              <div class="name">Marie Clément</div>
+              <div class="role">Directrice financière, Paris</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-up fade-up-delay-1">
+          <div class="stars">
+            <i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i>
+          </div>
+          <p class="testimonial-text">"L'intégration API pour mon entreprise a été un jeu d'enfant. La documentation est claire, le support technique répond en moins de 5 minutes. Exactement ce dont j'avais besoin."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">TB</div>
+            <div class="author-info">
+              <div class="name">Thomas Bernard</div>
+              <div class="role">CTO, Startup Lyon</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-up fade-up-delay-2">
+          <div class="stars">
+            <i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i><i class="ti-star"></i>
+          </div>
+          <p class="testimonial-text">"Les virements SEPA instantanés changent vraiment la vie pour les paiements professionnels. Et savoir que mes données sont protégées RGPD me permet de dormir sur mes deux oreilles."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">SR</div>
+            <div class="author-info">
+              <div class="name">Sophie Renard</div>
+              <div class="role">Freelance Consultante, Bordeaux</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       CTA FINAL
+  ══════════════════════════════════════════════ -->
+  <section class="cta-section" id="contact">
+    <div class="container" style="position:relative;z-index:2;">
+      <h2>Prêt à rejoindre SkyDash Bank ?</h2>
+      <p>Ouvrez votre compte en 5 minutes. Aucun frais, aucun engagement. Rejoignez les 500 000 clients qui nous font confiance.</p>
+      <div class="cta-actions">
+        <a href="pages/samples/register.html" class="btn-hero-primary">
+          Ouvrir un compte gratuit
+        </a>
+        <a href="pages/samples/login.html" class="btn-hero-outline">
+          Se connecter
+        </a>
+      </div>
+      <div class="compliance-badges">
+        <div class="comp-badge"><i class="ti-shield"></i> PCI-DSS Niv.1</div>
+        <div class="comp-badge"><i class="ti-check-box"></i> ISO 27001</div>
+        <div class="comp-badge"><i class="ti-lock"></i> RGPD Conforme</div>
+        <div class="comp-badge"><i class="ti-credit-card"></i> DSP2 / SCA</div>
+        <div class="comp-badge"><i class="ti-star"></i> FGDR 100k€</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════════ -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="rgpd-notice">
+        <i class="ti-info-alt"></i>
+        <span>SkyDash Bank SAS — Établissement de paiement agréé par l'ACPR (Autorité de Contrôle Prudentiel et de Résolution).
+          Numéro d'agrément : 123456789. Dépôts garantis jusqu'à 100 000€ par le FGDR.</span>
+      </div>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="images/logo.svg" alt="SkyDash Bank" class="logo">
+          <p>La banque digitale qui place votre sécurité et votre liberté financière au cœur de chaque service.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Compte courant</a></li>
+            <li><a href="#services">Virements</a></li>
+            <li><a href="#services">Épargne</a></li>
+            <li><a href="#services">Investissement</a></li>
+            <li><a href="#tarifs">Tarifs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Sécurité</h4>
+          <ul>
+            <li><a href="#securite">Chiffrement AES-256</a></li>
+            <li><a href="#securite">Authentification MFA</a></li>
+            <li><a href="#securite">Conformité PCI-DSS</a></li>
+            <li><a href="#securite">Politique RGPD</a></li>
+            <li><a href="#securite">Garantie FGDR</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Entreprise</h4>
+          <ul>
+            <li><a href="#">À propos</a></li>
+            <li><a href="#">Carrières</a></li>
+            <li><a href="#">Presse</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">API Développeurs</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SkyDash Bank SAS. Tous droits réservés.</p>
+        <div class="footer-legal">
+          <a href="#">Mentions légales</a>
+          <a href="#">Politique de confidentialité</a>
+          <a href="#">CGU</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ══════════════════════════════════════════════
+       COOKIE BANNER RGPD
+  ══════════════════════════════════════════════ -->
+  <div id="cookie-banner" role="dialog" aria-label="Gestion des cookies" aria-live="polite">
+    <p>
+      🍪 Nous utilisons des cookies strictement nécessaires au fonctionnement du site.
+      <a href="#">En savoir plus sur notre politique de cookies</a>.
+    </p>
+    <div class="cookie-actions">
+      <button class="btn-cookie-refuse" id="cookie-refuse">Refuser</button>
+      <button class="btn-cookie-accept" id="cookie-accept">Accepter</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="vendors/js/vendor.bundle.base.js"></script>
+
+  <script>
+    /* SKYDASH BANK — Landing Page Scripts */
+    (function () {
+      'use strict';
+
+      /* ── Navbar scroll effect ── */
+      var navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', function () {
+        navbar.classList.toggle('scrolled', window.scrollY > 20);
+      }, { passive: true });
+
+      /* ── Animations fade-up (Intersection Observer) ── */
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-up').forEach(function (el) {
+          observer.observe(el);
+        });
+      } else {
+        /* Fallback : affiche tout pour les navigateurs sans support */
+        document.querySelectorAll('.fade-up').forEach(function (el) {
+          el.classList.add('visible');
+        });
+      }
+
+      /* ── Smooth scroll pour les ancres ── */
+      document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener('click', function (e) {
+          var target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      /* ── Cookie Banner RGPD ── */
+      var cookieBanner = document.getElementById('cookie-banner');
+      var cookieKey = 'sb_cookie_consent';
+
+      if (sessionStorage.getItem(cookieKey)) {
+        cookieBanner.style.display = 'none';
+      }
+
+      document.getElementById('cookie-accept').addEventListener('click', function () {
+        sessionStorage.setItem(cookieKey, 'accepted');
+        cookieBanner.style.display = 'none';
+      });
+
+      document.getElementById('cookie-refuse').addEventListener('click', function () {
+        sessionStorage.setItem(cookieKey, 'refused');
+        cookieBanner.style.display = 'none';
+      });
+
+      /* ── Hamburger menu mobile ── */
+      var hamburger = document.getElementById('hamburger');
+      hamburger.addEventListener('click', function () {
+        var expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        /* Simple toggle — à étendre avec un menu mobile complet */
+      });
+
+      /* ── Compteur animé pour les stats ── */
+      function animateCounter(el, target, suffix) {
+        var start = 0;
+        var duration = 2000;
+        var step = target / (duration / 16);
+        var timer = setInterval(function () {
+          start += step;
+          if (start >= target) { start = target; clearInterval(timer); }
+          el.textContent = (Number.isInteger(target) ? Math.floor(start) : start.toFixed(2)) + suffix;
+        }, 16);
+      }
+
+      var statsObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var blocks = entry.target.querySelectorAll('.stat-block .number span');
+            blocks.forEach(function (span) {
+              var val = parseFloat(span.textContent);
+              animateCounter(span, val, '');
+            });
+            statsObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      var statsBanner = document.querySelector('.stats-banner');
+      if (statsBanner) statsObserver.observe(statsBanner);
+
+    }());
+  </script>
+
+</body>
+</html>
