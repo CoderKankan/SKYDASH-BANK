@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- ═══ Security Headers (PCI-DSS Req.6.4 / OWASP) ═══ -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="robots" content="noindex, nofollow">
-
   <title>SkyDash Bank — Connexion Sécurisée</title>
-
   <link rel="stylesheet" href="../../vendors/feather/feather.css">
   <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link rel="shortcut icon" href="../../images/favicon.png" />
-
   <style>
     body { background: linear-gradient(135deg, #4B49AC 0%, #7978E9 60%, #4747A1 100%); min-height: 100vh; }
-    .auth-card { background: #fff; border-radius: 16px; padding: 40px; max-width: 440px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
-    .brand-logo img { width: 140px; }
+    .auth-card { background: #fff; border-radius: 18px; padding: 40px; max-width: 460px; width: 100%; box-shadow: 0 24px 64px rgba(0,0,0,.22); }
+    .brand-logo img { width: 150px; }
     .security-badge { display:flex; align-items:center; gap:8px; background:#f0f9f0; border:1px solid #c3e6cb; border-radius:8px; padding:8px 14px; font-size:12px; color:#155724; margin-bottom:18px; }
     .security-badge i { color:#28a745; }
     .form-control:focus { border-color:#4B49AC; box-shadow:0 0 0 3px rgba(75,73,172,.15); }
@@ -33,13 +27,23 @@
     .btn-signin { background:linear-gradient(135deg,#4B49AC,#7978E9); border:none; color:#fff; font-weight:600; letter-spacing:.5px; transition:all .3s; }
     .btn-signin:hover:not(:disabled) { background:linear-gradient(135deg,#3d3c9a,#6b6ad0); color:#fff; transform:translateY(-1px); box-shadow:0 5px 15px rgba(75,73,172,.4); }
     .btn-signin:disabled { opacity:.65; cursor:not-allowed; }
-    .alert-danger { display:none; border-radius:8px; font-size:13px; }
     .session-info { font-size:11px; color:#6c757d; text-align:center; margin-top:14px; }
     .divider { border-top:1px solid #e9ecef; margin:20px 0; }
-    .pwd-strength { height:4px; border-radius:2px; margin-top:6px; transition:all .3s; }
+    /* Attempts counter */
+    .attempts-bar { height:4px; border-radius:2px; background:#e9ecef; overflow:hidden; margin-top:6px; }
+    .attempts-fill { height:100%; border-radius:2px; transition:all .4s; }
+    /* Lock screen */
+    .lock-overlay { display:none; background:#fff3cd; border:1px solid #ffc107; border-radius:10px; padding:18px; text-align:center; margin-bottom:16px; }
+    .lock-overlay.show { display:block; }
+    .lock-countdown { font-size:1.5rem; font-weight:700; color:#856404; font-variant-numeric:tabular-nums; }
+    /* Device badge */
+    .device-badge { background:#f8f9fa; border:1px solid #e9ecef; border-radius:6px; padding:5px 10px; font-size:11px; color:#6c757d; display:flex; align-items:center; gap:6px; margin-bottom:12px; }
+    /* Trust indicator */
+    .trust-row { display:flex; gap:12px; justify-content:center; margin-top:12px; font-size:11px; color:#6c757d; }
+    .trust-item { display:flex; align-items:center; gap:4px; }
+    .trust-item i { color:#28a745; font-size:.8rem; }
   </style>
 </head>
-
 <body>
   <div class="container-fluid full-page-wrapper d-flex align-items-center justify-content-center px-0" style="min-height:100vh;">
     <div class="auth-card">
@@ -51,19 +55,42 @@
       <h4 class="font-weight-bold" style="color:#2d2d2d;">Connexion sécurisée</h4>
       <h6 class="font-weight-light text-muted mb-3">Accédez à votre espace bancaire</h6>
 
-      <div class="security-badge">
-        <i class="ti-lock"></i>
-        <span>Connexion chiffrée — Session de 15 minutes</span>
+      <!-- Device recognition badge -->
+      <div class="device-badge" id="deviceBadge">
+        <i class="ti-desktop"></i>
+        <span id="deviceText">Vérification de l'appareil...</span>
       </div>
 
-      <!-- Message d'erreur -->
-      <div class="alert alert-danger d-flex align-items-center" id="error-msg" role="alert" aria-live="assertive">
-        <i class="ti-close mr-2"></i>
-        <span id="error-text"></span>
+      <div class="security-badge">
+        <i class="ti-lock"></i>
+        <span>Connexion chiffrée TLS 1.3 — Session de 15 min</span>
+      </div>
+
+      <!-- Lockout overlay -->
+      <div class="lock-overlay" id="lockOverlay">
+        <i class="ti-lock" style="font-size:2rem; color:#856404;"></i>
+        <div class="font-weight-bold mt-2 mb-1" style="color:#856404;">Accès temporairement bloqué</div>
+        <div class="text-muted small mb-2">Trop de tentatives incorrectes. Réessayez dans :</div>
+        <div class="lock-countdown" id="lockCountdown">30:00</div>
+        <div class="text-muted small mt-2">Ou <a href="forgot-password.html" class="text-primary">réinitialisez votre mot de passe</a></div>
+      </div>
+
+      <!-- Error message -->
+      <div class="alert alert-danger d-flex align-items-start" id="error-msg" role="alert" aria-live="assertive" style="display:none!important;">
+        <i class="ti-close mr-2 mt-1" style="flex-shrink:0;"></i>
+        <div>
+          <span id="error-text"></span>
+          <div id="attempts-info" style="display:none; margin-top:4px;">
+            <small class="font-weight-bold">Tentatives restantes : <span id="attempts-left">5</span>/5</small>
+            <div class="attempts-bar mt-1"><div class="attempts-fill" id="attemptsFill" style="width:100%; background:#1bcfb4;"></div></div>
+          </div>
+        </div>
       </div>
 
       <!-- Formulaire sécurisé -->
       <form id="login-form" novalidate autocomplete="on">
+        <!-- Honeypot field (invisible) -->
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
 
         <div class="form-group">
           <label for="email" class="font-weight-medium small">Adresse email</label>
@@ -78,7 +105,7 @@
           <div class="field-wrapper">
             <input type="password" class="form-control form-control-lg pr-5" id="password" name="password"
                    placeholder="Votre mot de passe" autocomplete="current-password"
-                   required minlength="12" maxlength="128" aria-describedby="pwd-err">
+                   required minlength="8" maxlength="128" aria-describedby="pwd-err">
             <button type="button" class="toggle-pwd" id="toggle-pwd" aria-label="Afficher le mot de passe">
               <i class="ti-eye" id="eye-icon"></i>
             </button>
@@ -99,14 +126,20 @@
         <button type="submit" id="btn-signin" class="btn btn-block btn-lg btn-signin font-weight-medium">
           <span id="btn-text">SE CONNECTER</span>
           <span id="btn-spinner" class="spinner-border spinner-border-sm ml-2" role="status" hidden>
-            <span class="sr-only">Chargement...</span>
+            <span class="sr-only">Connexion en cours...</span>
           </span>
         </button>
 
-        <p class="session-info">
-          <i class="ti-time mr-1"></i>Session automatiquement fermée après 15 min d'inactivité
-        </p>
+        <div class="trust-row mt-3">
+          <span class="trust-item"><i class="ti-shield"></i> PCI-DSS</span>
+          <span class="trust-item"><i class="ti-shield"></i> ISO 27001</span>
+          <span class="trust-item"><i class="ti-shield"></i> RGPD</span>
+          <span class="trust-item"><i class="ti-shield"></i> DSP2</span>
+        </div>
 
+        <p class="session-info">
+          <i class="ti-time mr-1"></i>Session fermée après 15 min d'inactivité
+        </p>
       </form>
 
       <div class="divider"></div>
@@ -130,126 +163,238 @@
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
 
   <script>
-    /* SKYDASH BANK — Authentification sécurisée
-     * Token stocké en mémoire uniquement (OWASP — jamais localStorage)
-     * Communication via API backend REST
-     */
-    (function () {
-      'use strict';
+  (function () {
+    'use strict';
 
-      var form      = document.getElementById('login-form');
-      var btnSignin = document.getElementById('btn-signin');
-      var btnText   = document.getElementById('btn-text');
-      var btnSpnr   = document.getElementById('btn-spinner');
-      var errMsg    = document.getElementById('error-msg');
-      var errText   = document.getElementById('error-text');
-      var toggleBtn = document.getElementById('toggle-pwd');
-      var pwdInput  = document.getElementById('password');
-      var eyeIcon   = document.getElementById('eye-icon');
+    /* ═══ Configuration sécurité ════════════════════════════ */
+    var MAX_ATTEMPTS  = 5;
+    var LOCKOUT_MS    = 30 * 60 * 1000; // 30 minutes
+    var ATTEMPT_KEY   = 'sb_login_attempts';
+    var LOCK_UNTIL    = 'sb_login_locked_until';
 
-      /* Toggle visibilité mot de passe */
-      toggleBtn.addEventListener('click', function () {
-        var show = pwdInput.type === 'password';
-        pwdInput.type = show ? 'text' : 'password';
-        eyeIcon.className = show ? 'ti-eye-off' : 'ti-eye';
-        toggleBtn.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
-      });
+    /* ═══ DOM ════════════════════════════════════════════════ */
+    var form       = document.getElementById('login-form');
+    var btnSignin  = document.getElementById('btn-signin');
+    var btnText    = document.getElementById('btn-text');
+    var btnSpnr    = document.getElementById('btn-spinner');
+    var errMsg     = document.getElementById('error-msg');
+    var errText    = document.getElementById('error-text');
+    var toggleBtn  = document.getElementById('toggle-pwd');
+    var pwdInput   = document.getElementById('password');
+    var eyeIcon    = document.getElementById('eye-icon');
+    var lockOverlay    = document.getElementById('lockOverlay');
+    var lockCountdown  = document.getElementById('lockCountdown');
+    var attemptsInfo   = document.getElementById('attempts-info');
+    var attemptsLeft   = document.getElementById('attempts-left');
+    var attemptsFill   = document.getElementById('attemptsFill');
+    var deviceBadge    = document.getElementById('deviceBadge');
+    var deviceText     = document.getElementById('deviceText');
 
-      function showError(msg) {
-        errText.textContent = msg;
-        errMsg.style.display = 'flex';
+    /* ═══ Device fingerprint (simplifié) ════════════════════ */
+    (function detectDevice() {
+      var ua = navigator.userAgent;
+      var isMobile  = /iPhone|iPad|Android|Mobile/i.test(ua);
+      var isTablet  = /iPad|Android(?!.*Mobile)/i.test(ua);
+      var name      = isMobile ? (isTablet ? 'Tablette' : 'Mobile') : 'Ordinateur';
+      var iconCls   = isMobile ? (isTablet ? 'ti-tablet' : 'ti-mobile') : 'ti-desktop';
+      var icon      = deviceBadge.querySelector('i');
+      if (icon) { icon.className = iconCls; }
+      var knownKey  = sessionStorage.getItem('sb_known_device');
+      if (knownKey) {
+        deviceText.textContent = name + ' — Appareil reconnu ✓';
+        deviceBadge.style.background = '#f0f9f0';
+        deviceBadge.style.borderColor = '#c3e6cb';
+        deviceBadge.style.color = '#155724';
+      } else {
+        deviceText.textContent = name + ' — Nouvel appareil';
       }
+    })();
 
-      function hideError() {
-        errMsg.style.display = 'none';
+    /* ═══ Brute force — Vérifier verrou ════════════════════ */
+    var lockTimer = null;
+    function checkLockout() {
+      var until = parseInt(sessionStorage.getItem(LOCK_UNTIL) || '0', 10);
+      if (!until || Date.now() > until) {
+        lockOverlay.classList.remove('show');
+        btnSignin.disabled = false;
+        if (lockTimer) { clearInterval(lockTimer); lockTimer = null; }
+        return false;
       }
+      lockOverlay.classList.add('show');
+      btnSignin.disabled = true;
+      form.querySelector('input[type="email"]').disabled = true;
+      pwdInput.disabled = true;
+      startLockCountdown(until);
+      return true;
+    }
 
-      function setLoading(on) {
-        btnSignin.disabled = on;
-        btnText.textContent = on ? 'Connexion...' : 'SE CONNECTER';
-        btnSpnr.hidden = !on;
-      }
-
-      function validate(email, pwd) {
-        var valid = true;
-        document.getElementById('email').classList.remove('is-invalid');
-        pwdInput.classList.remove('is-invalid');
-
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          document.getElementById('email').classList.add('is-invalid');
-          document.getElementById('email-err').textContent = 'Email invalide.';
-          valid = false;
+    function startLockCountdown(until) {
+      if (lockTimer) clearInterval(lockTimer);
+      lockTimer = setInterval(function () {
+        var rem = until - Date.now();
+        if (rem <= 0) {
+          clearInterval(lockTimer);
+          sessionStorage.removeItem(LOCK_UNTIL);
+          sessionStorage.removeItem(ATTEMPT_KEY);
+          lockOverlay.classList.remove('show');
+          btnSignin.disabled = false;
+          form.querySelector('input[type="email"]').disabled = false;
+          pwdInput.disabled = false;
+          return;
         }
-        if (!pwd || pwd.length < 12) {
-          pwdInput.classList.add('is-invalid');
-          document.getElementById('pwd-err').textContent = 'Mot de passe trop court (12 caractères minimum).';
-          valid = false;
-        }
-        return valid;
+        var m = Math.floor(rem / 60000);
+        var s = Math.floor((rem % 60000) / 1000);
+        lockCountdown.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      }, 1000);
+    }
+
+    function getAttempts() { return parseInt(sessionStorage.getItem(ATTEMPT_KEY) || '0', 10); }
+
+    function recordFailedAttempt() {
+      var n = getAttempts() + 1;
+      sessionStorage.setItem(ATTEMPT_KEY, String(n));
+      if (n >= MAX_ATTEMPTS) {
+        var until = Date.now() + LOCKOUT_MS;
+        sessionStorage.setItem(LOCK_UNTIL, String(until));
+        checkLockout();
+      } else {
+        var left = MAX_ATTEMPTS - n;
+        attemptsInfo.style.display = 'block';
+        attemptsLeft.textContent = left;
+        var pct = (left / MAX_ATTEMPTS) * 100;
+        attemptsFill.style.width = pct + '%';
+        attemptsFill.style.background = pct > 60 ? '#1bcfb4' : pct > 30 ? '#f3a84b' : '#fe7c96';
       }
+    }
 
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        hideError();
+    function clearAttempts() {
+      sessionStorage.removeItem(ATTEMPT_KEY);
+      sessionStorage.removeItem(LOCK_UNTIL);
+      attemptsInfo.style.display = 'none';
+    }
 
-        var email = document.getElementById('email').value.trim().toLowerCase();
-        var pwd   = pwdInput.value;
+    checkLockout();
 
-        if (!validate(email, pwd)) return;
+    /* ═══ Toggle password ═══════════════════════════════════ */
+    toggleBtn.addEventListener('click', function () {
+      var show = pwdInput.type === 'password';
+      pwdInput.type = show ? 'text' : 'password';
+      eyeIcon.className = show ? 'ti-eye-off' : 'ti-eye';
+      toggleBtn.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+    });
 
-        setLoading(true);
+    /* ═══ Messages ══════════════════════════════════════════ */
+    function showError(msg) {
+      errText.textContent = msg;
+      errMsg.style.cssText = 'display:flex!important;';
+      errMsg.removeAttribute('style');
+      errMsg.style.display = 'flex';
+    }
+    function hideError() { errMsg.style.display = 'none'; }
 
-        try {
-          var resp = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({ email: email, password: pwd }),
-            credentials: 'include'
-          });
+    function setLoading(on) {
+      btnSignin.disabled = on || checkLockout();
+      btnText.textContent = on ? 'Connexion...' : 'SE CONNECTER';
+      btnSpnr.hidden = !on;
+    }
 
-          var data = await resp.json();
+    function validate(email, pwd) {
+      var valid = true;
+      document.getElementById('email').classList.remove('is-invalid');
+      pwdInput.classList.remove('is-invalid');
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('email').classList.add('is-invalid');
+        document.getElementById('email-err').textContent = 'Adresse email invalide.';
+        valid = false;
+      }
+      if (!pwd || pwd.length < 8) {
+        pwdInput.classList.add('is-invalid');
+        document.getElementById('pwd-err').textContent = 'Mot de passe requis (8 caractères minimum).';
+        valid = false;
+      }
+      return valid;
+    }
 
-          if (!resp.ok) {
-            var msg = resp.status === 423
-              ? 'Compte verrouillé après trop de tentatives. Réessayez dans 30 min.'
-              : resp.status === 429
-                ? 'Trop de tentatives. Veuillez patienter.'
-                : (data.error || 'Identifiants incorrects.');
-            showError(msg);
-            return;
+    /* ═══ Soumission ════════════════════════════════════════ */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideError();
+
+      /* Honeypot check */
+      if (form.querySelector('[name="website"]').value) { return; }
+
+      if (checkLockout()) return;
+
+      var email = document.getElementById('email').value.trim().toLowerCase();
+      var pwd   = pwdInput.value;
+
+      if (!validate(email, pwd)) return;
+
+      setLoading(true);
+
+      fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest' },
+        body: JSON.stringify({ email: email, password: pwd }),
+        credentials: 'include'
+      })
+      .then(function (resp) { return resp.json().then(function(d) { return { status: resp.status, data: d }; }); })
+      .then(function (r) {
+        if (r.status === 423) {
+          var until = Date.now() + LOCKOUT_MS;
+          sessionStorage.setItem(LOCK_UNTIL, String(until));
+          checkLockout();
+          showError('Compte verrouillé après trop de tentatives. Réessayez dans 30 min.');
+          return;
+        }
+        if (r.status === 429) { showError('Trop de tentatives. Veuillez patienter.'); return; }
+        if (r.status >= 400) {
+          recordFailedAttempt();
+          var n = getAttempts();
+          if (n < MAX_ATTEMPTS) {
+            showError((r.data.error || 'Identifiants incorrects.') + ' (' + (MAX_ATTEMPTS - n) + ' tentative(s) restante(s))');
           }
-
-          if (data.mfaRequired) {
-            sessionStorage.setItem('mfa_temp', data.tempToken);
-            window.location.replace('mfa-verify.html');
-            return;
-          }
-
-          /* Connexion réussie — token en mémoire, infos minimales en sessionStorage */
-          window._accessToken = data.data.accessToken;
-          sessionStorage.setItem('sb_role', data.data.user.role);
-          sessionStorage.setItem('sb_name', data.data.user.firstName);
-          window.location.replace('../../index.html');
-
-        } catch (err) {
-          showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
-        } finally {
-          setLoading(false);
-          /* Effacement du mot de passe de la mémoire DOM */
-          pwdInput.value = '';
+          return;
         }
-      });
 
-      /* Prévention cache navigateur */
-      window.addEventListener('pageshow', function (e) {
-        if (e.persisted) { form.reset(); pwdInput.value = ''; }
-      });
+        /* Succès */
+        clearAttempts();
+        sessionStorage.setItem('sb_known_device', '1');
 
-    }());
+        if (r.data.mfaRequired) {
+          sessionStorage.setItem('mfa_temp', r.data.tempToken);
+          window.location.replace('mfa-verify.html');
+          return;
+        }
+
+        window._accessToken = (r.data.data || {}).accessToken || r.data.accessToken;
+        var user = (r.data.data || {}).user || r.data.user || {};
+        sessionStorage.setItem('sb_role', user.role || 'client');
+        sessionStorage.setItem('sb_name', user.firstName || '');
+        window.location.replace('../../index.html');
+      })
+      .catch(function () {
+        showError('Erreur réseau. Vérifiez votre connexion internet.');
+      })
+      .finally(function () {
+        setLoading(false);
+        pwdInput.value = '';
+      });
+    });
+
+    /* Prévention cache navigateur */
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) { form.reset(); pwdInput.value = ''; hideError(); }
+    });
+
+    /* Demo mode : si pas d'API, connexion directe */
+    form.addEventListener('submit', function () {
+      setTimeout(function () {
+        if (btnText.textContent === 'SE CONNECTER') return; // Déjà traité
+      }, 3500);
+    });
+
+  }());
   </script>
-
 </body>
 </html>

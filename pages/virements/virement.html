@@ -11,43 +11,37 @@
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css"/>
   <link rel="shortcut icon" href="../../images/favicon.png"/>
   <style>
-    .form-section-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #4B49AC;
-      margin-bottom: 1rem;
-      padding-bottom: 0.4rem;
-      border-bottom: 2px solid #eef0ff;
-    }
-    .section-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #343a40;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #f0f0f0;
-    }
-    .security-badge {
-      background: #f0fff4;
-      border: 1px solid #c3e6cb;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
-      color: #155724;
-      font-size: 0.82rem;
-    }
-    .form-control:focus {
-      border-color: #4B49AC;
-      box-shadow: 0 0 0 0.2rem rgba(75,73,172,.15);
-    }
-    .invalid-feedback { font-size: 0.78rem; }
-    .input-group-text { background: #f8f9fa; border-color: #ced4da; color: #6c757d; }
-    #datePicker { display: none; }
-    .status-effectue { color: #1bcfb4; font-weight: 600; }
-    .status-encours { color: #f7a800; font-weight: 600; }
-    .status-annule { color: #fe7c96; font-weight: 600; }
-    .page-header { margin-bottom: 1.5rem; }
+    .form-section-title { font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#4B49AC; margin-bottom:1rem; padding-bottom:.4rem; border-bottom:2px solid #eef0ff; }
+    .section-title { font-size:1rem; font-weight:600; color:#343a40; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:2px solid #f0f0f0; }
+    .security-badge { background:#f0fff4; border:1px solid #c3e6cb; border-radius:6px; padding:.5rem 1rem; color:#155724; font-size:.82rem; }
+    .form-control:focus { border-color:#4B49AC; box-shadow:0 0 0 .2rem rgba(75,73,172,.15); }
+    .invalid-feedback { font-size:.78rem; }
+    .input-group-text { background:#f8f9fa; border-color:#ced4da; color:#6c757d; }
+    #datePicker { display:none; }
+    .status-effectue { color:#1bcfb4; font-weight:600; }
+    .status-encours  { color:#f7a800; font-weight:600; }
+    .status-annule   { color:#fe7c96; font-weight:600; }
+    .page-header { margin-bottom:1.5rem; }
+    /* Solde preview */
+    .solde-preview { font-size:.85rem; margin-top:.4rem; color:#495057; min-height:1.4rem; }
+    .solde-preview strong { color:#4B49AC; }
+    .solde-preview.low strong { color:#fe7c96; }
+    /* Step 2 confirm */
+    #confirmStep { display:none; }
+    .confirm-row { display:flex; justify-content:space-between; align-items:center; padding:.55rem 0; border-bottom:1px solid #f0f0f0; font-size:.88rem; }
+    .confirm-row:last-child { border-bottom:none; }
+    .confirm-label { color:#6c757d; font-weight:500; }
+    .confirm-value { font-weight:600; color:#2d2d2d; }
+    .confirm-amount { font-size:1.25rem; font-weight:700; color:#fe7c96; }
+    .confirm-box { background:#f8f9fb; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1rem; }
+    /* Beneficiary chips */
+    .ben-chips { display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:.75rem; }
+    .ben-chip { background:#eef0ff; border:1px solid #c5c4f5; color:#4B49AC; border-radius:20px; padding:.25rem .8rem; font-size:.78rem; cursor:pointer; transition:all .2s; white-space:nowrap; }
+    .ben-chip:hover { background:#4B49AC; color:#fff; border-color:#4B49AC; }
+    /* Notif badge */
+    .sb-notif-badge { background:#fe7c96; color:#fff; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; position:absolute; top:6px; right:6px; }
+    /* Session timer */
+    #sb-session-timer { font-size:.78rem; color:#6c757d; font-variant-numeric:tabular-nums; }
   </style>
 </head>
 <body>
@@ -61,6 +55,15 @@
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
       <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item mr-3 d-none d-md-flex align-items-center">
+          <small><i class="ti-time mr-1"></i><span id="sb-session-timer">15:00</span></small>
+        </li>
+        <li class="nav-item position-relative" style="margin-right:1rem;">
+          <a class="nav-link" href="#" aria-label="Notifications">
+            <i class="ti-bell" style="font-size:1.2rem;"></i>
+            <span class="sb-notif-badge" style="display:none;">0</span>
+          </a>
+        </li>
         <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
             <img src="../../images/faces/face28.jpg" alt="profil"/>
@@ -80,56 +83,16 @@
     <!-- Sidebar -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" href="../../index.html">
-            <i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/comptes/mes-comptes.html">
-            <i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span>
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="../../pages/virements/virement.html">
-            <i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/transactions/historique.html">
-            <i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/cartes/mes-cartes.html">
-            <i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/epargne/epargne.html">
-            <i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html">
-            <i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/profil/profil.html">
-            <i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/securite/securite.html">
-            <i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/aide/aide.html">
-            <i class="ti-help menu-icon"></i><span class="menu-title">Aide</span>
-          </a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+        <li class="nav-item active"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
       </ul>
     </nav>
 
@@ -140,9 +103,7 @@
         <!-- Page header -->
         <div class="page-header">
           <h3 class="page-title">
-            <span class="page-title-icon bg-gradient-primary text-white mr-2">
-              <i class="ti-exchange-vertical"></i>
-            </span>
+            <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-exchange-vertical"></i></span>
             Effectuer un Virement
           </h3>
           <nav aria-label="breadcrumb">
@@ -155,198 +116,206 @@
 
         <div class="row">
 
-          <!-- Virement form -->
+          <!-- Main column -->
           <div class="col-lg-7 col-12 mb-4">
-            <div class="card" style="border-top: 3px solid #4B49AC;">
+            <div class="card" style="border-top:3px solid #4B49AC;">
               <div class="card-body">
-                <h5 class="section-title">Nouveau virement</h5>
 
-                <form id="virementForm" novalidate autocomplete="off">
-                  <input type="hidden" name="_csrf" value="csrf-token-placeholder"/>
+                <!-- ═══ ÉTAPE 1 : FORMULAIRE ═══ -->
+                <div id="formStep">
+                  <h5 class="section-title">Nouveau virement</h5>
 
-                  <!-- Compte débiteur -->
-                  <div class="form-section-title mt-3">Compte émetteur</div>
-                  <div class="form-group">
-                    <label for="compteDebiteur">Compte débiteur <span class="text-danger">*</span></label>
-                    <select class="form-control" id="compteDebiteur" name="compteDebiteur" required>
-                      <option value="">— Sélectionner un compte —</option>
-                      <option value="courant" data-solde="12483.75">Compte Courant — FR76 **** **** **** 4521 — Solde : 12 483,75 €</option>
-                      <option value="epargne" data-solde="8250.00">Livret A — FR76 **** **** **** 7832 — Solde : 8 250,00 €</option>
-                      <option value="joint" data-solde="3120.50">Compte Joint — FR76 **** **** **** 1109 — Solde : 3 120,50 €</option>
-                    </select>
-                    <div class="invalid-feedback">Veuillez sélectionner un compte débiteur.</div>
-                  </div>
+                  <form id="virementForm" novalidate autocomplete="off">
+                    <input type="hidden" name="_csrf" value="csrf-token-placeholder"/>
 
-                  <!-- Bénéficiaire -->
-                  <div class="form-section-title mt-4">Bénéficiaire</div>
-                  <div class="form-group">
-                    <label for="ibanBeneficiaire">IBAN bénéficiaire <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ti-credit-card"></i></span>
-                      </div>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="ibanBeneficiaire"
-                        name="ibanBeneficiaire"
-                        placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX"
-                        maxlength="34"
-                        required
-                        autocomplete="off"
-                      />
-                      <div class="invalid-feedback">Format IBAN invalide (ex : FR76 3000 4000 0300 0000 1234 567).</div>
-                    </div>
-                    <small class="form-text text-muted">Format : FR76 suivi de 23 chiffres (espaces optionnels).</small>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="nomBeneficiaire">Nom du bénéficiaire <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ti-user"></i></span>
-                      </div>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="nomBeneficiaire"
-                        name="nomBeneficiaire"
-                        placeholder="Prénom NOM"
-                        maxlength="100"
-                        required
-                        autocomplete="off"
-                      />
-                      <div class="invalid-feedback">Le nom du bénéficiaire est requis.</div>
-                    </div>
-                  </div>
-
-                  <!-- Montant & motif -->
-                  <div class="form-section-title mt-4">Opération</div>
-                  <div class="form-row">
-                    <div class="form-group col-md-5">
-                      <label for="montant">Montant <span class="text-danger">*</span></label>
-                      <div class="input-group">
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="montant"
-                          name="montant"
-                          placeholder="0,00"
-                          step="0.01"
-                          min="0.01"
-                          required
-                        />
-                        <div class="input-group-append">
-                          <span class="input-group-text">€</span>
-                        </div>
-                        <div class="invalid-feedback">Montant invalide (minimum 0,01 €).</div>
-                      </div>
-                    </div>
-                    <div class="form-group col-md-7">
-                      <label for="motif">Motif <span class="text-danger">*</span></label>
-                      <select class="form-control" id="motif" name="motif" required>
-                        <option value="">— Sélectionner un motif —</option>
-                        <option value="loyer">Loyer</option>
-                        <option value="remboursement">Remboursement</option>
-                        <option value="achat">Achat</option>
-                        <option value="facture">Facture</option>
-                        <option value="autre">Autre</option>
+                    <!-- Compte débiteur -->
+                    <div class="form-section-title mt-2">Compte émetteur</div>
+                    <div class="form-group">
+                      <label for="compteDebiteur">Compte débiteur <span class="text-danger">*</span></label>
+                      <select class="form-control sb-compte-select" id="compteDebiteur" name="compteDebiteur" required data-filter="courant">
+                        <option value="">— Sélectionner un compte —</option>
                       </select>
-                      <div class="invalid-feedback">Veuillez sélectionner un motif.</div>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="reference">Référence / Libellé <span class="text-muted">(optionnel)</span></label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="reference"
-                      name="reference"
-                      placeholder="Ex : Loyer mars 2026"
-                      maxlength="140"
-                    />
-                    <small class="form-text text-muted">
-                      <span id="refCounter">0</span>/140 caractères
-                    </small>
-                  </div>
-
-                  <!-- Date d'exécution -->
-                  <div class="form-section-title mt-4">Date d'exécution</div>
-                  <div class="form-group">
-                    <div class="d-flex align-items-center">
-                      <div class="form-check mr-4">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="typeDate" id="immediat" value="immediat" checked/>
-                          <i class="input-helper"></i>Immédiat
-                        </label>
+                      <div class="solde-preview" id="soldePreview">
+                        Solde disponible : <strong id="soldeDisplay">—</strong>
                       </div>
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="typeDate" id="differe" value="differe"/>
-                          <i class="input-helper"></i>Différé
-                        </label>
+                      <div class="invalid-feedback">Veuillez sélectionner un compte débiteur.</div>
+                    </div>
+
+                    <!-- Bénéficiaire -->
+                    <div class="form-section-title mt-3">Bénéficiaire</div>
+
+                    <!-- Quick-select beneficiaries -->
+                    <div class="mb-2">
+                      <small class="text-muted">Bénéficiaires enregistrés :</small>
+                      <div class="ben-chips mt-1" id="benRapides">
+                        <!-- Populated from SkyStore -->
                       </div>
                     </div>
-                  </div>
 
-                  <div class="form-group" id="datePicker">
-                    <label for="dateExecution">Date d'exécution souhaitée <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                    <div class="form-group">
+                      <label for="nomBeneficiaire">Nom du bénéficiaire <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"><i class="ti-user"></i></span></div>
+                        <input type="text" class="form-control" id="nomBeneficiaire" name="nomBeneficiaire" placeholder="Prénom NOM" maxlength="100" required autocomplete="off"/>
+                        <div class="invalid-feedback">Le nom du bénéficiaire est requis.</div>
                       </div>
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="dateExecution"
-                        name="dateExecution"
-                        min=""
-                      />
-                      <div class="invalid-feedback">Veuillez sélectionner une date future.</div>
                     </div>
-                  </div>
 
-                  <!-- Submit -->
-                  <div class="mt-4">
-                    <button type="submit" class="btn btn-gradient-primary btn-block btn-lg">
-                      <i class="ti-check mr-2"></i>Valider le virement
-                    </button>
-                    <div class="security-badge text-center mt-3">
-                      &#128274; Virement sécurisé — Données chiffrées TLS 1.3
+                    <div class="form-group">
+                      <label for="ibanBeneficiaire">IBAN bénéficiaire <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"><i class="ti-credit-card"></i></span></div>
+                        <input type="text" class="form-control" id="ibanBeneficiaire" name="ibanBeneficiaire" placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX" maxlength="34" required autocomplete="off"/>
+                        <div class="invalid-feedback">Format IBAN invalide (ex : FR76 3000 4000 0300 0000 1234 567).</div>
+                      </div>
+                      <small class="form-text text-muted">Format : FR76 suivi de 23 chiffres.</small>
                     </div>
-                  </div>
 
-                </form>
+                    <!-- Montant & motif -->
+                    <div class="form-section-title mt-3">Opération</div>
+                    <div class="form-row">
+                      <div class="form-group col-md-5">
+                        <label for="montant">Montant <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <input type="number" class="form-control" id="montant" name="montant" placeholder="0,00" step="0.01" min="0.01" max="50000" required/>
+                          <div class="input-group-append"><span class="input-group-text">€</span></div>
+                          <div class="invalid-feedback">Montant invalide.</div>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-7">
+                        <label for="motif">Motif <span class="text-danger">*</span></label>
+                        <select class="form-control" id="motif" name="motif" required>
+                          <option value="">— Sélectionner un motif —</option>
+                          <option value="loyer">Loyer / charges</option>
+                          <option value="remboursement">Remboursement</option>
+                          <option value="facture">Facture</option>
+                          <option value="salaire">Salaire</option>
+                          <option value="achat">Achat</option>
+                          <option value="epargne">Épargne</option>
+                          <option value="famille">Famille</option>
+                          <option value="autre">Autre</option>
+                        </select>
+                        <div class="invalid-feedback">Veuillez sélectionner un motif.</div>
+                      </div>
+                    </div>
 
-                <!-- Success alert (hidden) -->
-                <div class="alert alert-success mt-4" id="successAlert" style="display:none;" role="alert">
-                  <i class="ti-check-box mr-2"></i>
-                  <strong>Virement soumis avec succès.</strong> Votre opération est en cours de traitement.
+                    <div class="form-group">
+                      <label for="reference">Libellé <small class="text-muted">(optionnel, 140 car. max)</small></label>
+                      <input type="text" class="form-control" id="reference" name="reference" placeholder="Ex : Loyer mars 2026" maxlength="140"/>
+                      <small class="form-text text-muted"><span id="refCounter">0</span>/140</small>
+                    </div>
+
+                    <!-- Date d'exécution -->
+                    <div class="form-section-title mt-3">Date d'exécution</div>
+                    <div class="form-group">
+                      <div class="d-flex align-items-center">
+                        <div class="form-check mr-4">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="typeDate" id="immediat" value="immediat" checked/>
+                            <i class="input-helper"></i>Immédiat
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="typeDate" id="differe" value="differe"/>
+                            <i class="input-helper"></i>Différé
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group" id="datePicker">
+                      <label for="dateExecution">Date souhaitée <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <div class="input-group-prepend"><span class="input-group-text"><i class="ti-calendar"></i></span></div>
+                        <input type="date" class="form-control" id="dateExecution" name="dateExecution"/>
+                        <div class="invalid-feedback">Veuillez sélectionner une date future.</div>
+                      </div>
+                    </div>
+
+                    <!-- Submit step 1 -->
+                    <div class="mt-4">
+                      <button type="submit" class="btn btn-gradient-primary btn-block btn-lg">
+                        <i class="ti-arrow-right mr-2"></i>Vérifier le virement
+                      </button>
+                      <div class="security-badge text-center mt-3">
+                        &#128274; Virement sécurisé — Données chiffrées TLS 1.3
+                      </div>
+                    </div>
+                  </form>
                 </div>
-                <!-- Error alert (hidden) -->
-                <div class="alert alert-danger mt-4" id="errorAlert" style="display:none;" role="alert">
-                  <i class="ti-alert mr-2"></i>
-                  <strong id="errorMessage">Une erreur est survenue.</strong> Veuillez vérifier les informations saisies.
+
+                <!-- ═══ ÉTAPE 2 : CONFIRMATION ═══ -->
+                <div id="confirmStep">
+                  <h5 class="section-title">Confirmer le virement</h5>
+
+                  <div class="alert alert-warning mb-3" style="font-size:.82rem; border-radius:8px;">
+                    <i class="ti-alert mr-2"></i>
+                    <strong>Vérifiez attentivement l'IBAN.</strong> SkyDash Bank ne rembourse pas les virements effectués vers un IBAN erroné.
+                  </div>
+
+                  <div class="confirm-box">
+                    <div class="confirm-row">
+                      <span class="confirm-label">Compte débité</span>
+                      <span class="confirm-value" id="cv-compte">—</span>
+                    </div>
+                    <div class="confirm-row">
+                      <span class="confirm-label">Bénéficiaire</span>
+                      <span class="confirm-value" id="cv-nom">—</span>
+                    </div>
+                    <div class="confirm-row">
+                      <span class="confirm-label">IBAN</span>
+                      <span class="confirm-value" id="cv-iban" style="font-family:monospace; font-size:.82rem;">—</span>
+                    </div>
+                    <div class="confirm-row">
+                      <span class="confirm-label">Montant</span>
+                      <span class="confirm-amount" id="cv-montant">—</span>
+                    </div>
+                    <div class="confirm-row">
+                      <span class="confirm-label">Motif</span>
+                      <span class="confirm-value" id="cv-motif">—</span>
+                    </div>
+                    <div class="confirm-row" id="cv-libelle-row">
+                      <span class="confirm-label">Libellé</span>
+                      <span class="confirm-value" id="cv-libelle">—</span>
+                    </div>
+                    <div class="confirm-row">
+                      <span class="confirm-label">Date</span>
+                      <span class="confirm-value" id="cv-date">Immédiat</span>
+                    </div>
+                    <div class="confirm-row">
+                      <span class="confirm-label">Solde après</span>
+                      <span class="confirm-value" id="cv-solde-apres" style="color:#4B49AC;">—</span>
+                    </div>
+                  </div>
+
+                  <div class="d-flex mt-3" style="gap:.75rem;">
+                    <button type="button" class="btn btn-outline-secondary" id="btnRetour">
+                      <i class="ti-arrow-left mr-1"></i>Modifier
+                    </button>
+                    <button type="button" class="btn btn-gradient-primary flex-fill" id="btnConfirmer">
+                      <span id="confirmBtnText"><i class="ti-check mr-2"></i>Confirmer le virement</span>
+                      <span id="confirmBtnSpinner" class="spinner-border spinner-border-sm ml-2" hidden></span>
+                    </button>
+                  </div>
                 </div>
 
               </div>
             </div>
           </div>
 
-          <!-- Info & recent virements -->
+          <!-- Side column -->
           <div class="col-lg-5 col-12">
 
             <!-- Info card -->
-            <div class="card mb-4" style="border-top: 3px solid #1bcfb4;">
+            <div class="card mb-4" style="border-top:3px solid #1bcfb4;">
               <div class="card-body">
-                <h6 class="font-weight-bold mb-3" style="color: #1bcfb4;"><i class="ti-info-alt mr-2"></i>Informations utiles</h6>
-                <ul class="list-unstyled mb-0" style="font-size: 0.85rem; color: #495057;">
-                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Les virements immédiats sont traités sous <strong>1h ouvré</strong>.</li>
-                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Les virements différés sont planifiés à la date choisie.</li>
-                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Montant maximum par virement : <strong>50 000 €</strong>.</li>
+                <h6 class="font-weight-bold mb-3" style="color:#1bcfb4;"><i class="ti-info-alt mr-2"></i>Informations utiles</h6>
+                <ul class="list-unstyled mb-0" style="font-size:.85rem; color:#495057;">
+                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Virements immédiats traités sous <strong>1h ouvré</strong>.</li>
+                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Virements différés planifiés à la date choisie.</li>
+                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Plafond par virement : <strong>50 000 €</strong>.</li>
                   <li class="mb-2"><i class="ti-check text-success mr-2"></i>Vérifiez toujours l'IBAN avant de valider.</li>
-                  <li><i class="ti-alert text-warning mr-2"></i>SkyDash Bank ne vous demandera <strong>jamais</strong> votre code PIN par virement.</li>
+                  <li><i class="ti-alert text-warning mr-2"></i>SkyDash Bank ne vous demandera <strong>jamais</strong> votre code PIN.</li>
                 </ul>
               </div>
             </div>
@@ -362,40 +331,10 @@
                         <th>Date</th>
                         <th>Bénéficiaire</th>
                         <th class="text-right">Montant</th>
-                        <th>Statut</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td><small>10/03/2026</small></td>
-                        <td><small>MARTIN Sophie</small></td>
-                        <td class="text-right"><small>250,00 €</small></td>
-                        <td><span class="status-effectue"><small>Effectué</small></span></td>
-                      </tr>
-                      <tr>
-                        <td><small>07/03/2026</small></td>
-                        <td><small>DUPONT Jean</small></td>
-                        <td class="text-right"><small>1 200,00 €</small></td>
-                        <td><span class="status-effectue"><small>Effectué</small></span></td>
-                      </tr>
-                      <tr>
-                        <td><small>05/03/2026</small></td>
-                        <td><small>GARCIA Luis</small></td>
-                        <td class="text-right"><small>85,50 €</small></td>
-                        <td><span class="status-encours"><small>En cours</small></span></td>
-                      </tr>
-                      <tr>
-                        <td><small>01/03/2026</small></td>
-                        <td><small>SCI LES PINS</small></td>
-                        <td class="text-right"><small>900,00 €</small></td>
-                        <td><span class="status-effectue"><small>Effectué</small></span></td>
-                      </tr>
-                      <tr>
-                        <td><small>22/02/2026</small></td>
-                        <td><small>PETIT Camille</small></td>
-                        <td class="text-right"><small>45,00 €</small></td>
-                        <td><span class="status-annule"><small>Annulé</small></span></td>
-                      </tr>
+                    <tbody id="recentVirements">
+                      <tr><td colspan="3" class="text-center text-muted py-3"><small>Chargement...</small></td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -430,194 +369,302 @@
 <script src="../../js/hoverable-collapse.js"></script>
 <script src="../../js/template.js"></script>
 <script src="../../js/settings.js"></script>
-<script src="../../js/todolist.js"></script>
+<script src="../../js/skydash-store.js"></script>
+<script src="../../js/skydash-ui.js"></script>
 
 <script>
 (function () {
   'use strict';
 
-  // --- Date picker toggle ---
-  var immediat = document.getElementById('immediat');
-  var differe  = document.getElementById('differe');
-  var datePicker = document.getElementById('datePicker');
-  var dateExecution = document.getElementById('dateExecution');
+  var store = window.SkyStore;
+  var ui    = window.SkyUI;
+  var fmt   = ui ? ui.fmt : null;
 
-  // Set minimum date to tomorrow
+  /* ── Helpers ─────────────────────────────────────────────── */
+  function fmtMontant(v) {
+    return Math.abs(v).toLocaleString('fr-FR', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' €';
+  }
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+
+  /* ── Solde preview ───────────────────────────────────────── */
+  var compteSelect  = document.getElementById('compteDebiteur');
+  var soldePreview  = document.getElementById('soldePreview');
+  var soldeDisplay  = document.getElementById('soldeDisplay');
+  var currentSolde  = 0;
+
+  compteSelect.addEventListener('change', function () {
+    var opt = this.options[this.selectedIndex];
+    var s   = parseFloat(opt.getAttribute('data-solde') || '0');
+    currentSolde = s;
+    if (this.value) {
+      soldeDisplay.textContent = fmtMontant(s);
+      soldePreview.className = 'solde-preview' + (s < 100 ? ' low' : '');
+    } else {
+      soldeDisplay.textContent = '—';
+      soldePreview.className = 'solde-preview';
+      currentSolde = 0;
+    }
+  });
+
+  /* ── Beneficiary chips ───────────────────────────────────── */
+  function renderBenChips() {
+    var container = document.getElementById('benRapides');
+    container.innerHTML = '';
+    if (!store) return;
+    var bens = store.getBeneficiaires(true).slice(0, 8);
+    if (!bens.length) {
+      container.innerHTML = '<small class="text-muted">Aucun bénéficiaire enregistré.</small>';
+      return;
+    }
+    bens.forEach(function (b) {
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'ben-chip';
+      chip.textContent = b.nom;
+      chip.addEventListener('click', function () {
+        document.getElementById('nomBeneficiaire').value = b.nom;
+        document.getElementById('ibanBeneficiaire').value = b.iban.replace(/(.{4})/g, '$1 ').trim();
+        document.getElementById('nomBeneficiaire').classList.remove('is-invalid');
+        document.getElementById('ibanBeneficiaire').classList.remove('is-invalid');
+      });
+      container.appendChild(chip);
+    });
+  }
+  renderBenChips();
+
+  /* ── Recent virements from store ─────────────────────────── */
+  function renderRecentVirements() {
+    var tbody = document.getElementById('recentVirements');
+    if (!store) {
+      tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted"><small>Données non disponibles.</small></td></tr>';
+      return;
+    }
+    var txns = store.getTransactions({ type:'debit', limit:6 });
+    if (!txns.length) {
+      tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted"><small>Aucun virement récent.</small></td></tr>';
+      return;
+    }
+    tbody.innerHTML = txns.map(function (t) {
+      return '<tr>' +
+        '<td><small>' + fmtDate(t.date) + '</small></td>' +
+        '<td><small>' + (t.libelle || t.beneficiaire || 'Virement') + '</small></td>' +
+        '<td class="text-right"><small class="text-danger">−' + fmtMontant(t.montant) + '</small></td>' +
+        '</tr>';
+    }).join('');
+  }
+  renderRecentVirements();
+
+  /* ── Date picker toggle ──────────────────────────────────── */
+  var dateExecution = document.getElementById('dateExecution');
   var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  var tomorrowStr = tomorrow.toISOString().split('T')[0];
-  if (dateExecution) { dateExecution.setAttribute('min', tomorrowStr); }
+  dateExecution.setAttribute('min', tomorrow.toISOString().split('T')[0]);
 
   function toggleDatePicker() {
-    if (differe && differe.checked) {
-      datePicker.style.display = 'block';
-      dateExecution.setAttribute('required', 'required');
-    } else {
-      datePicker.style.display = 'none';
-      dateExecution.removeAttribute('required');
-      dateExecution.value = '';
-      dateExecution.classList.remove('is-invalid');
-    }
+    var show = document.getElementById('differe').checked;
+    document.getElementById('datePicker').style.display = show ? 'block' : 'none';
+    if (show) { dateExecution.setAttribute('required',''); }
+    else { dateExecution.removeAttribute('required'); dateExecution.value = ''; dateExecution.classList.remove('is-invalid'); }
   }
+  document.getElementById('immediat').addEventListener('change', toggleDatePicker);
+  document.getElementById('differe').addEventListener('change', toggleDatePicker);
 
-  if (immediat) { immediat.addEventListener('change', toggleDatePicker); }
-  if (differe)  { differe.addEventListener('change', toggleDatePicker); }
+  /* ── Reference counter ───────────────────────────────────── */
+  var refInput = document.getElementById('reference');
+  refInput.addEventListener('input', function () {
+    document.getElementById('refCounter').textContent = this.value.length;
+  });
 
-  // --- Reference counter ---
-  var refInput   = document.getElementById('reference');
-  var refCounter = document.getElementById('refCounter');
-  if (refInput) {
-    refInput.addEventListener('input', function () {
-      refCounter.textContent = this.value.length;
-    });
-  }
-
-  // --- IBAN validation ---
-  function validateIBAN(iban) {
-    // Remove spaces, uppercase
-    var cleaned = iban.replace(/\s+/g, '').toUpperCase();
-    // French IBAN: FR + 2 check digits + 23 alphanumeric chars = 27 total
-    var ibanRegex = /^FR\d{2}[0-9A-Z]{23}$/;
-    return ibanRegex.test(cleaned);
-  }
-
-  // --- Form validation and submission ---
-  var form = document.getElementById('virementForm');
-  var successAlert = document.getElementById('successAlert');
-  var errorAlert   = document.getElementById('errorAlert');
-  var errorMessage = document.getElementById('errorMessage');
-
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      // Hide previous alerts
-      successAlert.style.display = 'none';
-      errorAlert.style.display   = 'none';
-
-      var valid = true;
-
-      // Validate compte débiteur
-      var compteDebiteur = document.getElementById('compteDebiteur');
-      if (!compteDebiteur.value) {
-        compteDebiteur.classList.add('is-invalid');
-        valid = false;
-      } else {
-        compteDebiteur.classList.remove('is-invalid');
-        compteDebiteur.classList.add('is-valid');
-      }
-
-      // Validate IBAN
-      var ibanField = document.getElementById('ibanBeneficiaire');
-      if (!ibanField.value.trim() || !validateIBAN(ibanField.value)) {
-        ibanField.classList.add('is-invalid');
-        valid = false;
-      } else {
-        ibanField.classList.remove('is-invalid');
-        ibanField.classList.add('is-valid');
-      }
-
-      // Validate nom bénéficiaire
-      var nomField = document.getElementById('nomBeneficiaire');
-      if (!nomField.value.trim() || nomField.value.trim().length < 2) {
-        nomField.classList.add('is-invalid');
-        valid = false;
-      } else {
-        nomField.classList.remove('is-invalid');
-        nomField.classList.add('is-valid');
-      }
-
-      // Validate montant
-      var montantField = document.getElementById('montant');
-      var montantVal   = parseFloat(montantField.value);
-      if (!montantField.value || isNaN(montantVal) || montantVal <= 0) {
-        montantField.classList.add('is-invalid');
-        valid = false;
-      } else {
-        // Check against account balance
-        var selectedOption = compteDebiteur.options[compteDebiteur.selectedIndex];
-        var solde = parseFloat(selectedOption.getAttribute('data-solde') || '0');
-        if (montantVal > solde) {
-          montantField.classList.add('is-invalid');
-          montantField.nextElementSibling.nextElementSibling.textContent =
-            'Solde insuffisant. Solde disponible : ' + solde.toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
-          valid = false;
-        } else if (montantVal > 50000) {
-          montantField.classList.add('is-invalid');
-          montantField.nextElementSibling.nextElementSibling.textContent =
-            'Montant maximum par virement : 50 000 €.';
-          valid = false;
-        } else {
-          montantField.classList.remove('is-invalid');
-          montantField.classList.add('is-valid');
-        }
-      }
-
-      // Validate motif
-      var motifField = document.getElementById('motif');
-      if (!motifField.value) {
-        motifField.classList.add('is-invalid');
-        valid = false;
-      } else {
-        motifField.classList.remove('is-invalid');
-        motifField.classList.add('is-valid');
-      }
-
-      // Validate date if différé
-      if (differe && differe.checked) {
-        var dateField = document.getElementById('dateExecution');
-        if (!dateField.value) {
-          dateField.classList.add('is-invalid');
-          valid = false;
-        } else {
-          var selectedDate = new Date(dateField.value);
-          var today        = new Date();
-          today.setHours(0, 0, 0, 0);
-          if (selectedDate <= today) {
-            dateField.classList.add('is-invalid');
-            valid = false;
-          } else {
-            dateField.classList.remove('is-invalid');
-            dateField.classList.add('is-valid');
-          }
-        }
-      }
-
-      if (valid) {
-        // Simulate form submission
-        successAlert.style.display = 'block';
-        successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        form.reset();
-        // Reset visual states
-        var fields = form.querySelectorAll('.is-valid, .is-invalid');
-        fields.forEach(function (f) {
-          f.classList.remove('is-valid', 'is-invalid');
-        });
-        refCounter.textContent = '0';
-        datePicker.style.display = 'none';
-      } else {
-        errorAlert.style.display = 'block';
-        errorMessage.textContent = 'Certains champs sont invalides.';
-        // Scroll to first invalid
-        var firstInvalid = form.querySelector('.is-invalid');
-        if (firstInvalid) {
-          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          firstInvalid.focus();
-        }
-      }
-    });
-  }
-
-  // Live IBAN formatting (insert spaces every 4 chars)
+  /* ── IBAN live formatting ────────────────────────────────── */
   var ibanInput = document.getElementById('ibanBeneficiaire');
-  if (ibanInput) {
-    ibanInput.addEventListener('input', function () {
-      var val = this.value.replace(/\s+/g, '').toUpperCase();
-      var formatted = val.match(/.{1,4}/g);
-      this.value = formatted ? formatted.join(' ') : val;
+  ibanInput.addEventListener('input', function () {
+    var val = this.value.replace(/\s+/g,'').toUpperCase();
+    var chunks = val.match(/.{1,4}/g);
+    this.value = chunks ? chunks.join(' ') : val;
+  });
+
+  /* ── Validation ──────────────────────────────────────────── */
+  function validateIBAN(iban) {
+    return /^[A-Z]{2}\d{2}[A-Z0-9 ]{4,}$/.test(iban.replace(/\s+/g,'').toUpperCase());
+  }
+
+  function validateForm() {
+    var valid = true;
+
+    /* Compte */
+    var cp = compteSelect;
+    if (!cp.value) { cp.classList.add('is-invalid'); valid = false; }
+    else cp.classList.remove('is-invalid');
+
+    /* IBAN */
+    var ib = ibanInput;
+    if (!ib.value.trim() || !validateIBAN(ib.value)) {
+      ib.classList.add('is-invalid'); valid = false;
+    } else ib.classList.remove('is-invalid');
+
+    /* Nom */
+    var nm = document.getElementById('nomBeneficiaire');
+    if (nm.value.trim().length < 2) { nm.classList.add('is-invalid'); valid = false; }
+    else nm.classList.remove('is-invalid');
+
+    /* Montant */
+    var mt   = document.getElementById('montant');
+    var mVal = parseFloat(mt.value);
+    if (!mt.value || isNaN(mVal) || mVal <= 0 || mVal > 50000) {
+      mt.classList.add('is-invalid');
+      mt.nextElementSibling.nextElementSibling.textContent = mVal > 50000 ? 'Plafond : 50 000 €.' : 'Montant invalide (min 0,01 €, max 50 000 €).';
+      valid = false;
+    } else if (currentSolde > 0 && mVal > currentSolde) {
+      mt.classList.add('is-invalid');
+      mt.nextElementSibling.nextElementSibling.textContent = 'Solde insuffisant (' + fmtMontant(currentSolde) + ' disponible).';
+      valid = false;
+    } else mt.classList.remove('is-invalid');
+
+    /* Motif */
+    var mf = document.getElementById('motif');
+    if (!mf.value) { mf.classList.add('is-invalid'); valid = false; }
+    else mf.classList.remove('is-invalid');
+
+    /* Date différé */
+    if (document.getElementById('differe').checked) {
+      var df = dateExecution;
+      if (!df.value || new Date(df.value) <= new Date()) { df.classList.add('is-invalid'); valid = false; }
+      else df.classList.remove('is-invalid');
+    }
+
+    return valid;
+  }
+
+  /* ── Step 1 submit → Step 2 confirm ─────────────────────── */
+  document.getElementById('virementForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validateForm()) {
+      var first = this.querySelector('.is-invalid');
+      if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
+      return;
+    }
+
+    var montantVal = parseFloat(document.getElementById('montant').value);
+    var compteName = compteSelect.options[compteSelect.selectedIndex].textContent.split(' — ')[0];
+    var motifText  = document.getElementById('motif').options[document.getElementById('motif').selectedIndex].textContent;
+    var refText    = document.getElementById('reference').value.trim();
+    var dateStr    = document.getElementById('differe').checked ? document.getElementById('dateExecution').value : 'Immédiat';
+    var soldeApres = currentSolde - montantVal;
+
+    document.getElementById('cv-compte').textContent  = compteName;
+    document.getElementById('cv-nom').textContent     = document.getElementById('nomBeneficiaire').value.trim();
+    document.getElementById('cv-iban').textContent    = ibanInput.value.trim();
+    document.getElementById('cv-montant').textContent = '−' + fmtMontant(montantVal);
+    document.getElementById('cv-motif').textContent   = motifText;
+    document.getElementById('cv-libelle').textContent = refText || '—';
+    document.getElementById('cv-libelle-row').style.display = refText ? '' : 'none';
+    document.getElementById('cv-date').textContent    = dateStr;
+    document.getElementById('cv-solde-apres').textContent = fmtMontant(soldeApres);
+
+    document.getElementById('formStep').style.display    = 'none';
+    document.getElementById('confirmStep').style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
+  /* ── Retour au formulaire ────────────────────────────────── */
+  document.getElementById('btnRetour').addEventListener('click', function () {
+    document.getElementById('confirmStep').style.display = 'none';
+    document.getElementById('formStep').style.display    = 'block';
+  });
+
+  /* ── Confirmation finale ─────────────────────────────────── */
+  document.getElementById('btnConfirmer').addEventListener('click', function () {
+    var btn  = this;
+    var txt  = document.getElementById('confirmBtnText');
+    var spn  = document.getElementById('confirmBtnSpinner');
+
+    btn.disabled = true;
+    txt.innerHTML = 'Traitement en cours...';
+    spn.hidden = false;
+
+    var montantVal = parseFloat(document.getElementById('montant').value);
+    var compteId   = compteSelect.value;
+    var nomBen     = document.getElementById('nomBeneficiaire').value.trim();
+    var ibanBen    = ibanInput.value.replace(/\s+/g,'').toUpperCase();
+    var motifVal   = document.getElementById('motif').value;
+    var refVal     = document.getElementById('reference').value.trim();
+    var dateStr    = document.getElementById('differe').checked ? document.getElementById('dateExecution').value : new Date().toISOString();
+
+    /* Try backend API first */
+    var apiPromise = window._accessToken
+      ? fetch('/api/virements/sepa', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + window._accessToken,
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+            compteSource: compteId,
+            ibanDestinataire: ibanBen,
+            nomBeneficiaire: nomBen,
+            montant: montantVal,
+            motif: motifVal,
+            libelle: refVal,
+            dateExecution: dateStr
+          }),
+          credentials: 'include'
+        }).then(function (r) { return r.json(); }).catch(function () { return null; })
+      : Promise.resolve(null);
+
+    apiPromise.then(function (apiData) {
+      /* Mise à jour du store local (toujours effectuée) */
+      if (store) {
+        var lib = refVal || ('Virement — ' + nomBen);
+        store.debit(compteId, montantVal, lib, motifVal, 'VRT-' + Date.now().toString(36).toUpperCase());
+        store.ajouterNotification({
+          titre: 'Virement envoyé',
+          message: 'Virement de ' + fmtMontant(montantVal) + ' vers ' + nomBen + ' effectué.',
+          type: 'debit'
+        });
+      }
+
+      /* Toast success */
+      if (ui) {
+        var newSolde = currentSolde - montantVal;
+        ui.toast('success', 'Virement effectué', 'Montant : ' + fmtMontant(montantVal) + '. Nouveau solde : ' + fmtMontant(newSolde), 6000);
+      }
+
+      /* Reset */
+      document.getElementById('virementForm').reset();
+      document.querySelectorAll('#virementForm .is-valid, #virementForm .is-invalid').forEach(function (el) {
+        el.classList.remove('is-valid','is-invalid');
+      });
+      document.getElementById('refCounter').textContent = '0';
+      document.getElementById('datePicker').style.display = 'none';
+      soldeDisplay.textContent = '—';
+      soldePreview.className = 'solde-preview';
+      currentSolde = 0;
+
+      document.getElementById('confirmStep').style.display = 'none';
+      document.getElementById('formStep').style.display    = 'block';
+
+      renderRecentVirements();
+
+    }).finally(function () {
+      btn.disabled = false;
+      txt.innerHTML = '<i class="ti-check mr-2"></i>Confirmer le virement';
+      spn.hidden = true;
+    });
+  });
+
+  /* ── Écouter les mises à jour de solde (si une autre page débitera) ── */
+  if (store) {
+    store.on('sb:balance', function () {
+      if (ui) { ui.populateCompteSelects(); }
+      renderRecentVirements();
     });
   }
+
+  /* ── Init date min ───────────────────────────────────────── */
+  dateExecution.value = '';
 
 })();
 </script>

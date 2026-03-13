@@ -13,15 +13,19 @@
   <style>
     .account-card { border-top: 3px solid #4B49AC; transition: box-shadow 0.2s; }
     .account-card:hover { box-shadow: 0 4px 20px rgba(75,73,172,0.15); }
-    .account-balance { font-size: 1.6rem; font-weight: 700; color: #4B49AC; }
+    .account-balance { font-size: 1.6rem; font-weight: 700; color: #4B49AC; transition: color .3s; }
     .account-number { font-size: 0.85rem; color: #6c757d; letter-spacing: 0.05em; }
     .transaction-amount-credit { color: #1bcfb4; font-weight: 600; }
-    .transaction-amount-debit { color: #fe7c96; font-weight: 600; }
+    .transaction-amount-debit  { color: #fe7c96; font-weight: 600; }
     .section-title { font-size: 1rem; font-weight: 600; color: #343a40; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f0f0f0; }
     .chart-container { position: relative; height: 280px; }
     .card-icon-wrapper { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #4B49AC 0%, #7978E9 100%); }
     .card-icon-wrapper i { color: #fff; font-size: 1.1rem; }
     .page-header { margin-bottom: 1.5rem; }
+    .balance-updated { animation: balancePulse .6s ease; }
+    @keyframes balancePulse { 0%{transform:scale(1)} 50%{transform:scale(1.06);color:#1bcfb4} 100%{transform:scale(1)} }
+    .sb-notif-badge { background:#fe7c96; color:#fff; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; position:absolute; top:6px; right:6px; }
+    #sb-session-timer { font-size:.78rem; color:#6c757d; font-variant-numeric:tabular-nums; }
   </style>
 </head>
 <body>
@@ -35,6 +39,15 @@
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
       <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item mr-3 d-none d-md-flex align-items-center">
+          <small><i class="ti-time mr-1"></i><span id="sb-session-timer">15:00</span></small>
+        </li>
+        <li class="nav-item position-relative" style="margin-right:1rem;">
+          <a class="nav-link" href="#" aria-label="Notifications">
+            <i class="ti-bell" style="font-size:1.2rem;"></i>
+            <span class="sb-notif-badge" style="display:none;">0</span>
+          </a>
+        </li>
         <li class="nav-item nav-profile dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
             <img src="../../images/faces/face28.jpg" alt="profil"/>
@@ -50,60 +63,19 @@
   </nav>
 
   <div class="container-fluid page-body-wrapper">
-
     <!-- Sidebar -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link" href="../../index.html">
-            <i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span>
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="../../pages/comptes/mes-comptes.html">
-            <i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/virements/virement.html">
-            <i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/transactions/historique.html">
-            <i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/cartes/mes-cartes.html">
-            <i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/epargne/epargne.html">
-            <i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html">
-            <i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/profil/profil.html">
-            <i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/securite/securite.html">
-            <i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="../../pages/aide/aide.html">
-            <i class="ti-help menu-icon"></i><span class="menu-title">Aide</span>
-          </a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+        <li class="nav-item active"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
       </ul>
     </nav>
 
@@ -111,12 +83,9 @@
     <div class="main-panel">
       <div class="content-wrapper">
 
-        <!-- Page header -->
         <div class="page-header">
           <h3 class="page-title">
-            <span class="page-title-icon bg-gradient-primary text-white mr-2">
-              <i class="ti-wallet"></i>
-            </span>
+            <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-wallet"></i></span>
             Mes Comptes
           </h3>
           <nav aria-label="breadcrumb">
@@ -127,91 +96,66 @@
           </nav>
         </div>
 
-        <!-- Account cards -->
-        <div class="row mb-4">
-
-          <!-- Compte Courant -->
+        <!-- Account cards — populated from SkyStore -->
+        <div class="row mb-4" id="accountCardsRow">
+          <!-- Skeleton cards shown while loading -->
           <div class="col-xl-4 col-md-6 col-12 mb-4">
             <div class="card account-card h-100">
               <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon-wrapper mr-3">
-                      <i class="ti-wallet"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-0 font-weight-bold">Compte Courant</h6>
-                      <span class="badge badge-success" style="font-size:0.7rem;">Actif</span>
-                    </div>
-                  </div>
+                <div class="d-flex align-items-center mb-3">
+                  <div class="card-icon-wrapper mr-3"><i class="ti-wallet"></i></div>
+                  <div><h6 class="mb-0 font-weight-bold" id="compte1-nom">Compte Courant</h6><span class="badge badge-success" style="font-size:.7rem;">Actif</span></div>
                 </div>
-                <div class="account-number mb-2">FR76 ****  **** **** 4521</div>
-                <div class="account-balance mb-3">12 483,75 €</div>
-                <hr style="margin: 0.75rem 0;"/>
+                <div class="account-number mb-2" id="compte1-iban">FR76 **** **** **** 4521</div>
+                <div class="account-balance mb-3" id="compte1-solde">—</div>
+                <hr style="margin:.75rem 0;"/>
                 <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">Mis à jour le 13/03/2026</small>
+                  <small class="text-muted" id="compte1-maj">Chargement...</small>
                   <a href="../virements/virement.html" class="btn btn-sm btn-outline-primary">Virer</a>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- Compte Épargne (Livret A) -->
           <div class="col-xl-4 col-md-6 col-12 mb-4">
             <div class="card account-card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <div class="d-flex align-items-center">
-                    <div class="card-icon-wrapper mr-3" style="background: linear-gradient(135deg, #1bcfb4 0%, #00c9a7 100%);">
-                      <i class="ti-stats-up"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-0 font-weight-bold">Livret A</h6>
-                      <span class="badge badge-success" style="font-size:0.7rem;">Actif</span>
-                    </div>
+                    <div class="card-icon-wrapper mr-3" style="background:linear-gradient(135deg,#1bcfb4,#00c9a7);"><i class="ti-stats-up"></i></div>
+                    <div><h6 class="mb-0 font-weight-bold" id="compte2-nom">Livret A</h6><span class="badge badge-success" style="font-size:.7rem;">Actif</span></div>
                   </div>
-                  <span class="badge badge-info" style="font-size: 0.75rem;">Taux : 3%</span>
+                  <span class="badge badge-info" style="font-size:.75rem;">Taux : 3%</span>
                 </div>
-                <div class="account-number mb-2">FR76 **** **** **** 7832</div>
-                <div class="account-balance mb-3" style="color: #1bcfb4;">8 250,00 €</div>
-                <hr style="margin: 0.75rem 0;"/>
+                <div class="account-number mb-2" id="compte2-iban">FR76 **** **** **** 7832</div>
+                <div class="account-balance mb-3" style="color:#1bcfb4;" id="compte2-solde">—</div>
+                <hr style="margin:.75rem 0;"/>
                 <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">Intérêts cumulés : 247,50 €</small>
+                  <small class="text-muted" id="compte2-detail">Intérêts cumulés : 247,50 €</small>
                   <a href="../epargne/epargne.html" class="btn btn-sm btn-outline-success">Détails</a>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- Compte Joint -->
           <div class="col-xl-4 col-md-6 col-12 mb-4">
             <div class="card account-card h-100">
               <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon-wrapper mr-3" style="background: linear-gradient(135deg, #f46080 0%, #fe7c96 100%);">
-                      <i class="ti-user"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-0 font-weight-bold">Compte Joint</h6>
-                      <span class="badge badge-success" style="font-size:0.7rem;">Actif</span>
-                    </div>
-                  </div>
+                <div class="d-flex align-items-center mb-3">
+                  <div class="card-icon-wrapper mr-3" style="background:linear-gradient(135deg,#f46080,#fe7c96);"><i class="ti-stats-up"></i></div>
+                  <div><h6 class="mb-0 font-weight-bold" id="compte3-nom">PEL</h6><span class="badge badge-success" style="font-size:.7rem;">Actif</span></div>
                 </div>
-                <div class="account-number mb-2">FR76 **** **** **** 1109</div>
-                <div class="account-balance mb-3" style="color: #fe7c96;">3 120,50 €</div>
-                <hr style="margin: 0.75rem 0;"/>
+                <div class="account-number mb-2" id="compte3-iban">FR76 **** **** **** 3341</div>
+                <div class="account-balance mb-3" style="color:#fe7c96;" id="compte3-solde">—</div>
+                <hr style="margin:.75rem 0;"/>
                 <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">Cotitulaire : M. Dupont</small>
-                  <a href="../virements/virement.html" class="btn btn-sm btn-outline-danger">Virer</a>
+                  <small class="text-muted" id="compte3-detail">Plan Épargne Logement</small>
+                  <a href="../epargne/epargne.html" class="btn btn-sm btn-outline-danger">Détails</a>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-        </div><!-- /row account cards -->
-
-        <!-- Recent transactions -->
+        <!-- Recent transactions — live from store -->
         <div class="row mb-4">
           <div class="col-12">
             <div class="card">
@@ -223,7 +167,7 @@
                 <div class="table-responsive">
                   <table class="table table-hover" id="recentOpsTable">
                     <thead>
-                      <tr style="background-color: #f8f9fa;">
+                      <tr style="background-color:#f8f9fa;">
                         <th>Date</th>
                         <th>Description</th>
                         <th>Référence</th>
@@ -231,57 +175,8 @@
                         <th class="text-right">Solde</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <td><small class="text-muted">13/03/2026</small></td>
-                        <td>
-                          <span class="font-weight-medium">Virement reçu — MARTIN Sophie</span><br/>
-                          <small class="text-muted">Remboursement dîner</small>
-                        </td>
-                        <td><small class="text-muted">VRT-2026031301</small></td>
-                        <td class="text-right transaction-amount-credit">+45,00 €</td>
-                        <td class="text-right">12 483,75 €</td>
-                      </tr>
-                      <tr>
-                        <td><small class="text-muted">12/03/2026</small></td>
-                        <td>
-                          <span class="font-weight-medium">Paiement CB — MONOPRIX PARIS 11</span><br/>
-                          <small class="text-muted">Courses alimentaires</small>
-                        </td>
-                        <td><small class="text-muted">CB-2026031201</small></td>
-                        <td class="text-right transaction-amount-debit">-78,32 €</td>
-                        <td class="text-right">12 438,75 €</td>
-                      </tr>
-                      <tr>
-                        <td><small class="text-muted">10/03/2026</small></td>
-                        <td>
-                          <span class="font-weight-medium">Prélèvement — EDF ENERGIE</span><br/>
-                          <small class="text-muted">Facture électricité mars 2026</small>
-                        </td>
-                        <td><small class="text-muted">PREL-2026031001</small></td>
-                        <td class="text-right transaction-amount-debit">-112,80 €</td>
-                        <td class="text-right">12 517,07 €</td>
-                      </tr>
-                      <tr>
-                        <td><small class="text-muted">05/03/2026</small></td>
-                        <td>
-                          <span class="font-weight-medium">Virement reçu — DURAND &amp; ASSOCIÉS</span><br/>
-                          <small class="text-muted">Salaire mars 2026</small>
-                        </td>
-                        <td><small class="text-muted">SAL-2026030501</small></td>
-                        <td class="text-right transaction-amount-credit">+3 250,00 €</td>
-                        <td class="text-right">12 629,87 €</td>
-                      </tr>
-                      <tr>
-                        <td><small class="text-muted">01/03/2026</small></td>
-                        <td>
-                          <span class="font-weight-medium">Prélèvement — ORANGE TELECOM</span><br/>
-                          <small class="text-muted">Abonnement mobile &amp; internet</small>
-                        </td>
-                        <td><small class="text-muted">PREL-2026030101</small></td>
-                        <td class="text-right transaction-amount-debit">-49,99 €</td>
-                        <td class="text-right">9 379,87 €</td>
-                      </tr>
+                    <tbody id="recentOpsTbody">
+                      <tr><td colspan="5" class="text-center text-muted py-3"><small>Chargement des opérations...</small></td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -303,13 +198,13 @@
             </div>
           </div>
           <div class="col-lg-4 col-12 mb-4">
-            <div class="card h-100" style="border-top: 3px solid #4B49AC;">
+            <div class="card h-100" style="border-top:3px solid #4B49AC;">
               <div class="card-body d-flex flex-column justify-content-between">
                 <div>
                   <h5 class="section-title">Actions rapides</h5>
-                  <p class="text-muted small mb-4">Accédez rapidement aux opérations les plus courantes depuis vos comptes.</p>
+                  <p class="text-muted small mb-4">Accédez rapidement aux opérations les plus courantes.</p>
                 </div>
-                <div class="d-grid gap-2">
+                <div>
                   <a href="../virements/virement.html" class="btn btn-gradient-primary btn-block mb-2">
                     <i class="ti-exchange-vertical mr-2"></i>Effectuer un virement
                   </a>
@@ -340,7 +235,6 @@
           </span>
         </div>
       </footer>
-
     </div><!-- /main-panel -->
   </div><!-- /page-body-wrapper -->
 </div><!-- /container-scroller -->
@@ -351,23 +245,118 @@
 <script src="../../js/hoverable-collapse.js"></script>
 <script src="../../js/template.js"></script>
 <script src="../../js/settings.js"></script>
-<script src="../../js/todolist.js"></script>
+<script src="../../js/skydash-store.js"></script>
+<script src="../../js/skydash-ui.js"></script>
 
 <script>
-(function() {
+(function () {
   'use strict';
 
-  // Balance evolution chart (last 6 months)
+  var store = window.SkyStore;
+
+  function fmtMontant(v) {
+    return Math.abs(v).toLocaleString('fr-FR', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' €';
+  }
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+
+  /* ── Rendre les comptes ──────────────────────────────────── */
+  var compteElems = [
+    { id:'courant', nomEl:'compte1-nom', ibanEl:'compte1-iban', soldeEl:'compte1-solde', majEl:'compte1-maj' },
+    { id:'livret',  nomEl:'compte2-nom', ibanEl:'compte2-iban', soldeEl:'compte2-solde', majEl:'compte2-detail' },
+    { id:'pel',     nomEl:'compte3-nom', ibanEl:'compte3-iban', soldeEl:'compte3-solde', majEl:'compte3-detail' }
+  ];
+
+  function renderComptes() {
+    if (!store) return;
+    var comptes = store.getComptes();
+    comptes.forEach(function (c, i) {
+      if (i >= compteElems.length) return;
+      var e = compteElems[i];
+      var nomEl   = document.getElementById(e.nomEl);
+      var soldeEl = document.getElementById(e.soldeEl);
+      if (nomEl)   nomEl.textContent  = c.libelle || c.nom;
+      if (soldeEl) {
+        soldeEl.textContent = fmtMontant(c.solde);
+        soldeEl.classList.add('balance-updated');
+        setTimeout(function () { soldeEl.classList.remove('balance-updated'); }, 700);
+      }
+    });
+  }
+  renderComptes();
+
+  /* ── Rendre les opérations récentes ──────────────────────── */
+  function renderRecentOps() {
+    var tbody = document.getElementById('recentOpsTbody');
+    if (!store || !tbody) return;
+
+    var txns = store.getTransactions({ compte:'courant', limit:8 });
+    if (!txns.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3"><small>Aucune opération récente.</small></td></tr>';
+      return;
+    }
+
+    /* Calcul du solde courant pour afficher solde après chaque opération */
+    var soldeActuel = 0;
+    var comptes = store.getComptes();
+    var cc = comptes.find(function(c) { return c.id === 'courant'; });
+    if (cc) soldeActuel = cc.solde;
+
+    /* Reconstruire le solde en remontant les transactions (du plus récent au plus ancien) */
+    var rows = txns.map(function (t) {
+      var isCredit = t.type === 'credit';
+      var amtClass = isCredit ? 'transaction-amount-credit' : 'transaction-amount-debit';
+      var amtSign  = isCredit ? '+' : '−';
+      var soldeAvant = isCredit ? soldeActuel - t.montant : soldeActuel + t.montant;
+      var html = '<tr>' +
+        '<td><small class="text-muted">' + fmtDate(t.date) + '</small></td>' +
+        '<td><span class="font-weight-medium">' + (t.libelle || t.description || '—') + '</span><br/>' +
+          '<small class="text-muted">' + (t.categorie || '') + '</small></td>' +
+        '<td><small class="text-muted">' + (t.ref || '—') + '</small></td>' +
+        '<td class="text-right ' + amtClass + '">' + amtSign + fmtMontant(t.montant) + '</td>' +
+        '<td class="text-right">' + fmtMontant(soldeActuel) + '</td>' +
+        '</tr>';
+      soldeActuel = soldeAvant;
+      return html;
+    });
+
+    tbody.innerHTML = rows.join('');
+  }
+  renderRecentOps();
+
+  /* ── Écouter les mises à jour du store ───────────────────── */
+  if (store) {
+    store.on('sb:balance', function () {
+      renderComptes();
+      renderRecentOps();
+    });
+    store.on('sb:transaction', function () {
+      renderRecentOps();
+    });
+  }
+
+  /* ── Graphique évolution du solde ────────────────────────── */
   var ctx = document.getElementById('balanceChart');
   if (ctx && typeof Chart !== 'undefined') {
+    /* Reconstruire l'évolution depuis les transactions du store */
+    var labels   = ['Oct 2025','Nov 2025','Déc 2025','Jan 2026','Fév 2026','Mar 2026'];
+    var baseData = [9850.20, 11200.50, 10340.00, 11980.75, 10150.30, 12483.75];
+
+    /* Mettre à jour la dernière valeur avec le solde réel */
+    if (store) {
+      var cc2 = store.getComptes().find(function(c) { return c.id === 'courant'; });
+      if (cc2) baseData[5] = cc2.solde;
+    }
+
     new Chart(ctx.getContext('2d'), {
       type: 'line',
       data: {
-        labels: ['Oct 2025', 'Nov 2025', 'Déc 2025', 'Jan 2026', 'Fév 2026', 'Mar 2026'],
+        labels: labels,
         datasets: [{
           label: 'Solde Compte Courant (€)',
-          data: [9850.20, 11200.50, 10340.00, 11980.75, 10150.30, 12483.75],
-          backgroundColor: 'rgba(75, 73, 172, 0.08)',
+          data: baseData,
+          backgroundColor: 'rgba(75,73,172,0.08)',
           borderColor: '#4B49AC',
           borderWidth: 2.5,
           pointBackgroundColor: '#4B49AC',
@@ -383,30 +372,27 @@
         maintainAspectRatio: false,
         legend: { display: false },
         tooltips: {
-          mode: 'index',
-          intersect: false,
+          mode: 'index', intersect: false,
           callbacks: {
-            label: function(item) {
-              return ' ' + parseFloat(item.yLabel).toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
+            label: function (item) {
+              return ' ' + parseFloat(item.yLabel).toLocaleString('fr-FR', {minimumFractionDigits:2}) + ' €';
             }
           }
         },
         scales: {
-          xAxes: [{ gridLines: { display: false }, ticks: { fontColor: '#6c757d', fontSize: 12 } }],
+          xAxes: [{ gridLines: { display:false }, ticks: { fontColor:'#6c757d', fontSize:12 } }],
           yAxes: [{
-            gridLines: { color: 'rgba(0,0,0,0.05)' },
+            gridLines: { color:'rgba(0,0,0,0.05)' },
             ticks: {
-              fontColor: '#6c757d',
-              fontSize: 12,
-              callback: function(value) {
-                return value.toLocaleString('fr-FR') + ' €';
-              }
+              fontColor:'#6c757d', fontSize:12,
+              callback: function (v) { return v.toLocaleString('fr-FR') + ' €'; }
             }
           }]
         }
       }
     });
   }
+
 })();
 </script>
 </body>

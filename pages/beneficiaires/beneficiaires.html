@@ -40,6 +40,15 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item mr-3 d-none d-md-flex align-items-center">
+            <small><i class="ti-time mr-1"></i><span id="sb-session-timer">15:00</span></small>
+          </li>
+          <li class="nav-item position-relative" style="margin-right:1rem;">
+            <a class="nav-link" href="#" aria-label="Notifications">
+              <i class="ti-bell" style="font-size:1.2rem;"></i>
+              <span id="sb-notif-badge" style="display:none;background:#fe7c96;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:700;position:absolute;top:6px;right:6px;display:none;align-items:center;justify-content:center;">0</span>
+            </a>
+          </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="../../images/faces/face28.jpg" alt="profil"/>
@@ -436,6 +445,32 @@
   <script src="../../js/template.js"></script>
   <script src="../../js/settings.js"></script>
   <script src="../../js/todolist.js"></script>
+  <script src="../../js/skydash-store.js"></script>
+  <script src="../../js/skydash-ui.js"></script>
+  <script>
+  (function() {
+    'use strict';
+    var store = window.SkyStore;
+    /* Mise à jour du compteur de bénéficiaires depuis le store */
+    if (store) {
+      var bens = store.getBeneficiaires(true);
+      var countEl = document.querySelector('.text-muted i.ti-user');
+      if (countEl && countEl.parentElement) {
+        countEl.parentElement.innerHTML = '<i class="ti-user mr-1"></i>' + bens.length + ' bénéficiaire' + (bens.length > 1 ? 's' : '') + ' enregistré' + (bens.length > 1 ? 's' : '');
+      }
+    }
+    /* Recherche live dans le tableau */
+    var searchInput = document.getElementById('searchBenef');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        var q = this.value.toLowerCase();
+        document.querySelectorAll('#tableBenef tbody tr').forEach(function(row) {
+          row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+      });
+    }
+  })();
+  </script>
   <script>
     // Simple search filter
     document.getElementById('searchBenef').addEventListener('input', function() {

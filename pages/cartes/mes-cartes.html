@@ -11,577 +11,449 @@
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link rel="shortcut icon" href="../../images/favicon.png" />
   <style>
-    .bank-card {
-      border-radius: 16px;
-      padding: 28px;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-      min-height: 180px;
-      box-shadow: 0 8px 32px rgba(75,73,172,0.25);
-    }
-    .bank-card-visa {
-      background: linear-gradient(135deg, #4B49AC, #7978E9);
-    }
-    .bank-card-mc {
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-    }
-    .bank-card::before {
-      content: '';
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.07);
-    }
-    .bank-card::after {
-      content: '';
-      position: absolute;
-      bottom: -60px;
-      right: 60px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.05);
-    }
-    .card-chip {
-      width: 40px;
-      height: 30px;
-      background: linear-gradient(135deg, #f0d060, #c8a820);
-      border-radius: 5px;
-      margin-bottom: 18px;
-    }
-    .card-number {
-      font-size: 1.1rem;
-      letter-spacing: 3px;
-      font-family: 'Courier New', monospace;
-      margin-bottom: 14px;
-    }
-    .card-brand {
-      position: absolute;
-      top: 22px;
-      right: 22px;
-      font-size: 1.3rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-    .mc-circles {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-    }
-    .mc-circle-left {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #eb001b;
-      display: inline-block;
-    }
-    .mc-circle-right {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #f79e1b;
-      display: inline-block;
-      margin-left: -12px;
-      opacity: 0.9;
-    }
-    .card-actions .btn {
-      font-size: 0.82rem;
-      padding: 6px 14px;
-    }
-    .security-badge {
-      font-size: 0.7rem;
-      letter-spacing: 0.5px;
-    }
+    .bank-card { border-radius:16px; padding:28px; color:#fff; position:relative; overflow:hidden; min-height:185px; box-shadow:0 8px 32px rgba(75,73,172,0.25); transition:all .3s; }
+    .bank-card-visa { background:linear-gradient(135deg,#4B49AC,#7978E9); }
+    .bank-card-mc   { background:linear-gradient(135deg,#1a1a2e,#16213e); }
+    .bank-card.blocked { filter:grayscale(60%); opacity:.7; }
+    .bank-card::before { content:''; position:absolute; top:-40px; right:-40px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,0.07); }
+    .bank-card::after  { content:''; position:absolute; bottom:-60px; right:60px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,0.05); }
+    .card-chip  { width:40px; height:30px; background:linear-gradient(135deg,#f0d060,#c8a820); border-radius:5px; margin-bottom:18px; }
+    .card-number { font-size:1.1rem; letter-spacing:3px; font-family:'Courier New',monospace; margin-bottom:14px; }
+    .card-brand  { position:absolute; top:22px; right:22px; font-size:1.3rem; font-weight:700; letter-spacing:1px; }
+    .mc-circles  { position:absolute; top:16px; right:16px; }
+    .mc-circle-left  { width:36px; height:36px; border-radius:50%; background:#eb001b; display:inline-block; }
+    .mc-circle-right { width:36px; height:36px; border-radius:50%; background:#f79e1b; display:inline-block; margin-left:-12px; opacity:.9; }
+    .card-actions .btn { font-size:.82rem; padding:6px 14px; }
+    .blocked-ribbon { position:absolute; top:14px; left:-1px; background:#fe7c96; color:#fff; font-size:.68rem; font-weight:700; padding:3px 12px; letter-spacing:.5px; text-transform:uppercase; border-radius:0 4px 4px 0; }
+    .txn-amount-debit  { color:#fe7c96; font-weight:600; }
+    .txn-amount-credit { color:#1bcfb4; font-weight:600; }
+    .section-title { font-size:1rem; font-weight:600; color:#343a40; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:2px solid #f0f0f0; }
+    .sb-notif-badge { background:#fe7c96; color:#fff; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; position:absolute; top:6px; right:6px; }
+    #sb-session-timer { font-size:.78rem; color:#6c757d; font-variant-numeric:tabular-nums; }
   </style>
 </head>
 <body>
-  <div class="container-scroller">
-    <!-- NAVBAR -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="../../images/faces/face28.jpg" alt="profil"/>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
-              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
-            </div>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
-      </div>
+<div class="container-scroller">
+  <!-- NAVBAR -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+      <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item mr-3 d-none d-md-flex align-items-center">
+          <small><i class="ti-time mr-1"></i><span id="sb-session-timer">15:00</span></small>
+        </li>
+        <li class="nav-item position-relative" style="margin-right:1rem;">
+          <a class="nav-link" href="#" aria-label="Notifications">
+            <i class="ti-bell" style="font-size:1.2rem;"></i>
+            <span class="sb-notif-badge" style="display:none;">0</span>
+          </a>
+        </li>
+        <li class="nav-item nav-profile dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+            <img src="../../images/faces/face28.jpg" alt="profil"/>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+            <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+          </div>
+        </li>
+      </ul>
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+    </div>
+  </nav>
+
+  <div class="container-fluid page-body-wrapper">
+    <!-- SIDEBAR -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+        <li class="nav-item active"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+      </ul>
     </nav>
 
-    <div class="container-fluid page-body-wrapper">
-      <!-- SIDEBAR -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
-          <li class="nav-item active"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
-          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
-        </ul>
-      </nav>
+    <div class="main-panel">
+      <div class="content-wrapper">
 
-      <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title">
+            <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-credit-card"></i></span>
+            Mes Cartes
+          </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Mes Cartes</li>
+            </ol>
+          </nav>
+        </div>
 
-          <!-- Page Header -->
-          <div class="page-header">
-            <h3 class="page-title">
-              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-credit-card"></i></span>
-              Mes Cartes
-            </h3>
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Mes Cartes</li>
-              </ol>
-            </nav>
+        <!-- Cards from SkyStore -->
+        <div class="row" id="cardsRow">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Plafonds -->
+        <div class="row">
+          <div class="col-12 mb-4">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <h4 class="card-title"><i class="ti-bar-chart-alt text-primary mr-2"></i>Plafonds et limites</h4>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Type d'opération</th>
+                        <th>Visa Débit</th>
+                        <th>Mastercard Crédit</th>
+                        <th>Statut</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td><i class="ti-mobile text-muted mr-2"></i>Paiement sans contact</td><td>50,00 € / opération</td><td>50,00 € / opération</td><td><span class="badge badge-success">Actif</span></td></tr>
+                      <tr><td><i class="ti-world text-muted mr-2"></i>Paiement en ligne (3DS)</td><td>500,00 € / jour</td><td>500,00 € / jour</td><td><span class="badge badge-success">Actif</span></td></tr>
+                      <tr><td><i class="ti-money text-muted mr-2"></i>Retrait DAB</td><td>500,00 € / semaine</td><td>300,00 € / semaine</td><td><span class="badge badge-success">Actif</span></td></tr>
+                      <tr><td><i class="ti-location-pin text-muted mr-2"></i>Paiement à l'étranger</td><td>1 000,00 € / jour</td><td>1 500,00 € / jour</td><td><span class="badge badge-warning">Sur demande</span></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="text-muted small mt-2"><i class="ti-info-alt mr-1"></i>Les plafonds peuvent être modifiés temporairement via votre conseiller ou l'application mobile.</p>
+              </div>
+            </div>
           </div>
+        </div>
 
-          <!-- Cards Row -->
-          <div class="row">
-
-            <!-- Visa Débit -->
-            <div class="col-lg-6 mb-4">
-              <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                  <div class="bank-card bank-card-visa mb-3">
-                    <div class="card-chip"></div>
-                    <div class="card-brand">VISA</div>
-                    <div class="card-number">**** &nbsp;&nbsp;**** &nbsp;&nbsp;**** &nbsp;&nbsp;4521</div>
-                    <div class="d-flex justify-content-between align-items-end">
-                      <div>
-                        <div style="font-size:0.72rem;opacity:0.75;text-transform:uppercase;letter-spacing:1px;">Titulaire</div>
-                        <div style="font-size:0.9rem;font-weight:600;">JEAN DUPONT</div>
-                      </div>
-                      <div>
-                        <div style="font-size:0.72rem;opacity:0.75;text-transform:uppercase;letter-spacing:1px;">Expire</div>
-                        <div style="font-size:0.9rem;font-weight:600;">09/27</div>
-                      </div>
-                      <div>
-                        <span class="badge badge-success security-badge">Active</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <div>
-                      <h5 class="font-weight-semibold mb-0">Visa Débit</h5>
-                      <small class="text-muted">Compte courant principal</small>
-                    </div>
-                    <span class="badge badge-success">Active</span>
-                  </div>
-                  <div class="card-actions mt-3 d-flex flex-wrap" style="gap:8px;">
-                    <button class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#modalBloquerVisa">
-                      <i class="ti-lock mr-1"></i>Bloquer temporairement
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modalPinVisa">
-                      <i class="ti-eye mr-1"></i>Voir le PIN
-                    </button>
-                    <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalPertVisa">
-                      <i class="ti-alert mr-1"></i>Signaler une perte
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Mastercard Crédit -->
-            <div class="col-lg-6 mb-4">
-              <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                  <div class="bank-card bank-card-mc mb-3">
-                    <div class="card-chip"></div>
-                    <div class="mc-circles">
-                      <span class="mc-circle-left"></span>
-                      <span class="mc-circle-right"></span>
-                    </div>
-                    <div class="card-number">**** &nbsp;&nbsp;**** &nbsp;&nbsp;**** &nbsp;&nbsp;8834</div>
-                    <div class="d-flex justify-content-between align-items-end">
-                      <div>
-                        <div style="font-size:0.72rem;opacity:0.75;text-transform:uppercase;letter-spacing:1px;">Titulaire</div>
-                        <div style="font-size:0.9rem;font-weight:600;">JEAN DUPONT</div>
-                      </div>
-                      <div>
-                        <div style="font-size:0.72rem;opacity:0.75;text-transform:uppercase;letter-spacing:1px;">Expire</div>
-                        <div style="font-size:0.9rem;font-weight:600;">03/26</div>
-                      </div>
-                      <div>
-                        <span class="badge badge-success security-badge">Active</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <div>
-                      <h5 class="font-weight-semibold mb-0">Mastercard Crédit</h5>
-                      <small class="text-muted">Plafond mensuel : 3 000,00 €</small>
-                    </div>
-                    <span class="badge badge-success">Active</span>
-                  </div>
-                  <div class="mb-2">
-                    <div class="d-flex justify-content-between mb-1">
-                      <small class="text-muted">Utilisé ce mois</small>
-                      <small class="font-weight-semibold">487,50 € / 3 000,00 €</small>
-                    </div>
-                    <div class="progress" style="height:8px;">
-                      <div class="progress-bar bg-gradient-primary" role="progressbar" style="width:16.25%" aria-valuenow="16.25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <small class="text-muted">2 512,50 € disponibles (83,75%)</small>
-                  </div>
-                  <div class="card-actions mt-3 d-flex flex-wrap" style="gap:8px;">
-                    <button class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#modalBloquerMC">
-                      <i class="ti-lock mr-1"></i>Bloquer temporairement
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modalPinMC">
-                      <i class="ti-eye mr-1"></i>Voir le PIN
-                    </button>
-                    <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalPertMC">
-                      <i class="ti-alert mr-1"></i>Signaler une perte
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div><!-- /row cards -->
-
-          <!-- Plafonds et limites -->
-          <div class="row">
-            <div class="col-12 mb-4">
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-                  <h4 class="card-title"><i class="ti-bar-chart-alt text-primary mr-2"></i>Plafonds et limites</h4>
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead class="thead-light">
-                        <tr>
-                          <th>Type d'opération</th>
-                          <th>Carte Visa Débit</th>
-                          <th>Carte Mastercard Crédit</th>
-                          <th>Statut</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><i class="ti-mobile text-muted mr-2"></i>Paiement sans contact</td>
-                          <td>50,00 € / opération</td>
-                          <td>50,00 € / opération</td>
-                          <td><span class="badge badge-success">Actif</span></td>
-                        </tr>
-                        <tr>
-                          <td><i class="ti-world text-muted mr-2"></i>Paiement en ligne</td>
-                          <td>500,00 € / jour</td>
-                          <td>500,00 € / jour</td>
-                          <td><span class="badge badge-success">Actif</span></td>
-                        </tr>
-                        <tr>
-                          <td><i class="ti-money text-muted mr-2"></i>Retrait DAB</td>
-                          <td>500,00 € / semaine</td>
-                          <td>300,00 € / semaine</td>
-                          <td><span class="badge badge-success">Actif</span></td>
-                        </tr>
-                        <tr>
-                          <td><i class="ti-location-pin text-muted mr-2"></i>Paiement à l'étranger</td>
-                          <td>1 000,00 € / jour</td>
-                          <td>1 500,00 € / jour</td>
-                          <td><span class="badge badge-warning">Sur demande</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <p class="text-muted small mt-2"><i class="ti-info-alt mr-1"></i>Les plafonds peuvent être modifiés temporairement en contactant votre conseiller ou via l'application mobile.</p>
+        <!-- Transactions par carte -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="section-title">Dernières opérations par carte</h5>
+                <div class="table-responsive">
+                  <table class="table table-hover table-sm">
+                    <thead><tr><th>Date</th><th>Description</th><th>Carte</th><th class="text-right">Montant</th></tr></thead>
+                    <tbody id="cardTxnTbody">
+                      <tr><td colspan="4" class="text-center text-muted py-3"><small>Chargement...</small></td></tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Demander une nouvelle carte -->
-          <div class="row">
-            <div class="col-lg-6 mb-4">
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-                  <h4 class="card-title"><i class="ti-plus text-primary mr-2"></i>Demander une nouvelle carte</h4>
-                  <p class="text-muted small">Votre demande sera traitée sous 5 à 7 jours ouvrés. La carte sera envoyée à votre adresse enregistrée.</p>
-                  <form id="formNouvelleCart" autocomplete="off">
-                    <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
-                    <div class="form-group">
-                      <label for="typeCarteSelect">Type de carte</label>
-                      <select class="form-control" id="typeCarteSelect" name="type_carte" required>
-                        <option value="">-- Sélectionner un type --</option>
-                        <option value="visa_debit">Visa Débit Classic</option>
-                        <option value="visa_premier">Visa Premier</option>
-                        <option value="mc_credit">Mastercard Crédit Standard</option>
-                        <option value="mc_gold">Mastercard Gold</option>
-                        <option value="visa_infinite">Visa Infinite (Prestige)</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="motifCarte">Motif de la demande</label>
-                      <select class="form-control" id="motifCarte" name="motif" required>
-                        <option value="">-- Sélectionner un motif --</option>
-                        <option value="nouvelle">Nouvelle carte</option>
-                        <option value="remplacement">Remplacement (expiration)</option>
-                        <option value="perte">Suite à perte / vol</option>
-                        <option value="deterioration">Détérioration</option>
-                        <option value="upgrade">Changement de gamme</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="compteAssocie">Compte associé</label>
-                      <select class="form-control" id="compteAssocie" name="compte">
-                        <option value="cc_principal">Compte Courant Principal — FR76 3000 4001 0300 0100 0947 89</option>
-                        <option value="cc_joint">Compte Joint — FR76 3000 4001 0300 0200 1823 54</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <div class="form-check">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input" name="accepte_conditions" required> J'accepte les conditions tarifaires associées à cette carte
-                          <i class="input-helper"></i>
-                        </label>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-gradient-primary btn-fw">
-                      <i class="ti-send mr-2"></i>Soumettre la demande
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6 mb-4">
-              <div class="card shadow-sm border-0">
-                <div class="card-body">
-                  <h4 class="card-title"><i class="ti-info text-primary mr-2"></i>Informations importantes</h4>
-                  <ul class="list-unstyled">
-                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Vos cartes sont protégées par la technologie 3D Secure</li>
-                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Paiements sans contact limités à 5 opérations consécutives sans saisie de PIN</li>
-                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Blocage immédiat disponible 24h/24 depuis l'application</li>
-                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Assurance perte et vol incluse dans toutes les offres Premium</li>
-                    <li class="py-2"><i class="ti-check-box text-success mr-2"></i>Notification instantanée pour chaque transaction</li>
-                  </ul>
-                  <div class="alert alert-info mt-3 p-3">
-                    <i class="ti-shield mr-2"></i>
-                    <strong>Sécurité DSP2 :</strong> Toute opération supérieure à 30 € en ligne nécessite une authentification forte (code SMS ou biométrie).
+        <!-- Demande nouvelle carte -->
+        <div class="row">
+          <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <h4 class="card-title"><i class="ti-plus text-primary mr-2"></i>Demander une nouvelle carte</h4>
+                <p class="text-muted small">Votre demande sera traitée sous 5 à 7 jours ouvrés.</p>
+                <form id="formNouvelleCart" autocomplete="off">
+                  <div class="form-group">
+                    <label>Type de carte</label>
+                    <select class="form-control" id="typeCarte" required>
+                      <option value="">— Sélectionner —</option>
+                      <option value="visa_debit">Visa Débit Classic</option>
+                      <option value="visa_premier">Visa Premier</option>
+                      <option value="mc_credit">Mastercard Crédit Standard</option>
+                      <option value="mc_gold">Mastercard Gold</option>
+                      <option value="visa_infinite">Visa Infinite (Prestige)</option>
+                    </select>
                   </div>
+                  <div class="form-group">
+                    <label>Motif</label>
+                    <select class="form-control" required>
+                      <option value="">— Sélectionner —</option>
+                      <option value="nouvelle">Nouvelle carte</option>
+                      <option value="remplacement">Remplacement (expiration)</option>
+                      <option value="perte">Suite à perte / vol</option>
+                      <option value="upgrade">Changement de gamme</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Compte associé</label>
+                    <select class="form-control sb-compte-select" id="compteAssocie"></select>
+                  </div>
+                  <div class="form-check mb-3">
+                    <label class="form-check-label">
+                      <input type="checkbox" class="form-check-input" required> J'accepte les conditions tarifaires associées
+                      <i class="input-helper"></i>
+                    </label>
+                  </div>
+                  <button type="submit" class="btn btn-gradient-primary btn-fw">
+                    <i class="ti-send mr-2"></i>Soumettre la demande
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0">
+              <div class="card-body">
+                <h4 class="card-title"><i class="ti-info text-primary mr-2"></i>Informations importantes</h4>
+                <ul class="list-unstyled">
+                  <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Cartes protégées par la technologie <strong>3D Secure v2</strong></li>
+                  <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Paiements sans contact limités à 5 opérations consécutives sans PIN</li>
+                  <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Blocage immédiat disponible 24h/24 depuis cet espace</li>
+                  <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Assurance perte et vol incluse dans toutes les offres Premium</li>
+                  <li class="py-2"><i class="ti-check-box text-success mr-2"></i>Notification instantanée à chaque transaction</li>
+                </ul>
+                <div class="alert alert-info mt-3 p-3">
+                  <i class="ti-shield mr-2"></i>
+                  <strong>DSP2 SCA :</strong> Toute opération &gt;30 € en ligne nécessite une authentification forte (code SMS ou biométrie).
                 </div>
               </div>
             </div>
           </div>
-
-        </div><!-- /content-wrapper -->
-
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2025 SkyDash Bank — Banque digitale sécurisée. PCI-DSS • RGPD • ISO 27001</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
-          </div>
-        </footer>
-      </div><!-- /main-panel -->
-    </div><!-- /page-body-wrapper -->
-  </div><!-- /container-scroller -->
-
-  <!-- Modal Bloquer Visa -->
-  <div class="modal fade" id="modalBloquerVisa" tabindex="-1" role="dialog" aria-labelledby="modalBloquerVisaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalBloquerVisaLabel"><i class="ti-lock text-warning mr-2"></i>Bloquer temporairement la carte Visa</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
         </div>
-        <div class="modal-body">
-          <div class="alert alert-warning"><i class="ti-info-alt mr-2"></i>Le blocage est immédiat et réversible à tout moment. Aucune transaction ne sera autorisée pendant le blocage.</div>
-          <p>Carte : <strong>Visa Débit **** 4521</strong></p>
-          <div class="form-group">
-            <label>Motif du blocage (optionnel)</label>
-            <select class="form-control">
-              <option>Carte égarée temporairement</option>
-              <option>Voyage / Précaution</option>
-              <option>Autre</option>
-            </select>
-          </div>
+
+      </div><!-- /content-wrapper -->
+
+      <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">&copy; 2026 SkyDash Bank — Banque digitale sécurisée. PCI-DSS &bull; RGPD &bull; ISO 27001</span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-warning"><i class="ti-lock mr-1"></i>Confirmer le blocage</button>
+      </footer>
+    </div><!-- /main-panel -->
+  </div><!-- /page-body-wrapper -->
+</div><!-- /container-scroller -->
+
+<!-- Modal Bloquer carte -->
+<div class="modal fade" id="modalBloquer" tabindex="-1" role="dialog" aria-labelledby="modalBloquerLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalBloquerLabel"><i class="ti-lock text-warning mr-2"></i>Bloquer temporairement la carte</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-warning"><i class="ti-info-alt mr-2"></i>Le blocage est immédiat et réversible. Aucune transaction ne sera autorisée pendant le blocage.</div>
+        <p>Carte : <strong id="bloquerCarteInfo">—</strong></p>
+        <div class="form-group">
+          <label>Motif du blocage</label>
+          <select class="form-control" id="bloquerMotif">
+            <option value="precaution">Carte égarée / Précaution</option>
+            <option value="voyage">Voyage</option>
+            <option value="fraude">Suspicion de fraude</option>
+          </select>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-warning" id="btnConfirmerBlocage"><i class="ti-lock mr-1"></i>Confirmer le blocage</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal PIN Visa -->
-  <div class="modal fade" id="modalPinVisa" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="ti-eye text-primary mr-2"></i>Consulter le PIN — Visa **** 4521</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+<!-- Modal PIN -->
+<div class="modal fade" id="modalPin" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="ti-eye text-primary mr-2"></i>Consulter le PIN</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info"><i class="ti-shield mr-2"></i>Pour des raisons de sécurité, la consultation du PIN nécessite une authentification forte. Un code SMS vous sera envoyé.</div>
+        <div class="form-group">
+          <label>Code de validation SMS</label>
+          <input type="text" class="form-control" placeholder="Code à 6 chiffres" maxlength="6" pattern="[0-9]{6}" inputmode="numeric">
         </div>
-        <div class="modal-body">
-          <div class="alert alert-info"><i class="ti-shield mr-2"></i>Pour des raisons de sécurité, la consultation du PIN nécessite une authentification forte. Un code vous sera envoyé par SMS.</div>
-          <div class="form-group">
-            <label>Code de validation SMS</label>
-            <input type="text" class="form-control" placeholder="Entrez le code à 6 chiffres" maxlength="6" pattern="[0-9]{6}">
-          </div>
-          <p class="text-muted small"><i class="ti-info-alt mr-1"></i>Le code est valable 5 minutes. Ne communiquez jamais votre PIN à personne.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-gradient-primary">Valider et afficher</button>
-        </div>
+        <p class="text-muted small"><i class="ti-info-alt mr-1"></i>Le code est valable 5 minutes. Ne communiquez jamais votre PIN.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-gradient-primary">Valider et afficher</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal Perte Visa -->
-  <div class="modal fade" id="modalPertVisa" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title"><i class="ti-alert mr-2"></i>Signaler une perte ou vol — Visa **** 4521</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+<!-- Modal Perte/Vol -->
+<div class="modal fade" id="modalPerte" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title"><i class="ti-alert mr-2"></i>Signaler une perte ou un vol</h5>
+        <button type="button" class="close text-white" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger"><strong>Attention :</strong> Cette action bloquera définitivement votre carte. Une nouvelle sera envoyée sous 5-7 jours ouvrés.</div>
+        <div class="form-group">
+          <label>Type de signalement</label>
+          <select class="form-control">
+            <option>Perte</option><option>Vol</option><option>Utilisation frauduleuse suspectée</option>
+          </select>
         </div>
-        <div class="modal-body">
-          <div class="alert alert-danger"><strong>Attention :</strong> Cette action bloquera définitivement votre carte. Une nouvelle carte vous sera envoyée sous 5 à 7 jours ouvrés.</div>
-          <div class="form-group">
-            <label>Type de signalement</label>
-            <select class="form-control">
-              <option>Perte</option>
-              <option>Vol</option>
-              <option>Utilisation frauduleuse suspectée</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Date et heure approximatives de la perte / vol</label>
-            <input type="datetime-local" class="form-control">
-          </div>
-          <div class="form-check mb-3">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input"> Je souhaite déposer une opposition immédiate (recommandé)
-              <i class="input-helper"></i>
-            </label>
-          </div>
-          <p class="text-muted small"><i class="ti-phone mr-1"></i>Vous pouvez également appeler le <strong>0 892 705 705</strong> (numéro d'opposition interbancaire, 7j/7 24h/24).</p>
+        <div class="form-group">
+          <label>Date et heure approximatives</label>
+          <input type="datetime-local" class="form-control">
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-danger"><i class="ti-alert mr-1"></i>Confirmer l'opposition</button>
+        <div class="form-check mb-2">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input"> Déposer une opposition immédiate (recommandé)
+            <i class="input-helper"></i>
+          </label>
         </div>
+        <p class="text-muted small"><i class="ti-phone mr-1"></i>Numéro d'opposition interbancaire : <strong>0 892 705 705</strong> (7j/7, 24h/24)</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-danger"><i class="ti-alert mr-1"></i>Confirmer l'opposition</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal Bloquer MC -->
-  <div class="modal fade" id="modalBloquerMC" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="ti-lock text-warning mr-2"></i>Bloquer temporairement la Mastercard</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-warning"><i class="ti-info-alt mr-2"></i>Le blocage est immédiat et réversible à tout moment.</div>
-          <p>Carte : <strong>Mastercard Crédit **** 8834</strong></p>
-          <div class="form-group">
-            <label>Motif du blocage (optionnel)</label>
-            <select class="form-control">
-              <option>Carte égarée temporairement</option>
-              <option>Voyage / Précaution</option>
-              <option>Autre</option>
-            </select>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-warning"><i class="ti-lock mr-1"></i>Confirmer le blocage</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<script src="../../vendors/js/vendor.bundle.base.js"></script>
+<script src="../../js/off-canvas.js"></script>
+<script src="../../js/hoverable-collapse.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/settings.js"></script>
+<script src="../../js/skydash-store.js"></script>
+<script src="../../js/skydash-ui.js"></script>
 
-  <!-- Modal PIN MC -->
-  <div class="modal fade" id="modalPinMC" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="ti-eye text-primary mr-2"></i>Consulter le PIN — Mastercard **** 8834</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-info"><i class="ti-shield mr-2"></i>Authentification forte requise. Un code vous sera envoyé par SMS.</div>
-          <div class="form-group">
-            <label>Code de validation SMS</label>
-            <input type="text" class="form-control" placeholder="Entrez le code à 6 chiffres" maxlength="6" pattern="[0-9]{6}">
-          </div>
-          <p class="text-muted small"><i class="ti-info-alt mr-1"></i>Le code est valable 5 minutes.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-gradient-primary">Valider et afficher</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<script>
+(function () {
+  'use strict';
 
-  <!-- Modal Perte MC -->
-  <div class="modal fade" id="modalPertMC" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title"><i class="ti-alert mr-2"></i>Signaler une perte ou vol — Mastercard **** 8834</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-          <div class="alert alert-danger"><strong>Attention :</strong> Cette action bloquera définitivement votre carte.</div>
-          <div class="form-group">
-            <label>Type de signalement</label>
-            <select class="form-control">
-              <option>Perte</option>
-              <option>Vol</option>
-              <option>Utilisation frauduleuse suspectée</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Date et heure approximatives</label>
-            <input type="datetime-local" class="form-control">
-          </div>
-          <div class="form-check mb-3">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input"> Je souhaite déposer une opposition immédiate
-              <i class="input-helper"></i>
-            </label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
-          <button type="button" class="btn btn-danger"><i class="ti-alert mr-1"></i>Confirmer l'opposition</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  var store = window.SkyStore;
+  var ui    = window.SkyUI;
 
-  <script src="../../vendors/js/vendor.bundle.base.js"></script>
-  <script src="../../js/off-canvas.js"></script>
-  <script src="../../js/hoverable-collapse.js"></script>
-  <script src="../../js/template.js"></script>
-  <script src="../../js/settings.js"></script>
-  <script src="../../js/todolist.js"></script>
+  function fmtMontant(v) { return Math.abs(v).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €'; }
+  function fmtDate(iso)  { return new Date(iso).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+
+  var activeBloquerCarteId = null;
+
+  /* ── Rendre les cartes depuis le store ────────────────────── */
+  function renderCards() {
+    if (!store) return;
+    var cartes = store.getCartes ? store.getCartes() : [];
+    var row    = document.getElementById('cardsRow');
+
+    if (!cartes.length) {
+      row.innerHTML = '<div class="col-12"><div class="alert alert-info">Aucune carte trouvée.</div></div>';
+      return;
+    }
+
+    row.innerHTML = cartes.map(function (c) {
+      var isVisa    = c.reseau === 'VISA';
+      var cardClass = isVisa ? 'bank-card-visa' : 'bank-card-mc';
+      var blocked   = c.bloquee;
+      var statusBadge = blocked
+        ? '<span class="badge badge-danger">Bloquée</span>'
+        : '<span class="badge badge-success">Active</span>';
+
+      var brandHtml = isVisa
+        ? '<div class="card-brand">VISA</div>'
+        : '<div class="mc-circles"><span class="mc-circle-left"></span><span class="mc-circle-right"></span></div>';
+
+      return '<div class="col-lg-6 mb-4">' +
+        '<div class="card shadow-sm border-0">' +
+        '<div class="card-body p-4">' +
+        '<div class="bank-card ' + cardClass + (blocked ? ' blocked' : '') + ' mb-3">' +
+          (blocked ? '<div class="blocked-ribbon">Bloquée</div>' : '') +
+          '<div class="card-chip"></div>' +
+          brandHtml +
+          '<div class="card-number">**** &nbsp;**** &nbsp;**** &nbsp;' + (c.dernierChiffres || '0000') + '</div>' +
+          '<div class="d-flex justify-content-between align-items-end">' +
+            '<div><div style="font-size:.72rem;opacity:.75;text-transform:uppercase;letter-spacing:1px;">Titulaire</div><div style="font-size:.9rem;font-weight:600;">' + (c.titulaire || 'JEAN DUPONT') + '</div></div>' +
+            '<div><div style="font-size:.72rem;opacity:.75;text-transform:uppercase;letter-spacing:1px;">Expire</div><div style="font-size:.9rem;font-weight:600;">' + (c.expiration || '09/27') + '</div></div>' +
+            '<div>' + statusBadge + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="d-flex justify-content-between align-items-center mb-2">' +
+          '<div><h5 class="font-weight-semibold mb-0">' + (c.libelle || c.reseau) + '</h5><small class="text-muted">' + (c.compte || 'Compte courant') + '</small></div>' +
+          statusBadge +
+        '</div>' +
+        (c.plafondMensuel ? '<div class="mb-2">' +
+          '<div class="d-flex justify-content-between mb-1"><small class="text-muted">Utilisé ce mois</small>' +
+          '<small class="font-weight-semibold">' + fmtMontant(c.utilise || 0) + ' / ' + fmtMontant(c.plafondMensuel) + '</small></div>' +
+          '<div class="progress" style="height:8px;"><div class="progress-bar bg-gradient-primary" style="width:' + Math.min(100, ((c.utilise||0)/c.plafondMensuel*100)) + '%"></div></div>' +
+          '<small class="text-muted">' + fmtMontant(c.plafondMensuel - (c.utilise||0)) + ' disponibles</small></div>' : '') +
+        '<div class="card-actions mt-3 d-flex flex-wrap" style="gap:8px;">' +
+          (blocked
+            ? '<button class="btn btn-outline-success btn-sm" data-carte="' + c.id + '" data-action="debloquer"><i class="ti-unlock mr-1"></i>Débloquer</button>'
+            : '<button class="btn btn-outline-warning btn-sm" data-carte="' + c.id + '" data-action="bloquer" data-label="' + (c.libelle||c.reseau) + ' **** ' + (c.dernierChiffres||'0000') + '"><i class="ti-lock mr-1"></i>Bloquer temporairement</button>') +
+          '<button class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modalPin"><i class="ti-eye mr-1"></i>Voir le PIN</button>' +
+          '<button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalPerte"><i class="ti-alert mr-1"></i>Signaler perte / vol</button>' +
+        '</div>' +
+        '</div></div></div>';
+    }).join('');
+
+    /* Attach bloquer/débloquer events */
+    row.querySelectorAll('[data-action]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var carteId = this.getAttribute('data-carte');
+        var action  = this.getAttribute('data-action');
+        if (action === 'bloquer') {
+          activeBloquerCarteId = carteId;
+          document.getElementById('bloquerCarteInfo').textContent = this.getAttribute('data-label');
+          var modal = document.getElementById('modalBloquer');
+          $(modal).modal('show');
+        } else {
+          if (store.debloquerCarte) store.debloquerCarte(carteId);
+          if (ui) ui.toast('success', 'Carte débloquée', 'Votre carte est à nouveau active.', 4000);
+          renderCards();
+        }
+      });
+    });
+  }
+
+  /* ── Confirmer blocage ────────────────────────────────────── */
+  document.getElementById('btnConfirmerBlocage').addEventListener('click', function () {
+    if (activeBloquerCarteId && store && store.bloquerCarte) {
+      store.bloquerCarte(activeBloquerCarteId);
+    }
+    $('#modalBloquer').modal('hide');
+    if (ui) ui.toast('warning', 'Carte bloquée', 'Votre carte a été bloquée temporairement.', 5000);
+    renderCards();
+    activeBloquerCarteId = null;
+  });
+
+  /* ── Transactions CB depuis le store ────────────────────── */
+  function renderCardTxns() {
+    var tbody = document.getElementById('cardTxnTbody');
+    if (!store) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted"><small>Données non disponibles.</small></td></tr>'; return; }
+    var txns = store.getTransactions({ categorie:'cb', limit:8 });
+    if (!txns.length) { tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-3"><small>Aucune opération CB récente.</small></td></tr>'; return; }
+    tbody.innerHTML = txns.map(function (t) {
+      var isCredit = t.type === 'credit';
+      return '<tr>' +
+        '<td><small>' + fmtDate(t.date) + '</small></td>' +
+        '<td>' + (t.libelle||'—') + '</td>' +
+        '<td><small class="text-muted">' + (t.carte || 'Visa *4521') + '</small></td>' +
+        '<td class="text-right ' + (isCredit ? 'txn-amount-credit' : 'txn-amount-debit') + '">' +
+          (isCredit ? '+' : '−') + fmtMontant(t.montant) + '</td>' +
+        '</tr>';
+    }).join('');
+  }
+
+  /* ── Demande nouvelle carte ────────────────────────────────── */
+  document.getElementById('formNouvelleCart').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (ui) ui.toast('success', 'Demande envoyée', 'Votre demande de nouvelle carte a été transmise. Délai : 5-7 jours ouvrés.', 6000);
+    this.reset();
+  });
+
+  /* ── Init ────────────────────────────────────────────────── */
+  renderCards();
+  renderCardTxns();
+
+})();
+</script>
 </body>
 </html>

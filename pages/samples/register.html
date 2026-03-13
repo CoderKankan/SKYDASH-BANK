@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- ═══ Security Headers ═══ -->
   <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="DENY">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="robots" content="noindex, nofollow">
-
   <title>SkyDash Bank — Créer un compte</title>
-
   <link rel="stylesheet" href="../../vendors/feather/feather.css">
   <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
   <link rel="shortcut icon" href="../../images/favicon.png" />
-
   <style>
     body { background: linear-gradient(135deg, #4B49AC 0%, #7978E9 60%, #4747A1 100%); min-height:100vh; }
-    .auth-card { background:#fff; border-radius:16px; padding:40px; max-width:520px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,.2); }
+    .auth-card { background:#fff; border-radius:18px; padding:40px; max-width:540px; width:100%; box-shadow:0 24px 64px rgba(0,0,0,.22); }
     .brand-logo img { width:140px; }
     .form-control:focus { border-color:#4B49AC; box-shadow:0 0 0 3px rgba(75,73,172,.15); }
     .field-wrapper { position:relative; }
@@ -31,22 +25,33 @@
     .btn-register { background:linear-gradient(135deg,#4B49AC,#7978E9); border:none; color:#fff; font-weight:600; letter-spacing:.5px; transition:all .3s; }
     .btn-register:hover:not(:disabled) { background:linear-gradient(135deg,#3d3c9a,#6b6ad0); color:#fff; transform:translateY(-1px); box-shadow:0 5px 15px rgba(75,73,172,.4); }
     .btn-register:disabled { opacity:.65; cursor:not-allowed; }
-    .alert-danger { border-radius:8px; font-size:13px; display:none; }
+    .alert-danger  { border-radius:8px; font-size:13px; display:none; }
     .alert-success { border-radius:8px; font-size:13px; display:none; }
-    .pwd-strength-bar { height:5px; border-radius:3px; transition:all .3s; }
-    .strength-label { font-size:11px; font-weight:600; }
-    .pwd-req { font-size:11px; color:#6c757d; list-style:none; padding:0; margin:6px 0 0; }
-    .pwd-req li { display:flex; align-items:center; gap:5px; margin-bottom:2px; }
-    .pwd-req li.ok { color:#28a745; }
-    .pwd-req li.ok::before { content:"✓"; }
-    .pwd-req li:not(.ok)::before { content:"○"; }
+    .pwd-strength-bar { height:6px; border-radius:3px; transition:all .3s; background:#e9ecef; }
+    .strength-label { font-size:11px; font-weight:700; }
+    .pwd-req { font-size:11px; color:#6c757d; list-style:none; padding:0; margin:6px 0 0; columns:2; }
+    .pwd-req li { display:flex; align-items:center; gap:5px; margin-bottom:3px; break-inside:avoid; }
+    .pwd-req li.ok  { color:#28a745; }
+    .pwd-req li.ok::before { content:"✓ "; }
+    .pwd-req li:not(.ok)::before { content:"○ "; }
     .divider { border-top:1px solid #e9ecef; margin:20px 0; }
-    .steps-indicator { display:flex; gap:8px; margin-bottom:24px; }
-    .step { flex:1; height:4px; border-radius:2px; background:#e9ecef; transition:background .3s; }
-    .step.active { background:#4B49AC; }
+    /* Steps indicator */
+    .steps-indicator { display:flex; gap:6px; margin-bottom:20px; }
+    .step-seg { flex:1; height:5px; border-radius:3px; background:#e9ecef; transition:background .3s; }
+    .step-seg.active { background:#4B49AC; }
+    .step-label { font-size:.78rem; font-weight:700; color:#4B49AC; margin-bottom:6px; }
+    /* Phone field */
+    .phone-prefix { background:#f0f0ff; border:1px solid #ced4da; border-right:none; color:#4B49AC; font-weight:600; padding:.5rem .75rem; border-radius:.25rem 0 0 .25rem; display:flex; align-items:center; white-space:nowrap; }
+    /* OTP boxes */
+    .otp-group { display:flex; gap:8px; justify-content:center; margin:12px 0; }
+    .otp-input { width:48px; height:56px; text-align:center; font-size:1.4rem; font-weight:700; border:2px solid #e9ecef; border-radius:10px; transition:border-color .2s; }
+    .otp-input:focus { border-color:#4B49AC; box-shadow:0 0 0 3px rgba(75,73,172,.15); outline:none; }
+    /* Email check icon */
+    .email-check { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:.9rem; }
+    .email-check.valid   { color:#28a745; }
+    .email-check.invalid { color:#fe7c96; }
   </style>
 </head>
-
 <body>
   <div class="container-fluid full-page-wrapper d-flex align-items-center justify-content-center px-0 py-4" style="min-height:100vh;">
     <div class="auth-card">
@@ -56,68 +61,77 @@
       </div>
 
       <h4 class="font-weight-bold mt-2" style="color:#2d2d2d;">Ouvrir un compte</h4>
-      <h6 class="font-weight-light text-muted mb-4">Rejoignez SkyDash Bank en quelques étapes</h6>
+      <h6 class="font-weight-light text-muted mb-3">Rejoignez SkyDash Bank en 4 étapes simples</h6>
 
-      <!-- Indicateur de progression -->
+      <!-- Indicateur de progression — 4 étapes -->
       <div class="steps-indicator">
-        <div class="step active" id="step1-bar"></div>
-        <div class="step" id="step2-bar"></div>
-        <div class="step" id="step3-bar"></div>
+        <div class="step-seg active" id="s1-bar"></div>
+        <div class="step-seg"        id="s2-bar"></div>
+        <div class="step-seg"        id="s3-bar"></div>
+        <div class="step-seg"        id="s4-bar"></div>
       </div>
 
       <!-- Messages -->
-      <div class="alert alert-danger d-flex align-items-center" id="error-msg" role="alert" aria-live="assertive">
-        <i class="ti-close mr-2"></i><span id="error-text"></span>
+      <div class="alert alert-danger d-flex align-items-start" id="error-msg" role="alert" aria-live="assertive">
+        <i class="ti-close mr-2 mt-1" style="flex-shrink:0;"></i><span id="error-text"></span>
       </div>
       <div class="alert alert-success" id="success-msg" role="status" aria-live="polite">
         <i class="ti-check mr-2"></i><span id="success-text"></span>
       </div>
 
-      <!-- Formulaire d'inscription -->
       <form id="register-form" novalidate autocomplete="on">
+        <!-- Honeypot -->
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
 
-        <!-- Étape 1 : Identité -->
+        <!-- ════ ÉTAPE 1 : Identité ════ -->
         <div id="step-1">
-          <p class="text-muted small mb-3"><strong>Étape 1/3 :</strong> Vos informations personnelles</p>
+          <div class="step-label"><i class="ti-user mr-1"></i>Étape 1/4 — Vos informations personnelles</div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="firstName" class="font-weight-medium small">Prénom</label>
+                <label for="firstName" class="font-weight-medium small">Prénom <span class="text-danger">*</span></label>
                 <input type="text" class="form-control form-control-lg" id="firstName" name="firstName"
                        placeholder="Marie" autocomplete="given-name"
-                       required minlength="2" maxlength="50" pattern="[a-zA-ZÀ-ÿ\s'\-]+"
-                       aria-describedby="fn-err">
+                       required minlength="2" maxlength="50" aria-describedby="fn-err">
                 <div id="fn-err" class="invalid-feedback"></div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="lastName" class="font-weight-medium small">Nom de famille</label>
+                <label for="lastName" class="font-weight-medium small">Nom <span class="text-danger">*</span></label>
                 <input type="text" class="form-control form-control-lg" id="lastName" name="lastName"
                        placeholder="Dupont" autocomplete="family-name"
-                       required minlength="2" maxlength="50" pattern="[a-zA-ZÀ-ÿ\s'\-]+"
-                       aria-describedby="ln-err">
+                       required minlength="2" maxlength="50" aria-describedby="ln-err">
                 <div id="ln-err" class="invalid-feedback"></div>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label for="email" class="font-weight-medium small">Adresse email</label>
-            <input type="email" class="form-control form-control-lg" id="email" name="email"
-                   placeholder="marie.dupont@email.com" autocomplete="email"
-                   required maxlength="254" aria-describedby="em-err">
+            <label for="birthDate" class="font-weight-medium small">Date de naissance <span class="text-danger">*</span></label>
+            <input type="date" class="form-control form-control-lg" id="birthDate" name="birthDate"
+                   autocomplete="bday" required aria-describedby="bd-err">
+            <div id="bd-err" class="invalid-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label for="email" class="font-weight-medium small">Adresse email <span class="text-danger">*</span></label>
+            <div class="field-wrapper">
+              <input type="email" class="form-control form-control-lg pr-5" id="email" name="email"
+                     placeholder="marie.dupont@email.com" autocomplete="email"
+                     required maxlength="254" aria-describedby="em-err">
+              <span class="email-check" id="emailCheckIcon"></span>
+            </div>
             <div id="em-err" class="invalid-feedback"></div>
           </div>
-          <button type="button" id="btn-next1" class="btn btn-block btn-lg btn-register font-weight-medium">
+          <button type="button" id="btn-next1" class="btn btn-block btn-lg btn-register font-weight-medium mt-2">
             Continuer <i class="ti-arrow-right ml-1"></i>
           </button>
         </div>
 
-        <!-- Étape 2 : Sécurité -->
+        <!-- ════ ÉTAPE 2 : Sécurité ════ -->
         <div id="step-2" hidden>
-          <p class="text-muted small mb-3"><strong>Étape 2/3 :</strong> Sécurisez votre compte</p>
+          <div class="step-label"><i class="ti-shield mr-1"></i>Étape 2/4 — Sécurisez votre compte</div>
           <div class="form-group">
-            <label for="password" class="font-weight-medium small">Mot de passe</label>
+            <label for="password" class="font-weight-medium small">Mot de passe <span class="text-danger">*</span></label>
             <div class="field-wrapper">
               <input type="password" class="form-control form-control-lg pr-5" id="password" name="password"
                      placeholder="Minimum 12 caractères" autocomplete="new-password"
@@ -126,31 +140,30 @@
                 <i class="ti-eye" id="eye-icon"></i>
               </button>
             </div>
-            <!-- Jauge de solidité -->
-            <div class="pwd-strength-bar mt-2" id="strength-bar" style="background:#e9ecef;"></div>
-            <div class="d-flex justify-content-between mt-1">
+            <div class="pwd-strength-bar mt-2" id="strength-bar" style="width:0%;"></div>
+            <div class="d-flex justify-content-between mt-1 mb-2">
               <span class="strength-label" id="strength-label"></span>
+              <span style="font-size:11px; color:#6c757d;" id="strength-score"></span>
             </div>
-            <!-- Exigences -->
-            <ul class="pwd-req mt-2" id="pwd-reqs">
+            <ul class="pwd-req" id="pwd-reqs">
               <li id="req-len">12 caractères minimum</li>
               <li id="req-upper">Une majuscule (A-Z)</li>
               <li id="req-lower">Une minuscule (a-z)</li>
               <li id="req-digit">Un chiffre (0-9)</li>
-              <li id="req-special">Un caractère spécial (!@#$...)</li>
+              <li id="req-special">Un caractère spécial</li>
             </ul>
             <div id="pwd-err" class="invalid-feedback"></div>
           </div>
           <div class="form-group">
-            <label for="confirmPassword" class="font-weight-medium small">Confirmer le mot de passe</label>
+            <label for="confirmPassword" class="font-weight-medium small">Confirmer le mot de passe <span class="text-danger">*</span></label>
             <input type="password" class="form-control form-control-lg" id="confirmPassword" name="confirmPassword"
                    placeholder="Répétez votre mot de passe" autocomplete="new-password"
                    required minlength="12" maxlength="128" aria-describedby="cpwd-err">
             <div id="cpwd-err" class="invalid-feedback"></div>
           </div>
-          <div class="d-flex gap-2">
+          <div class="d-flex mt-2" style="gap:.5rem;">
             <button type="button" id="btn-back1" class="btn btn-outline-secondary btn-lg mr-2">
-              <i class="ti-arrow-left"></i> Retour
+              <i class="ti-arrow-left"></i>
             </button>
             <button type="button" id="btn-next2" class="btn btn-lg btn-register font-weight-medium flex-fill">
               Continuer <i class="ti-arrow-right ml-1"></i>
@@ -158,22 +171,78 @@
           </div>
         </div>
 
-        <!-- Étape 3 : Consentement & Soumission -->
+        <!-- ════ ÉTAPE 3 : Téléphone + Vérification OTP ════ -->
         <div id="step-3" hidden>
-          <p class="text-muted small mb-3"><strong>Étape 3/3 :</strong> Acceptation des conditions</p>
+          <div class="step-label"><i class="ti-mobile mr-1"></i>Étape 3/4 — Vérification téléphonique (DSP2)</div>
+          <p class="text-muted small mb-3">
+            Votre numéro de téléphone est requis pour l'authentification forte (SCA — DSP2). Un code à 6 chiffres vous sera envoyé par SMS.
+          </p>
+          <div class="form-group">
+            <label for="phone" class="font-weight-medium small">Numéro de téléphone mobile <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="phone-prefix">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDIwIDE0Ij48cmVjdCB3aWR0aD0iMjAiIGhlaWdodD0iNSIgZmlsbD0iIzAwMjM5NSIvPjxyZWN0IHk9IjUiIHdpZHRoPSIyMCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+PHJlY3QgeT0iOSIgd2lkdGg9IjIwIiBoZWlnaHQ9IjUiIGZpbGw9IiNFRDI5MzkiLz48L3N2Zz4=" alt="FR" style="width:20px;height:14px;margin-right:6px;border-radius:2px;">
+                +33
+              </div>
+              <input type="tel" class="form-control form-control-lg" id="phone" name="phone"
+                     placeholder="6 12 34 56 78" autocomplete="tel-national"
+                     required pattern="[0-9\s]{9,10}" maxlength="14" aria-describedby="ph-err">
+            </div>
+            <div id="ph-err" class="invalid-feedback"></div>
+          </div>
+          <button type="button" id="btn-send-otp" class="btn btn-outline-primary btn-block mb-3">
+            <i class="ti-mobile mr-2"></i>Envoyer le code SMS
+          </button>
 
+          <!-- OTP input (shown after send) -->
+          <div id="otpSection" hidden>
+            <label class="font-weight-medium small d-block text-center mb-1">Code de vérification <small class="text-muted">(valable 5 min)</small></label>
+            <div class="otp-group" id="otpGroup">
+              <input type="tel" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" aria-label="Chiffre 1">
+              <input type="tel" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Chiffre 2">
+              <input type="tel" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Chiffre 3">
+              <input type="tel" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Chiffre 4">
+              <input type="tel" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Chiffre 5">
+              <input type="tel" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" aria-label="Chiffre 6">
+            </div>
+            <div id="otp-err" class="text-danger text-center" style="font-size:.82rem; display:none;"></div>
+            <div class="text-center mt-1">
+              <a href="#" id="btn-resend-otp" class="text-muted small">Renvoyer le code</a>
+              <span class="text-muted small ml-1" id="resendCountdown"></span>
+            </div>
+          </div>
+
+          <div class="d-flex mt-3" style="gap:.5rem;">
+            <button type="button" id="btn-back2" class="btn btn-outline-secondary btn-lg mr-2">
+              <i class="ti-arrow-left"></i>
+            </button>
+            <button type="button" id="btn-next3" class="btn btn-lg btn-register font-weight-medium flex-fill" disabled>
+              Continuer <i class="ti-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- ════ ÉTAPE 4 : Consentement ════ -->
+        <div id="step-4" hidden>
+          <div class="step-label"><i class="ti-check-box mr-1"></i>Étape 4/4 — Acceptation des conditions</div>
           <div class="mb-3">
-            <div class="form-check mb-2">
+            <div class="form-check mb-3">
               <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
               <label class="form-check-label small" for="terms">
                 J'accepte les <a href="#" class="text-primary">Conditions Générales d'Utilisation</a>
                 et la <a href="#" class="text-primary">Politique de confidentialité RGPD</a>. <span class="text-danger">*</span>
               </label>
             </div>
-            <div class="form-check mb-2">
+            <div class="form-check mb-3">
               <input type="checkbox" class="form-check-input" id="age-confirm" name="age-confirm" required>
               <label class="form-check-label small" for="age-confirm">
-                Je certifie avoir au moins 18 ans. <span class="text-danger">*</span>
+                Je certifie avoir au moins <strong>18 ans</strong> et être le titulaire des informations saisies. <span class="text-danger">*</span>
+              </label>
+            </div>
+            <div class="form-check mb-3">
+              <input type="checkbox" class="form-check-input" id="sca-consent" name="sca-consent" required>
+              <label class="form-check-label small" for="sca-consent">
+                J'accepte l'utilisation de mon numéro de téléphone pour les authentifications fortes SCA (DSP2). <span class="text-danger">*</span>
               </label>
             </div>
             <div class="form-check">
@@ -185,210 +254,273 @@
           </div>
 
           <div class="alert alert-light border mb-3" style="font-size:12px;">
-            <i class="ti-shield-alt text-primary mr-1"></i>
-            <strong>Protection RGPD :</strong> Vos données personnelles sont traitées conformément au RGPD.
-            Vous disposez d'un droit d'accès, rectification et suppression.
+            <i class="ti-shield text-primary mr-1"></i>
+            <strong>Protection RGPD :</strong> Vos données sont traitées conformément au RGPD (UE 2016/679).
+            Droit d'accès, rectification et suppression garanti. Aucune revente à des tiers.
           </div>
 
-          <div class="d-flex gap-2">
-            <button type="button" id="btn-back2" class="btn btn-outline-secondary btn-lg mr-2">
-              <i class="ti-arrow-left"></i> Retour
+          <div class="d-flex" style="gap:.5rem;">
+            <button type="button" id="btn-back3" class="btn btn-outline-secondary btn-lg mr-2">
+              <i class="ti-arrow-left"></i>
             </button>
             <button type="submit" id="btn-submit" class="btn btn-lg btn-register font-weight-medium flex-fill">
-              <span id="btn-submit-text">CRÉER MON COMPTE</span>
+              <span id="btn-submit-text"><i class="ti-check mr-1"></i>CRÉER MON COMPTE</span>
               <span id="btn-submit-spinner" class="spinner-border spinner-border-sm ml-2" role="status" hidden>
                 <span class="sr-only">Création en cours...</span>
               </span>
             </button>
           </div>
         </div>
-
       </form>
 
       <div class="divider"></div>
-
       <div class="text-center">
         <small class="font-weight-light">Déjà client ?
           <a href="login.html" class="text-primary font-weight-medium">Se connecter</a>
         </small>
       </div>
-
     </div>
   </div>
 
   <script src="../../vendors/js/vendor.bundle.base.js"></script>
-
   <script>
-    /* SKYDASH BANK — Inscription sécurisée multi-étapes
-     * Validation renforcée côté client + communication API sécurisée
-     */
-    (function () {
-      'use strict';
+  (function () {
+    'use strict';
 
-      /* DOM */
-      var form    = document.getElementById('register-form');
-      var errMsg  = document.getElementById('error-msg');
-      var errText = document.getElementById('error-text');
-      var sucMsg  = document.getElementById('success-msg');
-      var sucText = document.getElementById('success-text');
+    var form    = document.getElementById('register-form');
+    var errMsg  = document.getElementById('error-msg');
+    var errText = document.getElementById('error-text');
+    var sucMsg  = document.getElementById('success-msg');
+    var sucText = document.getElementById('success-text');
+    var otpVerified = false;
+    var resendTimer = null;
 
-      function showError(msg) { errText.textContent = msg; errMsg.style.display = 'flex'; sucMsg.style.display = 'none'; }
-      function showSuccess(msg) { sucText.textContent = msg; sucMsg.style.display = 'block'; errMsg.style.display = 'none'; }
-      function hideMessages() { errMsg.style.display = 'none'; sucMsg.style.display = 'none'; }
+    function showError(msg) { errText.textContent = msg; errMsg.style.display = 'flex'; sucMsg.style.display = 'none'; }
+    function showSuccess(msg) { sucText.textContent = msg; sucMsg.style.display = 'block'; errMsg.style.display = 'none'; }
+    function hideMessages() { errMsg.style.display = 'none'; sucMsg.style.display = 'none'; }
 
-      /* ── Navigation étapes ───────────────────────────────────── */
-      function goStep(n) {
-        [1,2,3].forEach(function(i) {
-          document.getElementById('step-' + i).hidden = (i !== n);
-          document.getElementById('step' + i + '-bar').classList.toggle('active', i <= n);
-        });
-        hideMessages();
-        window.scrollTo(0, 0);
+    /* ── Navigation étapes ───────────────────────────────────── */
+    function goStep(n) {
+      [1,2,3,4].forEach(function (i) {
+        document.getElementById('step-' + i).hidden = (i !== n);
+        document.getElementById('s' + i + '-bar').classList.toggle('active', i <= n);
+      });
+      hideMessages();
+      window.scrollTo(0, 0);
+    }
+
+    /* ── Validation Étape 1 ──────────────────────────────────── */
+    /* Email live check */
+    var emailInput = document.getElementById('email');
+    var emailIcon  = document.getElementById('emailCheckIcon');
+    emailInput.addEventListener('input', function () {
+      var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value.trim());
+      emailIcon.className = 'email-check ' + (this.value ? (ok ? 'valid ti-check' : 'invalid ti-close') : '');
+    });
+
+    document.getElementById('btn-next1').addEventListener('click', function () {
+      var fn = document.getElementById('firstName').value.trim();
+      var ln = document.getElementById('lastName').value.trim();
+      var bd = document.getElementById('birthDate').value;
+      var em = document.getElementById('email').value.trim();
+      var nameRx  = /^[a-zA-ZÀ-ÿ\s'\-]{2,50}$/;
+      var emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      var ok = true;
+
+      ['firstName','lastName','email','birthDate'].forEach(function(id) {
+        document.getElementById(id).classList.remove('is-invalid','is-valid');
+      });
+
+      if (!nameRx.test(fn)) { document.getElementById('firstName').classList.add('is-invalid'); document.getElementById('fn-err').textContent = 'Prénom invalide (2-50 caractères alphabétiques).'; ok = false; }
+      else document.getElementById('firstName').classList.add('is-valid');
+      if (!nameRx.test(ln)) { document.getElementById('lastName').classList.add('is-invalid'); document.getElementById('ln-err').textContent = 'Nom invalide.'; ok = false; }
+      else document.getElementById('lastName').classList.add('is-valid');
+      if (!bd) { document.getElementById('birthDate').classList.add('is-invalid'); document.getElementById('bd-err').textContent = 'Date de naissance requise.'; ok = false; }
+      else {
+        var age = (new Date() - new Date(bd)) / (365.25 * 24 * 3600 * 1000);
+        if (age < 18) { document.getElementById('birthDate').classList.add('is-invalid'); document.getElementById('bd-err').textContent = 'Vous devez avoir au moins 18 ans.'; ok = false; }
+        else document.getElementById('birthDate').classList.add('is-valid');
       }
+      if (!emailRx.test(em)) { document.getElementById('email').classList.add('is-invalid'); document.getElementById('em-err').textContent = 'Adresse email invalide.'; ok = false; }
+      else document.getElementById('email').classList.add('is-valid');
 
-      /* ── Validation Étape 1 ──────────────────────────────────── */
-      document.getElementById('btn-next1').addEventListener('click', function () {
-        var fn   = document.getElementById('firstName').value.trim();
-        var ln   = document.getElementById('lastName').value.trim();
-        var em   = document.getElementById('email').value.trim();
-        var ok   = true;
-        var nameRx = /^[a-zA-ZÀ-ÿ\s'\-]{2,50}$/;
-        var emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (ok) goStep(2);
+    });
 
-        ['firstName','lastName','email'].forEach(function(id) {
-          document.getElementById(id).classList.remove('is-invalid');
-        });
+    /* ── Jauge solidité mot de passe ──────────────────────────── */
+    var reqs = {
+      len:     { el: document.getElementById('req-len'),     test: function(p) { return p.length >= 12; } },
+      upper:   { el: document.getElementById('req-upper'),   test: function(p) { return /[A-Z]/.test(p); } },
+      lower:   { el: document.getElementById('req-lower'),   test: function(p) { return /[a-z]/.test(p); } },
+      digit:   { el: document.getElementById('req-digit'),   test: function(p) { return /[0-9]/.test(p); } },
+      special: { el: document.getElementById('req-special'), test: function(p) { return /[^A-Za-z0-9]/.test(p); } }
+    };
+    var colors = ['#e9ecef','#dc3545','#fd7e14','#ffc107','#28a745','#1bcfb4'];
+    var labels = ['','Très faible','Faible','Moyen','Fort','Très fort'];
+    var lColors= ['','#dc3545','#fd7e14','#856404','#155724','#0c6040'];
 
-        if (!nameRx.test(fn)) { document.getElementById('firstName').classList.add('is-invalid'); document.getElementById('fn-err').textContent = 'Prénom invalide (2-50 caractères alphabétiques).'; ok = false; }
-        if (!nameRx.test(ln)) { document.getElementById('lastName').classList.add('is-invalid'); document.getElementById('ln-err').textContent = 'Nom invalide (2-50 caractères alphabétiques).'; ok = false; }
-        if (!emailRx.test(em)) { document.getElementById('email').classList.add('is-invalid'); document.getElementById('em-err').textContent = 'Adresse email invalide.'; ok = false; }
+    document.getElementById('password').addEventListener('input', function () {
+      var p = this.value;
+      var score = Object.keys(reqs).filter(function(k) { return reqs[k].test(p); }).length;
+      Object.keys(reqs).forEach(function(k) { reqs[k].el.classList.toggle('ok', reqs[k].test(p)); });
+      var bar = document.getElementById('strength-bar');
+      bar.style.background = colors[score]; bar.style.width = (score * 20) + '%';
+      var lbl = document.getElementById('strength-label');
+      lbl.textContent = labels[score]; lbl.style.color = lColors[score];
+      document.getElementById('strength-score').textContent = score ? score + '/5' : '';
+    });
 
-        if (ok) goStep(2);
-      });
+    document.getElementById('toggle-pwd').addEventListener('click', function () {
+      var inp = document.getElementById('password');
+      var show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password';
+      document.getElementById('eye-icon').className = show ? 'ti-eye-off' : 'ti-eye';
+    });
 
-      /* ── Jauge solidité mot de passe ──────────────────────────── */
-      var reqs = {
-        len:     { el: document.getElementById('req-len'),     test: function(p) { return p.length >= 12; } },
-        upper:   { el: document.getElementById('req-upper'),   test: function(p) { return /[A-Z]/.test(p); } },
-        lower:   { el: document.getElementById('req-lower'),   test: function(p) { return /[a-z]/.test(p); } },
-        digit:   { el: document.getElementById('req-digit'),   test: function(p) { return /[0-9]/.test(p); } },
-        special: { el: document.getElementById('req-special'), test: function(p) { return /[^A-Za-z0-9]/.test(p); } }
-      };
+    /* ── Validation Étape 2 ──────────────────────────────────── */
+    document.getElementById('btn-next2').addEventListener('click', function () {
+      var p = document.getElementById('password').value;
+      var cp = document.getElementById('confirmPassword').value;
+      var ok = true;
+      document.getElementById('password').classList.remove('is-invalid','is-valid');
+      document.getElementById('confirmPassword').classList.remove('is-invalid','is-valid');
+      var allReqs = Object.keys(reqs).every(function(k) { return reqs[k].test(p); });
+      if (!allReqs) { document.getElementById('password').classList.add('is-invalid'); document.getElementById('pwd-err').textContent = 'Le mot de passe ne respecte pas toutes les exigences.'; ok = false; }
+      else document.getElementById('password').classList.add('is-valid');
+      if (p !== cp) { document.getElementById('confirmPassword').classList.add('is-invalid'); document.getElementById('cpwd-err').textContent = 'Les mots de passe ne correspondent pas.'; ok = false; }
+      else if (cp) document.getElementById('confirmPassword').classList.add('is-valid');
+      if (ok) goStep(3);
+    });
 
-      document.getElementById('password').addEventListener('input', function () {
-        var p = this.value;
-        var score = Object.keys(reqs).filter(function(k) { return reqs[k].test(p); }).length;
-        Object.keys(reqs).forEach(function(k) {
-          reqs[k].el.classList.toggle('ok', reqs[k].test(p));
-        });
-        var bar = document.getElementById('strength-bar');
-        var label = document.getElementById('strength-label');
-        var colors = ['#e9ecef','#dc3545','#fd7e14','#ffc107','#28a745','#20c997'];
-        var labels = ['','Très faible','Faible','Moyen','Fort','Très fort'];
-        var labelColors = ['','#dc3545','#fd7e14','#856404','#155724','#0c6040'];
-        bar.style.background = colors[score] || colors[0];
-        bar.style.width = (score * 20) + '%';
-        label.textContent = labels[score] || '';
-        label.style.color = labelColors[score] || '';
-      });
+    /* ── Étape 3 : Téléphone + OTP ────────────────────────────── */
+    /* Live phone formatting */
+    document.getElementById('phone').addEventListener('input', function () {
+      var v = this.value.replace(/[^\d]/g,'');
+      this.value = v.replace(/(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})/,'$1 $2 $3 $4 $5').trim();
+    });
 
-      /* Toggle visibilité mot de passe */
-      document.getElementById('toggle-pwd').addEventListener('click', function () {
-        var inp = document.getElementById('password');
-        var show = inp.type === 'password';
-        inp.type = show ? 'text' : 'password';
-        document.getElementById('eye-icon').className = show ? 'ti-eye-off' : 'ti-eye';
-      });
-
-      /* ── Validation Étape 2 ──────────────────────────────────── */
-      document.getElementById('btn-next2').addEventListener('click', function () {
-        var p  = document.getElementById('password').value;
-        var cp = document.getElementById('confirmPassword').value;
-        var ok = true;
-
-        document.getElementById('password').classList.remove('is-invalid');
-        document.getElementById('confirmPassword').classList.remove('is-invalid');
-
-        var allReqs = Object.keys(reqs).every(function(k) { return reqs[k].test(p); });
-        if (!allReqs) {
-          document.getElementById('password').classList.add('is-invalid');
-          document.getElementById('pwd-err').textContent = 'Le mot de passe ne respecte pas toutes les exigences.';
-          ok = false;
+    function startResendTimer() {
+      var resendBtn = document.getElementById('btn-resend-otp');
+      var resendCd  = document.getElementById('resendCountdown');
+      var secs = 60;
+      resendBtn.style.pointerEvents = 'none';
+      resendBtn.style.color = '#6c757d';
+      if (resendTimer) clearInterval(resendTimer);
+      resendTimer = setInterval(function () {
+        secs--;
+        resendCd.textContent = '(' + secs + 's)';
+        if (secs <= 0) {
+          clearInterval(resendTimer);
+          resendCd.textContent = '';
+          resendBtn.style.pointerEvents = '';
+          resendBtn.style.color = '';
         }
-        if (p !== cp) {
-          document.getElementById('confirmPassword').classList.add('is-invalid');
-          document.getElementById('cpwd-err').textContent = 'Les mots de passe ne correspondent pas.';
-          ok = false;
-        }
+      }, 1000);
+    }
 
-        if (ok) goStep(3);
-      });
+    document.getElementById('btn-send-otp').addEventListener('click', function () {
+      var ph = document.getElementById('phone').value.replace(/\s/g,'');
+      if (!ph || ph.length < 9) {
+        document.getElementById('phone').classList.add('is-invalid');
+        document.getElementById('ph-err').textContent = 'Numéro invalide.';
+        return;
+      }
+      document.getElementById('phone').classList.remove('is-invalid');
+      document.getElementById('phone').classList.add('is-valid');
+      document.getElementById('otpSection').hidden = false;
+      document.getElementById('otpGroup').querySelectorAll('input')[0].focus();
+      startResendTimer();
+    });
 
-      /* Retour arrière */
-      document.getElementById('btn-back1').addEventListener('click', function() { goStep(1); });
-      document.getElementById('btn-back2').addEventListener('click', function() { goStep(2); });
+    document.getElementById('btn-resend-otp').addEventListener('click', function (e) {
+      e.preventDefault();
+      document.getElementById('otpGroup').querySelectorAll('input').forEach(function(i) { i.value = ''; });
+      document.getElementById('otpGroup').querySelectorAll('input')[0].focus();
+      otpVerified = false;
+      document.getElementById('btn-next3').disabled = true;
+      startResendTimer();
+    });
 
-      /* ── Soumission finale ──────────────────────────────────── */
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        hideMessages();
-
-        var terms = document.getElementById('terms').checked;
-        var age   = document.getElementById('age-confirm').checked;
-
-        if (!terms || !age) {
-          showError('Vous devez accepter les conditions obligatoires pour continuer.');
-          return;
-        }
-
-        var btn = document.getElementById('btn-submit');
-        var txt = document.getElementById('btn-submit-text');
-        var spn = document.getElementById('btn-submit-spinner');
-        btn.disabled = true; txt.textContent = 'Création...'; spn.hidden = false;
-
-        try {
-          var resp = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({
-              firstName: document.getElementById('firstName').value.trim(),
-              lastName:  document.getElementById('lastName').value.trim(),
-              email:     document.getElementById('email').value.trim().toLowerCase(),
-              password:  document.getElementById('password').value,
-              marketing: document.getElementById('marketing').checked
-            }),
-            credentials: 'include'
-          });
-
-          var data = await resp.json();
-
-          if (!resp.ok) {
-            showError(data.error || 'Une erreur est survenue lors de la création du compte.');
-            return;
-          }
-
-          form.reset();
-          showSuccess('Compte créé avec succès ! Redirection vers la page de connexion...');
-
-          setTimeout(function() {
-            window.location.replace('login.html');
-          }, 2500);
-
-        } catch (err) {
-          showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
-        } finally {
-          btn.disabled = false; txt.textContent = 'CRÉER MON COMPTE'; spn.hidden = true;
-          /* Effacement des mots de passe */
-          document.getElementById('password').value = '';
-          document.getElementById('confirmPassword').value = '';
+    /* OTP auto-advance */
+    var otpInputs = document.getElementById('otpGroup').querySelectorAll('input');
+    otpInputs.forEach(function (inp, idx) {
+      inp.addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9]/g,'');
+        if (this.value && idx < otpInputs.length - 1) otpInputs[idx + 1].focus();
+        var code = Array.from(otpInputs).map(function(i) { return i.value; }).join('');
+        if (code.length === 6) {
+          /* Validate OTP — Demo: any 6-digit code is accepted */
+          otpVerified = true;
+          document.getElementById('btn-next3').disabled = false;
+          document.getElementById('otp-err').style.display = 'none';
+          otpInputs.forEach(function(i) { i.style.borderColor = '#28a745'; });
         }
       });
+      inp.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace' && !this.value && idx > 0) { otpInputs[idx - 1].focus(); }
+      });
+    });
 
-    }());
+    document.getElementById('btn-next3').addEventListener('click', function () {
+      if (!otpVerified) { document.getElementById('otp-err').textContent = 'Veuillez saisir et valider le code SMS.'; document.getElementById('otp-err').style.display = 'block'; return; }
+      goStep(4);
+    });
+
+    /* Retour arrière */
+    document.getElementById('btn-back1').addEventListener('click', function() { goStep(1); });
+    document.getElementById('btn-back2').addEventListener('click', function() { goStep(2); });
+    document.getElementById('btn-back3').addEventListener('click', function() { goStep(3); });
+
+    /* ── Soumission finale ──────────────────────────────────── */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      hideMessages();
+
+      /* Honeypot */
+      if (form.querySelector('[name="website"]').value) return;
+
+      var terms  = document.getElementById('terms').checked;
+      var age    = document.getElementById('age-confirm').checked;
+      var scaCon = document.getElementById('sca-consent').checked;
+      if (!terms || !age || !scaCon) { showError('Vous devez accepter toutes les conditions obligatoires.'); return; }
+
+      var btn = document.getElementById('btn-submit');
+      var txt = document.getElementById('btn-submit-text');
+      var spn = document.getElementById('btn-submit-spinner');
+      btn.disabled = true; txt.innerHTML = 'Création...'; spn.hidden = false;
+
+      var phone = document.getElementById('phone').value.replace(/\s/g,'');
+
+      fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest' },
+        body: JSON.stringify({
+          firstName: document.getElementById('firstName').value.trim(),
+          lastName:  document.getElementById('lastName').value.trim(),
+          birthDate: document.getElementById('birthDate').value,
+          email:     document.getElementById('email').value.trim().toLowerCase(),
+          phone:     '+33' + phone.replace(/^0/,''),
+          password:  document.getElementById('password').value,
+          marketing: document.getElementById('marketing').checked
+        }),
+        credentials: 'include'
+      })
+      .then(function (resp) { return resp.json().then(function(d) { return { status: resp.status, data: d }; }); })
+      .then(function (r) {
+        if (!r.status || r.status >= 400) { showError(r.data.error || 'Une erreur est survenue.'); return; }
+        form.reset();
+        showSuccess('Compte créé avec succès ! Redirection vers la connexion...');
+        setTimeout(function() { window.location.replace('login.html'); }, 2500);
+      })
+      .catch(function () { showError('Erreur réseau. Vérifiez votre connexion et réessayez.'); })
+      .finally(function () {
+        btn.disabled = false; txt.innerHTML = '<i class="ti-check mr-1"></i>CRÉER MON COMPTE'; spn.hidden = true;
+        document.getElementById('password').value = '';
+        document.getElementById('confirmPassword').value = '';
+      });
+    });
+
+  }());
   </script>
-
 </body>
 </html>
