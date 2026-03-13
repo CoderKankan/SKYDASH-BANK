@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'"/>
+  <title>SkyDash Bank — Virement</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css"/>
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css"/>
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css"/>
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css"/>
+  <link rel="shortcut icon" href="../../images/favicon.png"/>
+  <style>
+    .form-section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #4B49AC;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid #eef0ff;
+    }
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #343a40;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    .security-badge {
+      background: #f0fff4;
+      border: 1px solid #c3e6cb;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      color: #155724;
+      font-size: 0.82rem;
+    }
+    .form-control:focus {
+      border-color: #4B49AC;
+      box-shadow: 0 0 0 0.2rem rgba(75,73,172,.15);
+    }
+    .invalid-feedback { font-size: 0.78rem; }
+    .input-group-text { background: #f8f9fa; border-color: #ced4da; color: #6c757d; }
+    #datePicker { display: none; }
+    .status-effectue { color: #1bcfb4; font-weight: 600; }
+    .status-encours { color: #f7a800; font-weight: 600; }
+    .status-annule { color: #fe7c96; font-weight: 600; }
+    .page-header { margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+<div class="container-scroller">
+
+  <!-- Navbar -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+      <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item nav-profile dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+            <img src="../../images/faces/face28.jpg" alt="profil"/>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+            <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+          </div>
+        </li>
+      </ul>
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+    </div>
+  </nav>
+
+  <div class="container-fluid page-body-wrapper">
+
+    <!-- Sidebar -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="../../index.html">
+            <i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/comptes/mes-comptes.html">
+            <i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="../../pages/virements/virement.html">
+            <i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/transactions/historique.html">
+            <i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/cartes/mes-cartes.html">
+            <i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/epargne/epargne.html">
+            <i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html">
+            <i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/profil/profil.html">
+            <i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/securite/securite.html">
+            <i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/aide/aide.html">
+            <i class="ti-help menu-icon"></i><span class="menu-title">Aide</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+        <!-- Page header -->
+        <div class="page-header">
+          <h3 class="page-title">
+            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+              <i class="ti-exchange-vertical"></i>
+            </span>
+            Effectuer un Virement
+          </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Virements</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="row">
+
+          <!-- Virement form -->
+          <div class="col-lg-7 col-12 mb-4">
+            <div class="card" style="border-top: 3px solid #4B49AC;">
+              <div class="card-body">
+                <h5 class="section-title">Nouveau virement</h5>
+
+                <form id="virementForm" novalidate autocomplete="off">
+                  <input type="hidden" name="_csrf" value="csrf-token-placeholder"/>
+
+                  <!-- Compte débiteur -->
+                  <div class="form-section-title mt-3">Compte émetteur</div>
+                  <div class="form-group">
+                    <label for="compteDebiteur">Compte débiteur <span class="text-danger">*</span></label>
+                    <select class="form-control" id="compteDebiteur" name="compteDebiteur" required>
+                      <option value="">— Sélectionner un compte —</option>
+                      <option value="courant" data-solde="12483.75">Compte Courant — FR76 **** **** **** 4521 — Solde : 12 483,75 €</option>
+                      <option value="epargne" data-solde="8250.00">Livret A — FR76 **** **** **** 7832 — Solde : 8 250,00 €</option>
+                      <option value="joint" data-solde="3120.50">Compte Joint — FR76 **** **** **** 1109 — Solde : 3 120,50 €</option>
+                    </select>
+                    <div class="invalid-feedback">Veuillez sélectionner un compte débiteur.</div>
+                  </div>
+
+                  <!-- Bénéficiaire -->
+                  <div class="form-section-title mt-4">Bénéficiaire</div>
+                  <div class="form-group">
+                    <label for="ibanBeneficiaire">IBAN bénéficiaire <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ti-credit-card"></i></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ibanBeneficiaire"
+                        name="ibanBeneficiaire"
+                        placeholder="FR76 XXXX XXXX XXXX XXXX XXXX XXX"
+                        maxlength="34"
+                        required
+                        autocomplete="off"
+                      />
+                      <div class="invalid-feedback">Format IBAN invalide (ex : FR76 3000 4000 0300 0000 1234 567).</div>
+                    </div>
+                    <small class="form-text text-muted">Format : FR76 suivi de 23 chiffres (espaces optionnels).</small>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="nomBeneficiaire">Nom du bénéficiaire <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ti-user"></i></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="nomBeneficiaire"
+                        name="nomBeneficiaire"
+                        placeholder="Prénom NOM"
+                        maxlength="100"
+                        required
+                        autocomplete="off"
+                      />
+                      <div class="invalid-feedback">Le nom du bénéficiaire est requis.</div>
+                    </div>
+                  </div>
+
+                  <!-- Montant & motif -->
+                  <div class="form-section-title mt-4">Opération</div>
+                  <div class="form-row">
+                    <div class="form-group col-md-5">
+                      <label for="montant">Montant <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="montant"
+                          name="montant"
+                          placeholder="0,00"
+                          step="0.01"
+                          min="0.01"
+                          required
+                        />
+                        <div class="input-group-append">
+                          <span class="input-group-text">€</span>
+                        </div>
+                        <div class="invalid-feedback">Montant invalide (minimum 0,01 €).</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-7">
+                      <label for="motif">Motif <span class="text-danger">*</span></label>
+                      <select class="form-control" id="motif" name="motif" required>
+                        <option value="">— Sélectionner un motif —</option>
+                        <option value="loyer">Loyer</option>
+                        <option value="remboursement">Remboursement</option>
+                        <option value="achat">Achat</option>
+                        <option value="facture">Facture</option>
+                        <option value="autre">Autre</option>
+                      </select>
+                      <div class="invalid-feedback">Veuillez sélectionner un motif.</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="reference">Référence / Libellé <span class="text-muted">(optionnel)</span></label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="reference"
+                      name="reference"
+                      placeholder="Ex : Loyer mars 2026"
+                      maxlength="140"
+                    />
+                    <small class="form-text text-muted">
+                      <span id="refCounter">0</span>/140 caractères
+                    </small>
+                  </div>
+
+                  <!-- Date d'exécution -->
+                  <div class="form-section-title mt-4">Date d'exécution</div>
+                  <div class="form-group">
+                    <div class="d-flex align-items-center">
+                      <div class="form-check mr-4">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="radio" name="typeDate" id="immediat" value="immediat" checked/>
+                          <i class="input-helper"></i>Immédiat
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="radio" name="typeDate" id="differe" value="differe"/>
+                          <i class="input-helper"></i>Différé
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" id="datePicker">
+                    <label for="dateExecution">Date d'exécution souhaitée <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ti-calendar"></i></span>
+                      </div>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="dateExecution"
+                        name="dateExecution"
+                        min=""
+                      />
+                      <div class="invalid-feedback">Veuillez sélectionner une date future.</div>
+                    </div>
+                  </div>
+
+                  <!-- Submit -->
+                  <div class="mt-4">
+                    <button type="submit" class="btn btn-gradient-primary btn-block btn-lg">
+                      <i class="ti-check mr-2"></i>Valider le virement
+                    </button>
+                    <div class="security-badge text-center mt-3">
+                      &#128274; Virement sécurisé — Données chiffrées TLS 1.3
+                    </div>
+                  </div>
+
+                </form>
+
+                <!-- Success alert (hidden) -->
+                <div class="alert alert-success mt-4" id="successAlert" style="display:none;" role="alert">
+                  <i class="ti-check-box mr-2"></i>
+                  <strong>Virement soumis avec succès.</strong> Votre opération est en cours de traitement.
+                </div>
+                <!-- Error alert (hidden) -->
+                <div class="alert alert-danger mt-4" id="errorAlert" style="display:none;" role="alert">
+                  <i class="ti-alert mr-2"></i>
+                  <strong id="errorMessage">Une erreur est survenue.</strong> Veuillez vérifier les informations saisies.
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Info & recent virements -->
+          <div class="col-lg-5 col-12">
+
+            <!-- Info card -->
+            <div class="card mb-4" style="border-top: 3px solid #1bcfb4;">
+              <div class="card-body">
+                <h6 class="font-weight-bold mb-3" style="color: #1bcfb4;"><i class="ti-info-alt mr-2"></i>Informations utiles</h6>
+                <ul class="list-unstyled mb-0" style="font-size: 0.85rem; color: #495057;">
+                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Les virements immédiats sont traités sous <strong>1h ouvré</strong>.</li>
+                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Les virements différés sont planifiés à la date choisie.</li>
+                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Montant maximum par virement : <strong>50 000 €</strong>.</li>
+                  <li class="mb-2"><i class="ti-check text-success mr-2"></i>Vérifiez toujours l'IBAN avant de valider.</li>
+                  <li><i class="ti-alert text-warning mr-2"></i>SkyDash Bank ne vous demandera <strong>jamais</strong> votre code PIN par virement.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Recent virements -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="section-title">Virements récents</h5>
+                <div class="table-responsive">
+                  <table class="table table-sm table-hover">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Bénéficiaire</th>
+                        <th class="text-right">Montant</th>
+                        <th>Statut</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><small>10/03/2026</small></td>
+                        <td><small>MARTIN Sophie</small></td>
+                        <td class="text-right"><small>250,00 €</small></td>
+                        <td><span class="status-effectue"><small>Effectué</small></span></td>
+                      </tr>
+                      <tr>
+                        <td><small>07/03/2026</small></td>
+                        <td><small>DUPONT Jean</small></td>
+                        <td class="text-right"><small>1 200,00 €</small></td>
+                        <td><span class="status-effectue"><small>Effectué</small></span></td>
+                      </tr>
+                      <tr>
+                        <td><small>05/03/2026</small></td>
+                        <td><small>GARCIA Luis</small></td>
+                        <td class="text-right"><small>85,50 €</small></td>
+                        <td><span class="status-encours"><small>En cours</small></span></td>
+                      </tr>
+                      <tr>
+                        <td><small>01/03/2026</small></td>
+                        <td><small>SCI LES PINS</small></td>
+                        <td class="text-right"><small>900,00 €</small></td>
+                        <td><span class="status-effectue"><small>Effectué</small></span></td>
+                      </tr>
+                      <tr>
+                        <td><small>22/02/2026</small></td>
+                        <td><small>PETIT Camille</small></td>
+                        <td class="text-right"><small>45,00 €</small></td>
+                        <td><span class="status-annule"><small>Annulé</small></span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="text-center mt-2">
+                  <a href="../transactions/historique.html" class="btn btn-sm btn-outline-secondary">Voir tout l'historique</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /row -->
+
+      </div><!-- /content-wrapper -->
+
+      <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
+            &copy; 2026 SkyDash Bank — Établissement de crédit agréé par l'ACPR. Tous droits réservés.
+          </span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-muted">
+            <i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3
+          </span>
+        </div>
+      </footer>
+
+    </div><!-- /main-panel -->
+  </div><!-- /page-body-wrapper -->
+</div><!-- /container-scroller -->
+
+<script src="../../vendors/js/vendor.bundle.base.js"></script>
+<script src="../../js/off-canvas.js"></script>
+<script src="../../js/hoverable-collapse.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/settings.js"></script>
+<script src="../../js/todolist.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  // --- Date picker toggle ---
+  var immediat = document.getElementById('immediat');
+  var differe  = document.getElementById('differe');
+  var datePicker = document.getElementById('datePicker');
+  var dateExecution = document.getElementById('dateExecution');
+
+  // Set minimum date to tomorrow
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  var tomorrowStr = tomorrow.toISOString().split('T')[0];
+  if (dateExecution) { dateExecution.setAttribute('min', tomorrowStr); }
+
+  function toggleDatePicker() {
+    if (differe && differe.checked) {
+      datePicker.style.display = 'block';
+      dateExecution.setAttribute('required', 'required');
+    } else {
+      datePicker.style.display = 'none';
+      dateExecution.removeAttribute('required');
+      dateExecution.value = '';
+      dateExecution.classList.remove('is-invalid');
+    }
+  }
+
+  if (immediat) { immediat.addEventListener('change', toggleDatePicker); }
+  if (differe)  { differe.addEventListener('change', toggleDatePicker); }
+
+  // --- Reference counter ---
+  var refInput   = document.getElementById('reference');
+  var refCounter = document.getElementById('refCounter');
+  if (refInput) {
+    refInput.addEventListener('input', function () {
+      refCounter.textContent = this.value.length;
+    });
+  }
+
+  // --- IBAN validation ---
+  function validateIBAN(iban) {
+    // Remove spaces, uppercase
+    var cleaned = iban.replace(/\s+/g, '').toUpperCase();
+    // French IBAN: FR + 2 check digits + 23 alphanumeric chars = 27 total
+    var ibanRegex = /^FR\d{2}[0-9A-Z]{23}$/;
+    return ibanRegex.test(cleaned);
+  }
+
+  // --- Form validation and submission ---
+  var form = document.getElementById('virementForm');
+  var successAlert = document.getElementById('successAlert');
+  var errorAlert   = document.getElementById('errorAlert');
+  var errorMessage = document.getElementById('errorMessage');
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Hide previous alerts
+      successAlert.style.display = 'none';
+      errorAlert.style.display   = 'none';
+
+      var valid = true;
+
+      // Validate compte débiteur
+      var compteDebiteur = document.getElementById('compteDebiteur');
+      if (!compteDebiteur.value) {
+        compteDebiteur.classList.add('is-invalid');
+        valid = false;
+      } else {
+        compteDebiteur.classList.remove('is-invalid');
+        compteDebiteur.classList.add('is-valid');
+      }
+
+      // Validate IBAN
+      var ibanField = document.getElementById('ibanBeneficiaire');
+      if (!ibanField.value.trim() || !validateIBAN(ibanField.value)) {
+        ibanField.classList.add('is-invalid');
+        valid = false;
+      } else {
+        ibanField.classList.remove('is-invalid');
+        ibanField.classList.add('is-valid');
+      }
+
+      // Validate nom bénéficiaire
+      var nomField = document.getElementById('nomBeneficiaire');
+      if (!nomField.value.trim() || nomField.value.trim().length < 2) {
+        nomField.classList.add('is-invalid');
+        valid = false;
+      } else {
+        nomField.classList.remove('is-invalid');
+        nomField.classList.add('is-valid');
+      }
+
+      // Validate montant
+      var montantField = document.getElementById('montant');
+      var montantVal   = parseFloat(montantField.value);
+      if (!montantField.value || isNaN(montantVal) || montantVal <= 0) {
+        montantField.classList.add('is-invalid');
+        valid = false;
+      } else {
+        // Check against account balance
+        var selectedOption = compteDebiteur.options[compteDebiteur.selectedIndex];
+        var solde = parseFloat(selectedOption.getAttribute('data-solde') || '0');
+        if (montantVal > solde) {
+          montantField.classList.add('is-invalid');
+          montantField.nextElementSibling.nextElementSibling.textContent =
+            'Solde insuffisant. Solde disponible : ' + solde.toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
+          valid = false;
+        } else if (montantVal > 50000) {
+          montantField.classList.add('is-invalid');
+          montantField.nextElementSibling.nextElementSibling.textContent =
+            'Montant maximum par virement : 50 000 €.';
+          valid = false;
+        } else {
+          montantField.classList.remove('is-invalid');
+          montantField.classList.add('is-valid');
+        }
+      }
+
+      // Validate motif
+      var motifField = document.getElementById('motif');
+      if (!motifField.value) {
+        motifField.classList.add('is-invalid');
+        valid = false;
+      } else {
+        motifField.classList.remove('is-invalid');
+        motifField.classList.add('is-valid');
+      }
+
+      // Validate date if différé
+      if (differe && differe.checked) {
+        var dateField = document.getElementById('dateExecution');
+        if (!dateField.value) {
+          dateField.classList.add('is-invalid');
+          valid = false;
+        } else {
+          var selectedDate = new Date(dateField.value);
+          var today        = new Date();
+          today.setHours(0, 0, 0, 0);
+          if (selectedDate <= today) {
+            dateField.classList.add('is-invalid');
+            valid = false;
+          } else {
+            dateField.classList.remove('is-invalid');
+            dateField.classList.add('is-valid');
+          }
+        }
+      }
+
+      if (valid) {
+        // Simulate form submission
+        successAlert.style.display = 'block';
+        successAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        form.reset();
+        // Reset visual states
+        var fields = form.querySelectorAll('.is-valid, .is-invalid');
+        fields.forEach(function (f) {
+          f.classList.remove('is-valid', 'is-invalid');
+        });
+        refCounter.textContent = '0';
+        datePicker.style.display = 'none';
+      } else {
+        errorAlert.style.display = 'block';
+        errorMessage.textContent = 'Certains champs sont invalides.';
+        // Scroll to first invalid
+        var firstInvalid = form.querySelector('.is-invalid');
+        if (firstInvalid) {
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstInvalid.focus();
+        }
+      }
+    });
+  }
+
+  // Live IBAN formatting (insert spaces every 4 chars)
+  var ibanInput = document.getElementById('ibanBeneficiaire');
+  if (ibanInput) {
+    ibanInput.addEventListener('input', function () {
+      var val = this.value.replace(/\s+/g, '').toUpperCase();
+      var formatted = val.match(/.{1,4}/g);
+      this.value = formatted ? formatted.join(' ') : val;
+    });
+  }
+
+})();
+</script>
+</body>
+</html>

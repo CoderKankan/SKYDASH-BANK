@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Commander une nouvelle carte</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .card-offer { border: 2px solid #e9ecef; border-radius: 14px; padding: 20px; cursor: pointer; transition: all 0.2s; }
+    .card-offer:hover { border-color: #4B49AC; background: #f6f5ff; }
+    .card-offer.selected { border-color: #4B49AC; background: #f0efff; box-shadow: 0 0 0 3px rgba(75,73,172,0.15); }
+    .card-preview { height: 90px; border-radius: 12px; margin-bottom: 12px; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 10px 14px; }
+    .card-preview::before { content:''; position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.08); }
+    .offer-price { font-size: 1.1rem; font-weight: 700; color: #4B49AC; }
+    .offer-price small { font-size: 0.8rem; font-weight: 400; color: #6c757d; }
+    .step-circle { width: 32px; height: 32px; border-radius: 50%; background: #4B49AC; color: #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; margin-right: 10px; flex-shrink: 0; }
+    .step-row { display: flex; align-items: flex-start; margin-bottom: 18px; }
+    .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .status-preparation { background: #fff3cd; color: #856404; }
+    .status-envoi { background: #d1ecf1; color: #0c5460; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+
+    <!-- NAVBAR -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+
+      <!-- SIDEBAR -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-plus"></i></span>
+              Commander une nouvelle carte
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="mes-cartes.html">Mes Cartes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Commander une carte</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Demande en cours -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="alert alert-info d-flex align-items-center" role="alert">
+                <i class="ti-info-alt mr-3" style="font-size:1.3rem;"></i>
+                <div>
+                  <strong>Commande en cours :</strong> Mastercard Gold **** 2274 — En cours de fabrication.
+                  Livraison estimée le <strong>19/03/2026</strong>.
+                  <span class="status-badge status-preparation ml-2">En préparation</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Choix de carte -->
+          <div class="row mb-4">
+            <div class="col-12 mb-3">
+              <h5 class="font-weight-semibold"><i class="ti-credit-card text-primary mr-2"></i>Choisissez votre type de carte</h5>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="card-offer selected" id="offerVisa" onclick="selectOffer('visa')">
+                <div class="card-preview" style="background:linear-gradient(135deg,#4B49AC,#7978E9);">
+                  <span style="color:white;font-size:0.7rem;letter-spacing:1px;opacity:0.8;">JEAN DUPONT</span>
+                  <span style="color:white;font-weight:700;font-size:1rem;margin-left:auto;">VISA</span>
+                </div>
+                <h6 class="font-weight-semibold mb-1">Visa Classic</h6>
+                <p class="text-muted small mb-2">Carte de débit standard. Paiements partout en France et à l'étranger.</p>
+                <div class="offer-price">Gratuite <small>/ incluse dans votre offre</small></div>
+                <ul class="list-unstyled mt-2 mb-0" style="font-size:0.8rem;">
+                  <li><i class="ti-check text-success mr-1"></i>Paiement sans contact</li>
+                  <li><i class="ti-check text-success mr-1"></i>Retrait DAB 500 € / semaine</li>
+                  <li><i class="ti-check text-success mr-1"></i>3D Secure intégré</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="card-offer" id="offerPremier" onclick="selectOffer('premier')">
+                <div class="card-preview" style="background:linear-gradient(135deg,#1bcfb4,#0a9e8d);">
+                  <span style="color:white;font-size:0.7rem;letter-spacing:1px;opacity:0.8;">JEAN DUPONT</span>
+                  <span style="color:white;font-weight:700;font-size:1rem;margin-left:auto;">VISA Premier</span>
+                </div>
+                <h6 class="font-weight-semibold mb-1">Visa Premier</h6>
+                <p class="text-muted small mb-2">Avantages Premium : assurances voyages, assistance, plafonds élevés.</p>
+                <div class="offer-price">7,50 € <small>/ mois</small></div>
+                <ul class="list-unstyled mt-2 mb-0" style="font-size:0.8rem;">
+                  <li><i class="ti-check text-success mr-1"></i>Assurances voyage incluses</li>
+                  <li><i class="ti-check text-success mr-1"></i>Retrait DAB 1 500 € / semaine</li>
+                  <li><i class="ti-check text-success mr-1"></i>Assistance médicale internationale</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+              <div class="card-offer" id="offerInfinite" onclick="selectOffer('infinite')">
+                <div class="card-preview" style="background:linear-gradient(135deg,#f0d060,#c8a820);">
+                  <span style="color:#333;font-size:0.7rem;letter-spacing:1px;opacity:0.8;">JEAN DUPONT</span>
+                  <span style="color:#333;font-weight:700;font-size:1rem;margin-left:auto;">VISA Infinite</span>
+                </div>
+                <h6 class="font-weight-semibold mb-1">Visa Infinite (Prestige)</h6>
+                <p class="text-muted small mb-2">Carte haut de gamme avec services exclusifs et conciergerie dédiée.</p>
+                <div class="offer-price">22,00 € <small>/ mois</small></div>
+                <ul class="list-unstyled mt-2 mb-0" style="font-size:0.8rem;">
+                  <li><i class="ti-check text-success mr-1"></i>Conciergerie 24h/24</li>
+                  <li><i class="ti-check text-success mr-1"></i>Accès salons d'aéroport</li>
+                  <li><i class="ti-check text-success mr-1"></i>Couverture assurance maximale</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire commande -->
+          <div class="row">
+            <div class="col-lg-7 mb-4">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="ti-package text-primary mr-2"></i>Informations de livraison</h5>
+                  <form id="formCommande" autocomplete="off">
+                    <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+                    <input type="hidden" name="type_carte" id="typeCarteSelected" value="visa">
+
+                    <div class="form-group">
+                      <label for="motifCmd">Motif de la commande</label>
+                      <select class="form-control" id="motifCmd" name="motif" required>
+                        <option value="">-- Sélectionner --</option>
+                        <option value="nouvelle">Nouvelle carte additionnelle</option>
+                        <option value="upgrade">Changement de gamme</option>
+                        <option value="remplacement">Remplacement (avant expiration)</option>
+                        <option value="perte">Suite à perte / vol</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="compteCmd">Associer au compte</label>
+                      <select class="form-control" id="compteCmd" name="compte">
+                        <option value="cc_principal">Compte Courant Principal — FR76 3000 4001 0300 0100 0947 89</option>
+                        <option value="cc_joint">Compte Joint — FR76 3000 4001 0300 0200 1823 54</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Adresse de livraison</label>
+                      <select class="form-control mb-2" name="adresse">
+                        <option value="principale">12 Rue de Rivoli, 75001 Paris (adresse principale)</option>
+                        <option value="pro">8 Avenue des Champs-Élysées, 75008 Paris (bureau)</option>
+                        <option value="autre">Autre adresse...</option>
+                      </select>
+                    </div>
+
+                    <div class="form-check mb-3">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="accepte" required>
+                        J'accepte les conditions tarifaires associées à cette carte et les frais éventuels
+                        <i class="input-helper"></i>
+                      </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient-primary btn-fw">
+                      <i class="ti-send mr-2"></i>Valider la commande
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5 mb-4">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="ti-timer text-primary mr-2"></i>Suivi de commande</h5>
+                  <div class="step-row">
+                    <div class="step-circle">1</div>
+                    <div>
+                      <div class="font-weight-semibold">Demande envoyée</div>
+                      <small class="text-muted">Votre demande sera traitée en 24h ouvrées</small>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <div class="step-circle" style="background:#ccc;">2</div>
+                    <div>
+                      <div class="font-weight-semibold text-muted">Validation et fabrication</div>
+                      <small class="text-muted">2 à 3 jours ouvrés</small>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <div class="step-circle" style="background:#ccc;">3</div>
+                    <div>
+                      <div class="font-weight-semibold text-muted">Expédition</div>
+                      <small class="text-muted">Courrier sécurisé recommandé</small>
+                    </div>
+                  </div>
+                  <div class="step-row" style="margin-bottom:0;">
+                    <div class="step-circle" style="background:#ccc;">4</div>
+                    <div>
+                      <div class="font-weight-semibold text-muted">Activation de la carte</div>
+                      <small class="text-muted">À réception, activez via l'application ou le serveur vocal</small>
+                    </div>
+                  </div>
+                  <div class="alert alert-warning mt-3 p-2 mb-0">
+                    <i class="ti-info-alt mr-2"></i><small>Délai total estimé : <strong>5 à 7 jours ouvrés</strong>. Le PIN sera envoyé séparément par courrier sécurisé.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /content-wrapper -->
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank — Établissement de crédit agréé ACPR. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div><!-- /main-panel -->
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+  <script>
+  (function() {
+    'use strict';
+    function selectOffer(type) {
+      ['visa','premier','infinite'].forEach(function(t) {
+        var el = document.getElementById('offer' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (el) el.classList.toggle('selected', t === type);
+      });
+      var hidden = document.getElementById('typeCarteSelected');
+      if (hidden) hidden.value = type;
+    }
+    var form = document.getElementById('formCommande');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Votre commande a bien été enregistrée. Vous recevrez un SMS de confirmation sous peu.');
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

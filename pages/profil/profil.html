@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Mon Profil</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .profile-avatar-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar-wrapper img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 4px solid #4B49AC;
+      box-shadow: 0 4px 16px rgba(75,73,172,0.25);
+    }
+    .profile-avatar-edit {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      width: 28px;
+      height: 28px;
+      background: #4B49AC;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      font-size: 0.75rem;
+    }
+    .profile-info-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .profile-info-item:last-child { border-bottom: none; }
+    .profile-info-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #f0f0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      flex-shrink: 0;
+      color: #4B49AC;
+    }
+    .doc-badge-valid { color: #198754; font-weight: 600; }
+    .doc-badge-pending { color: #f39c12; font-weight: 600; }
+    .toggle-switch .custom-control-input:checked ~ .custom-control-label::before {
+      background-color: #4B49AC;
+      border-color: #4B49AC;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+    <!-- NAVBAR -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <!-- SIDEBAR -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-id-badge"></i></span>
+              Mon Profil
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Mon Profil</li>
+              </ol>
+            </nav>
+          </div>
+
+          <div class="row">
+            <!-- LEFT: Profile Card -->
+            <div class="col-lg-4 mb-4">
+              <div class="card shadow-sm border-0 text-center h-100">
+                <div class="card-body py-4">
+                  <div class="d-flex justify-content-center mb-3">
+                    <div class="profile-avatar-wrapper">
+                      <img src="../../images/faces/face28.jpg" class="rounded-circle" alt="Avatar Jean Dupont">
+                      <div class="profile-avatar-edit" title="Modifier la photo">
+                        <i class="ti-camera"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 class="font-weight-bold mb-0">Jean Dupont</h4>
+                  <p class="text-muted mb-1">Client particulier</p>
+                  <span class="badge badge-gradient-primary mb-3">Compte Prestige</span>
+
+                  <div class="text-left mt-3">
+                    <div class="profile-info-item">
+                      <div class="profile-info-icon"><i class="ti-email"></i></div>
+                      <div>
+                        <div class="text-muted" style="font-size:0.75rem;">Email</div>
+                        <div class="font-weight-semibold" style="font-size:0.9rem;">jean.dupont@email.com</div>
+                      </div>
+                    </div>
+                    <div class="profile-info-item">
+                      <div class="profile-info-icon"><i class="ti-mobile"></i></div>
+                      <div>
+                        <div class="text-muted" style="font-size:0.75rem;">Téléphone</div>
+                        <div class="font-weight-semibold" style="font-size:0.9rem;">+33 6 ** ** ** 47</div>
+                      </div>
+                    </div>
+                    <div class="profile-info-item">
+                      <div class="profile-info-icon"><i class="ti-calendar"></i></div>
+                      <div>
+                        <div class="text-muted" style="font-size:0.75rem;">Membre depuis</div>
+                        <div class="font-weight-semibold" style="font-size:0.9rem;">15 Mars 2019</div>
+                      </div>
+                    </div>
+                    <div class="profile-info-item">
+                      <div class="profile-info-icon"><i class="ti-id-badge"></i></div>
+                      <div>
+                        <div class="text-muted" style="font-size:0.75rem;">Identifiant client</div>
+                        <div class="font-weight-semibold" style="font-size:0.9rem;">SKY-2019-0042</div>
+                      </div>
+                    </div>
+                    <div class="profile-info-item">
+                      <div class="profile-info-icon"><i class="ti-location-pin"></i></div>
+                      <div>
+                        <div class="text-muted" style="font-size:0.75rem;">Adresse</div>
+                        <div class="font-weight-semibold" style="font-size:0.9rem;">12 Rue des Lilas<br>75011 Paris</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr>
+
+                  <div class="d-flex justify-content-around mt-2">
+                    <div class="text-center">
+                      <div class="h5 font-weight-bold text-primary mb-0">3</div>
+                      <small class="text-muted">Comptes</small>
+                    </div>
+                    <div class="text-center">
+                      <div class="h5 font-weight-bold text-success mb-0">2</div>
+                      <small class="text-muted">Cartes</small>
+                    </div>
+                    <div class="text-center">
+                      <div class="h5 font-weight-bold text-warning mb-0">6</div>
+                      <small class="text-muted">Bénéficiaires</small>
+                    </div>
+                  </div>
+
+                  <div class="mt-3">
+                    <a href="../../pages/securite/securite.html" class="btn btn-outline-primary btn-sm btn-block">
+                      <i class="ti-shield mr-1"></i>Sécurité du compte
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: Tabs -->
+            <div class="col-lg-8 mb-4">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <!-- Tabs nav -->
+                  <ul class="nav nav-tabs nav-tabs-line" id="profilTabs" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="tab-info-tab" data-toggle="tab" href="#tab-info" role="tab" aria-controls="tab-info" aria-selected="true">
+                        <i class="ti-user mr-1"></i>Informations personnelles
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="tab-prefs-tab" data-toggle="tab" href="#tab-prefs" role="tab" aria-controls="tab-prefs" aria-selected="false">
+                        <i class="ti-settings mr-1"></i>Préférences
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="tab-docs-tab" data-toggle="tab" href="#tab-docs" role="tab" aria-controls="tab-docs" aria-selected="false">
+                        <i class="ti-files mr-1"></i>Documents
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content pt-4" id="profilTabsContent">
+
+                    <!-- Tab 1: Informations personnelles -->
+                    <div class="tab-pane fade show active" id="tab-info" role="tabpanel" aria-labelledby="tab-info-tab">
+                      <form id="formInfoPerso" autocomplete="off" novalidate>
+                        <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="prenomInput">Prénom</label>
+                              <input type="text" class="form-control" id="prenomInput" name="prenom" value="Jean" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="nomInput">Nom de famille</label>
+                              <input type="text" class="form-control" id="nomInput" name="nom" value="Dupont" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="dateNaissInput">Date de naissance</label>
+                              <input type="date" class="form-control" id="dateNaissInput" name="date_naissance" value="1985-07-14">
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="nationaliteInput">Nationalité</label>
+                              <select class="form-control" id="nationaliteInput" name="nationalite">
+                                <option selected>Française</option>
+                                <option>Belge</option>
+                                <option>Suisse</option>
+                                <option>Autre</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="adresseInput">Adresse</label>
+                          <input type="text" class="form-control" id="adresseInput" name="adresse" value="12 Rue des Lilas">
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label for="cpInput">Code postal</label>
+                              <input type="text" class="form-control" id="cpInput" name="code_postal" value="75011" maxlength="5" pattern="[0-9]{5}">
+                            </div>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="form-group">
+                              <label for="villeInput">Ville</label>
+                              <input type="text" class="form-control" id="villeInput" name="ville" value="Paris">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="emailInput">Adresse email</label>
+                              <input type="email" class="form-control" id="emailInput" name="email" value="jean.dupont@email.com" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="telInput">Téléphone mobile</label>
+                              <input type="tel" class="form-control" id="telInput" name="telephone" value="+33 6 ** ** ** 47">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="alert alert-info small p-2 mb-3">
+                          <i class="ti-info-alt mr-1"></i>Toute modification de vos coordonnées sera soumise à validation par SMS (DSP2).
+                        </div>
+                        <button type="submit" class="btn btn-gradient-primary">
+                          <i class="ti-check mr-2"></i>Enregistrer les modifications
+                        </button>
+                      </form>
+                    </div>
+
+                    <!-- Tab 2: Préférences -->
+                    <div class="tab-pane fade" id="tab-prefs" role="tabpanel" aria-labelledby="tab-prefs-tab">
+                      <form id="formPreferences" autocomplete="off">
+                        <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="langueSelect">Langue de l'interface</label>
+                              <select class="form-control" id="langueSelect" name="langue">
+                                <option value="fr" selected>Français</option>
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                                <option value="de">Deutsch</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="deviseSelect">Devise d'affichage</label>
+                              <select class="form-control" id="deviseSelect" name="devise">
+                                <option value="eur" selected>Euro (€)</option>
+                                <option value="usd">Dollar US ($)</option>
+                                <option value="gbp">Livre sterling (£)</option>
+                                <option value="chf">Franc suisse (CHF)</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <h6 class="font-weight-semibold mt-3 mb-3"><i class="ti-bell text-primary mr-2"></i>Préférences de notifications</h6>
+                        <div class="card border mb-3">
+                          <div class="card-body py-3">
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                              <div>
+                                <div class="font-weight-semibold">Notifications par email</div>
+                                <small class="text-muted">Relevés, confirmations de virement, alertes compte</small>
+                              </div>
+                              <div class="custom-control custom-switch toggle-switch">
+                                <input type="checkbox" class="custom-control-input" id="notifEmail" name="notif_email" checked>
+                                <label class="custom-control-label" for="notifEmail"></label>
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                              <div>
+                                <div class="font-weight-semibold">Notifications par SMS</div>
+                                <small class="text-muted">Alertes de sécurité, codes de validation, opérations importantes</small>
+                              </div>
+                              <div class="custom-control custom-switch toggle-switch">
+                                <input type="checkbox" class="custom-control-input" id="notifSMS" name="notif_sms" checked>
+                                <label class="custom-control-label" for="notifSMS"></label>
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                              <div>
+                                <div class="font-weight-semibold">Notifications push (application mobile)</div>
+                                <small class="text-muted">Transactions en temps réel, solde bas, nouveautés</small>
+                              </div>
+                              <div class="custom-control custom-switch toggle-switch">
+                                <input type="checkbox" class="custom-control-input" id="notifPush" name="notif_push" checked>
+                                <label class="custom-control-label" for="notifPush"></label>
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                              <div>
+                                <div class="font-weight-semibold">Relevés mensuels dématérialisés</div>
+                                <small class="text-muted">Recevoir les relevés de compte en format PDF par email</small>
+                              </div>
+                              <div class="custom-control custom-switch toggle-switch">
+                                <input type="checkbox" class="custom-control-input" id="notifReleves" name="notif_releves" checked>
+                                <label class="custom-control-label" for="notifReleves"></label>
+                              </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center py-2">
+                              <div>
+                                <div class="font-weight-semibold">Communications commerciales</div>
+                                <small class="text-muted">Offres, promotions et nouveaux produits SkyDash Bank</small>
+                              </div>
+                              <div class="custom-control custom-switch toggle-switch">
+                                <input type="checkbox" class="custom-control-input" id="notifComm" name="notif_comm">
+                                <label class="custom-control-label" for="notifComm"></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="fuseauSelect">Fuseau horaire</label>
+                          <select class="form-control" id="fuseauSelect" name="fuseau">
+                            <option value="Europe/Paris" selected>Europe/Paris (UTC+1)</option>
+                            <option value="Europe/London">Europe/London (UTC+0)</option>
+                            <option value="America/New_York">America/New_York (UTC-5)</option>
+                          </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-gradient-primary">
+                          <i class="ti-check mr-2"></i>Enregistrer les préférences
+                        </button>
+                      </form>
+                    </div>
+
+                    <!-- Tab 3: Documents -->
+                    <div class="tab-pane fade" id="tab-docs" role="tabpanel" aria-labelledby="tab-docs-tab">
+                      <p class="text-muted small mb-3">
+                        <i class="ti-info-alt mr-1"></i>Les documents doivent être au format PDF, JPG ou PNG, d'une taille maximale de 5 Mo. Les documents validés sont chiffrés et stockés de manière sécurisée conformément au RGPD.
+                      </p>
+                      <div class="table-responsive">
+                        <table class="table table-hover">
+                          <thead class="thead-light">
+                            <tr>
+                              <th>Document</th>
+                              <th>Fichier</th>
+                              <th>Date de dépôt</th>
+                              <th>Statut</th>
+                              <th class="text-center">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <i class="ti-id-badge text-primary mr-2"></i>
+                                <strong>Carte Nationale d'Identité</strong>
+                                <div><small class="text-muted">Recto + Verso requis</small></div>
+                              </td>
+                              <td><span class="text-muted small">CNI_dupont_2024.pdf</span></td>
+                              <td>12/02/2024</td>
+                              <td><span class="badge badge-success doc-badge-valid"><i class="ti-check mr-1"></i>Validé</span></td>
+                              <td class="text-center">
+                                <button class="btn btn-outline-secondary btn-sm mr-1" title="Télécharger"><i class="ti-download"></i></button>
+                                <button class="btn btn-outline-primary btn-sm" title="Remplacer"><i class="ti-upload"></i></button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <i class="ti-home text-primary mr-2"></i>
+                                <strong>Justificatif de domicile</strong>
+                                <div><small class="text-muted">Facture de moins de 3 mois</small></div>
+                              </td>
+                              <td><span class="text-muted small">justif_domicile_jan2025.pdf</span></td>
+                              <td>15/01/2025</td>
+                              <td><span class="badge badge-success doc-badge-valid"><i class="ti-check mr-1"></i>Validé</span></td>
+                              <td class="text-center">
+                                <button class="btn btn-outline-secondary btn-sm mr-1" title="Télécharger"><i class="ti-download"></i></button>
+                                <button class="btn btn-outline-primary btn-sm" title="Remplacer"><i class="ti-upload"></i></button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <i class="ti-receipt text-primary mr-2"></i>
+                                <strong>RIB (Relevé d'Identité Bancaire)</strong>
+                                <div><small class="text-muted">Généré automatiquement</small></div>
+                              </td>
+                              <td><span class="text-muted small">RIB_SKY2019-0042.pdf</span></td>
+                              <td>15/03/2019</td>
+                              <td><span class="badge badge-success doc-badge-valid"><i class="ti-check mr-1"></i>Validé</span></td>
+                              <td class="text-center">
+                                <button class="btn btn-outline-secondary btn-sm mr-1" title="Télécharger"><i class="ti-download"></i></button>
+                                <button class="btn btn-outline-info btn-sm" title="Régénérer"><i class="ti-reload"></i></button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <i class="ti-money text-primary mr-2"></i>
+                                <strong>Justificatif de revenus</strong>
+                                <div><small class="text-muted">Avis d'imposition ou bulletin de salaire</small></div>
+                              </td>
+                              <td><span class="text-muted small">revenus_2024.pdf</span></td>
+                              <td>03/03/2025</td>
+                              <td><span class="badge badge-warning doc-badge-pending"><i class="ti-timer mr-1"></i>En attente de validation</span></td>
+                              <td class="text-center">
+                                <button class="btn btn-outline-secondary btn-sm mr-1" title="Télécharger"><i class="ti-download"></i></button>
+                                <button class="btn btn-outline-primary btn-sm" title="Remplacer"><i class="ti-upload"></i></button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <i class="ti-file text-muted mr-2"></i>
+                                <strong>Justificatif de situation professionnelle</strong>
+                                <div><small class="text-muted">Contrat de travail ou attestation employeur</small></div>
+                              </td>
+                              <td><span class="text-muted font-italic">Non déposé</span></td>
+                              <td>—</td>
+                              <td><span class="badge badge-light text-muted">Non fourni</span></td>
+                              <td class="text-center">
+                                <button class="btn btn-outline-primary btn-sm" title="Déposer ce document"><i class="ti-upload mr-1"></i>Déposer</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="alert alert-warning small mt-3 p-2">
+                        <i class="ti-info-alt mr-1"></i>La validation des documents par nos équipes peut prendre jusqu'à 2 jours ouvrés. En cas de document refusé, vous serez notifié par email.
+                      </div>
+                    </div>
+
+                  </div><!-- /tab-content -->
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /row -->
+
+        </div><!-- /content-wrapper -->
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2025 SkyDash Bank — Banque digitale sécurisée. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div><!-- /main-panel -->
+    </div><!-- /page-body-wrapper -->
+  </div><!-- /container-scroller -->
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+</body>
+</html>

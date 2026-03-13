@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Simulateur d'épargne</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .result-card { background: linear-gradient(135deg, #4B49AC, #7978E9); color: #fff; border-radius: 14px; padding: 24px 28px; }
+    .result-value { font-size: 2rem; font-weight: 700; }
+    .result-label { font-size: 0.85rem; opacity: 0.85; margin-bottom: 4px; }
+    .product-card { border: 2px solid #e9ecef; border-radius: 12px; padding: 18px; margin-bottom: 14px; transition: border-color 0.2s; cursor: pointer; }
+    .product-card:hover { border-color: #4B49AC; background: #f6f5ff; }
+    .product-card.selected { border-color: #4B49AC; background: #f0efff; }
+    .product-rate { font-size: 1.3rem; font-weight: 700; color: #4B49AC; }
+    .slider-value { font-size: 1.1rem; font-weight: 700; color: #4B49AC; min-width: 90px; text-align: right; }
+    input[type=range] { accent-color: #4B49AC; width: 100%; }
+    .chart-container { position: relative; height: 220px; }
+    .info-pill { background: #f0efff; color: #4B49AC; border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-calculator"></i></span>
+              Simulateur d'épargne
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="epargne.html">Épargne</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Simulateur</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Produits d'épargne -->
+          <div class="row mb-4">
+            <div class="col-12 mb-3">
+              <h5 class="font-weight-semibold"><i class="ti-star text-primary mr-2"></i>Choisissez un produit d'épargne</h5>
+            </div>
+            <div class="col-md-3 col-6 mb-2">
+              <div class="product-card selected" id="prodLivretA" onclick="selectProd('livretA', 3.0)">
+                <div class="product-rate">3,00 %</div>
+                <div class="font-weight-semibold">Livret A</div>
+                <small class="text-muted">Plafond : 22 950 €<br>Disponibilité : immédiate</small>
+                <div class="mt-2"><span class="info-pill">Garanti</span></div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-2">
+              <div class="product-card" id="prodLDD" onclick="selectProd('ldd', 3.0)">
+                <div class="product-rate">3,00 %</div>
+                <div class="font-weight-semibold">LDDS</div>
+                <small class="text-muted">Plafond : 12 000 €<br>Disponibilité : immédiate</small>
+                <div class="mt-2"><span class="info-pill">Garanti</span></div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-2">
+              <div class="product-card" id="prodPEL" onclick="selectProd('pel', 2.25)">
+                <div class="product-rate">2,25 %</div>
+                <div class="font-weight-semibold">PEL</div>
+                <small class="text-muted">Plafond : 61 200 €<br>Blocage : 4 ans min.</small>
+                <div class="mt-2"><span class="info-pill">Garanti</span></div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-2">
+              <div class="product-card" id="prodCSL" onclick="selectProd('csl', 1.5)">
+                <div class="product-rate">1,50 %</div>
+                <div class="font-weight-semibold">Compte sur livret</div>
+                <small class="text-muted">Plafond : illimité<br>Disponibilité : immédiate</small>
+                <div class="mt-2"><span class="info-pill">Garanti</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Paramètres simulation -->
+            <div class="col-lg-5 mb-4">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="ti-settings text-primary mr-2"></i>Paramètres</h5>
+
+                  <div class="form-group">
+                    <label class="d-flex justify-content-between">
+                      <span>Capital initial</span>
+                      <span class="slider-value" id="valCapital">5 000 €</span>
+                    </label>
+                    <input type="range" id="sliderCapital" min="0" max="22950" step="500" value="5000">
+                    <small class="text-muted">De 0 € à 22 950 €</small>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="d-flex justify-content-between">
+                      <span>Versement mensuel</span>
+                      <span class="slider-value" id="valMensuel">200 €</span>
+                    </label>
+                    <input type="range" id="sliderMensuel" min="0" max="2000" step="50" value="200">
+                    <small class="text-muted">De 0 € à 2 000 € / mois</small>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="d-flex justify-content-between">
+                      <span>Durée</span>
+                      <span class="slider-value" id="valDuree">5 ans</span>
+                    </label>
+                    <input type="range" id="sliderDuree" min="1" max="30" step="1" value="5">
+                    <small class="text-muted">De 1 à 30 ans</small>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Taux annuel</label>
+                    <div class="d-flex align-items-center">
+                      <input type="number" id="inputTaux" class="form-control" value="3.00" min="0" max="15" step="0.05" style="width:100px;">
+                      <span class="ml-2">%</span>
+                      <small class="text-muted ml-3">(modifiable)</small>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-gradient-primary btn-fw mt-2" onclick="calculate()">
+                    <i class="ti-calculator mr-2"></i>Calculer
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Résultats -->
+            <div class="col-lg-7 mb-4">
+              <div class="result-card mb-4">
+                <div class="row text-center">
+                  <div class="col-4">
+                    <div class="result-label">Capital final</div>
+                    <div class="result-value" id="resCapFinal">19 441 €</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="result-label">Intérêts gagnés</div>
+                    <div class="result-value" id="resInterets">1 441 €</div>
+                  </div>
+                  <div class="col-4">
+                    <div class="result-label">Versements totaux</div>
+                    <div class="result-value" id="resVersements">17 000 €</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h6 class="font-weight-semibold mb-3"><i class="ti-bar-chart text-primary mr-2"></i>Projection de l'épargne</h6>
+                  <div class="chart-container">
+                    <canvas id="chartSimu"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 mb-4">
+              <div class="alert alert-info">
+                <i class="ti-info-alt mr-2"></i>
+                <strong>Information réglementaire :</strong> Cette simulation est fournie à titre indicatif. Les taux peuvent évoluer selon les décisions de la Banque de France. Les intérêts sont exonérés d'impôt sur le revenu pour le Livret A et le LDDS. Consultez votre conseiller pour un projet d'épargne personnalisé.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank — Établissement de crédit agréé ACPR. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+  <script src="../../vendors/chart.js/Chart.min.js"></script>
+  <script>
+  (function() {
+    'use strict';
+    var currentRate = 3.0;
+    var simuChart = null;
+
+    function fmt(n) { return n.toLocaleString('fr-FR', {maximumFractionDigits: 0}) + ' €'; }
+
+    function selectProd(id, rate) {
+      ['livretA','ldd','pel','csl'].forEach(function(k) {
+        var el = document.getElementById('prod' + k.charAt(0).toUpperCase() + k.slice(1));
+        if (el) el.classList.toggle('selected', k === id);
+      });
+      currentRate = rate;
+      document.getElementById('inputTaux').value = rate.toFixed(2);
+      calculate();
+    }
+
+    function calculate() {
+      var capital = parseInt(document.getElementById('sliderCapital').value) || 0;
+      var mensuel = parseInt(document.getElementById('sliderMensuel').value) || 0;
+      var duree   = parseInt(document.getElementById('sliderDuree').value) || 1;
+      var taux    = parseFloat(document.getElementById('inputTaux').value) || 0;
+      var r = taux / 100 / 12;
+      var mois = duree * 12;
+
+      var total = capital;
+      var labels = [], dataCapital = [], dataTotal = [];
+      for (var y = 0; y <= duree; y++) {
+        var m = y * 12;
+        var val = capital * Math.pow(1 + r, m);
+        if (r > 0) val += mensuel * (Math.pow(1 + r, m) - 1) / r;
+        else val += mensuel * m;
+        labels.push(y === 0 ? 'Départ' : 'An ' + y);
+        dataTotal.push(Math.round(val));
+        dataCapital.push(capital + mensuel * m);
+      }
+      var finalVal = dataTotal[dataTotal.length - 1];
+      var versTotal = capital + mensuel * mois;
+      var interets = finalVal - versTotal;
+
+      document.getElementById('resCapFinal').textContent = fmt(finalVal);
+      document.getElementById('resInterets').textContent = fmt(Math.max(0, interets));
+      document.getElementById('resVersements').textContent = fmt(versTotal);
+
+      // Chart
+      var ctx = document.getElementById('chartSimu').getContext('2d');
+      if (simuChart) simuChart.destroy();
+      simuChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Capital + intérêts', data: dataTotal, borderColor: '#4B49AC', backgroundColor: 'rgba(75,73,172,0.12)', fill: true, tension: 0.3, borderWidth: 2, pointRadius: 4 },
+            { label: 'Versements seuls', data: dataCapital, borderColor: '#ccc', borderDash: [5,5], fill: false, tension: 0.3, borderWidth: 1, pointRadius: 2 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'top' } },
+          scales: { y: { ticks: { callback: function(v) { return v.toLocaleString('fr-FR') + ' €'; } } } }
+        }
+      });
+    }
+
+    // Sliders
+    document.getElementById('sliderCapital').addEventListener('input', function() {
+      document.getElementById('valCapital').textContent = parseInt(this.value).toLocaleString('fr-FR') + ' €';
+      calculate();
+    });
+    document.getElementById('sliderMensuel').addEventListener('input', function() {
+      document.getElementById('valMensuel').textContent = parseInt(this.value).toLocaleString('fr-FR') + ' €';
+      calculate();
+    });
+    document.getElementById('sliderDuree').addEventListener('input', function() {
+      document.getElementById('valDuree').textContent = this.value + ' an' + (parseInt(this.value) > 1 ? 's' : '');
+      calculate();
+    });
+    document.getElementById('inputTaux').addEventListener('input', calculate);
+
+    calculate();
+  })();
+  </script>
+</body>
+</html>

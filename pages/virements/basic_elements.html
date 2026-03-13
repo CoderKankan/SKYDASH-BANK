@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Virement international</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .section-title { font-size: 0.92rem; font-weight: 700; color: #4B49AC; border-left: 4px solid #4B49AC; padding-left: 12px; margin-bottom: 20px; }
+    .fee-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.88rem; }
+    .fee-row:last-child { border-bottom: none; font-weight: 700; }
+    .iban-field { font-family: 'Courier New', monospace; letter-spacing: 2px; }
+    .step-indicator { display: flex; align-items: center; margin-bottom: 28px; }
+    .step-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
+    .step-dot.active { background: #4B49AC; color: #fff; }
+    .step-dot.done   { background: #1bcfb4; color: #fff; }
+    .step-dot.future { background: #e9ecef; color: #6c757d; }
+    .step-line { flex: 1; height: 2px; background: #e9ecef; margin: 0 6px; }
+    .step-line.done { background: #1bcfb4; }
+    .flag { display: inline-block; width: 22px; height: 16px; border-radius: 3px; margin-right: 8px; vertical-align: middle; background: #ccc; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-world"></i></span>
+              Virement international (SWIFT / SEPA hors zone)
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="virement.html">Virements</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Virement international</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Info alerte -->
+          <div class="alert alert-warning d-flex align-items-start mb-4">
+            <i class="ti-info-alt mr-3 mt-1" style="font-size:1.2rem;"></i>
+            <div>
+              <strong>Virement international :</strong> Des frais de change et des commissions bancaires s'appliquent. Le délai de traitement est de 1 à 5 jours ouvrés selon le pays destinataire. Une authentification forte (DSP2) est requise pour valider l'opération.
+            </div>
+          </div>
+
+          <!-- Étapes -->
+          <div class="step-indicator mb-4">
+            <div class="step-dot active">1</div>
+            <div class="step-line"></div>
+            <div class="step-dot future">2</div>
+            <div class="step-line"></div>
+            <div class="step-dot future">3</div>
+            <small class="ml-3 text-muted">Saisie → Récapitulatif → Confirmation</small>
+          </div>
+
+          <div class="row">
+            <!-- Formulaire -->
+            <div class="col-lg-7 mb-4">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <form id="formVrtIntl" autocomplete="off">
+                    <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+
+                    <!-- Compte débiteur -->
+                    <div class="section-title"><i class="ti-wallet mr-2"></i>Compte débiteur</div>
+                    <div class="form-group">
+                      <label for="compteDebit">Compte à débiter</label>
+                      <select class="form-control" id="compteDebit" name="compte_debit" required>
+                        <option value="cc_principal">Compte Courant Principal — FR76 3000 4001 0300 0100 0947 89 — Solde : 12 483,75 €</option>
+                        <option value="cc_joint">Compte Joint — FR76 3000 4001 0300 0200 1823 54 — Solde : 3 210,00 €</option>
+                      </select>
+                    </div>
+
+                    <!-- Bénéficiaire international -->
+                    <div class="section-title mt-4"><i class="ti-user mr-2"></i>Bénéficiaire</div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="nomBenef">Nom du bénéficiaire *</label>
+                          <input type="text" class="form-control" id="nomBenef" name="nom_benef" placeholder="Nom complet ou raison sociale" required maxlength="100" autocomplete="off">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="paysBenef">Pays destinataire *</label>
+                          <select class="form-control" id="paysBenef" name="pays" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option value="US">🇺🇸 États-Unis (USD)</option>
+                            <option value="GB">🇬🇧 Royaume-Uni (GBP)</option>
+                            <option value="CH">🇨🇭 Suisse (CHF)</option>
+                            <option value="CA">🇨🇦 Canada (CAD)</option>
+                            <option value="AU">🇦🇺 Australie (AUD)</option>
+                            <option value="JP">🇯🇵 Japon (JPY)</option>
+                            <option value="CN">🇨🇳 Chine (CNY)</option>
+                            <option value="MA">🇲🇦 Maroc (MAD)</option>
+                            <option value="SN">🇸🇳 Sénégal (XOF)</option>
+                            <option value="TN">🇹🇳 Tunisie (TND)</option>
+                            <option value="OTHER">Autre pays...</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="ibanSwift">IBAN / Numéro de compte *</label>
+                      <input type="text" class="form-control iban-field" id="ibanSwift" name="iban_swift" placeholder="IBAN ou numéro de compte local" required maxlength="34" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="bicSwift">Code BIC / SWIFT *</label>
+                      <input type="text" class="form-control iban-field" id="bicSwift" name="bic_swift" placeholder="Ex : BNPAFRPPXXX" required maxlength="11" autocomplete="off" style="text-transform:uppercase;">
+                      <small class="text-muted">Code d'identification de la banque destinataire (8 ou 11 caractères)</small>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="adresseBenef">Adresse de la banque destinataire</label>
+                      <input type="text" class="form-control" id="adresseBenef" name="adresse_banque" placeholder="Nom et adresse de la banque (optionnel)" maxlength="200">
+                    </div>
+
+                    <!-- Montant et devise -->
+                    <div class="section-title mt-4"><i class="ti-money mr-2"></i>Montant et devise</div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="montantVrt">Montant à transférer *</label>
+                          <div class="input-group">
+                            <input type="number" class="form-control" id="montantVrt" name="montant" placeholder="0,00" min="1" max="50000" step="0.01" required>
+                            <div class="input-group-append">
+                              <select class="form-control" name="devise" style="border-left:none;border-radius:0 4px 4px 0;">
+                                <option value="EUR">EUR €</option>
+                                <option value="USD">USD $</option>
+                                <option value="GBP">GBP £</option>
+                                <option value="CHF">CHF</option>
+                                <option value="CAD">CAD</option>
+                              </select>
+                            </div>
+                          </div>
+                          <small class="text-muted">Montant maximum : 50 000 € par opération</small>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="fraisVrt">Frais bancaires</label>
+                          <select class="form-control" id="fraisVrt" name="frais">
+                            <option value="SHA">SHA — Partagés (recommandé)</option>
+                            <option value="OUR">OUR — À la charge du donneur d'ordre</option>
+                            <option value="BEN">BEN — À la charge du bénéficiaire</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="motifVrt">Motif du virement *</label>
+                      <input type="text" class="form-control" id="motifVrt" name="motif" placeholder="Ex : Facture prestation, Soutien familial, Remboursement..." required maxlength="140" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="dateExec">Date d'exécution</label>
+                      <input type="date" class="form-control" id="dateExec" name="date_exec" value="2026-03-14">
+                    </div>
+
+                    <div class="form-check mb-4">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="confirm_rgpd" required>
+                        Je confirme que les coordonnées du bénéficiaire sont exactes et que ce virement est autorisé. Je reconnais que toute opération non conforme pourra être signalée aux autorités compétentes (TRACFIN, ACPR).
+                        <i class="input-helper"></i>
+                      </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient-primary btn-fw">
+                      <i class="ti-arrow-right mr-2"></i>Passer au récapitulatif
+                    </button>
+                    <a href="virement.html" class="btn btn-outline-secondary ml-2">Annuler</a>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Récapitulatif des frais -->
+            <div class="col-lg-5 mb-4">
+              <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="ti-receipt text-primary mr-2"></i>Estimation des frais</h5>
+                  <div class="fee-row">
+                    <span class="text-muted">Montant du virement</span>
+                    <span id="feesMontant">— €</span>
+                  </div>
+                  <div class="fee-row">
+                    <span class="text-muted">Commission SWIFT fixe</span>
+                    <span>15,00 €</span>
+                  </div>
+                  <div class="fee-row">
+                    <span class="text-muted">Commission de change (0,5%)</span>
+                    <span id="feesChange">— €</span>
+                  </div>
+                  <div class="fee-row">
+                    <span class="text-muted">Frais correspondant étranger</span>
+                    <span>~5,00 €</span>
+                  </div>
+                  <div class="fee-row" style="border-top:2px solid #4B49AC;margin-top:8px;padding-top:12px;">
+                    <span>Total débité</span>
+                    <span id="feesTotal" style="color:#4B49AC;">— €</span>
+                  </div>
+                  <small class="text-muted d-block mt-2"><i class="ti-info-alt mr-1"></i>Les frais de change sont calculés au taux du jour. Délai estimé : 1–3 jours ouvrés pour les pays SEPA, 2–5 jours pour les autres.</small>
+                </div>
+              </div>
+
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="ti-shield text-primary mr-2"></i>Sécurité &amp; conformité</h5>
+                  <ul class="list-unstyled mb-0" style="font-size:0.85rem;">
+                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Authentification forte DSP2 requise</li>
+                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Contrôle LCB-FT automatique (TRACFIN)</li>
+                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Vérification IBAN / BIC en temps réel</li>
+                    <li class="py-2 border-bottom"><i class="ti-check-box text-success mr-2"></i>Plafond réglementaire : 50 000 € / opération</li>
+                    <li class="py-2"><i class="ti-check-box text-success mr-2"></i>Chiffrement de bout en bout TLS 1.3</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank — Établissement de crédit agréé ACPR. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+  <script>
+  (function() {
+    'use strict';
+    var inputMontant = document.getElementById('montantVrt');
+    function updateFees() {
+      var m = parseFloat(inputMontant.value) || 0;
+      var change = m * 0.005;
+      var total = m + 15 + change + 5;
+      document.getElementById('feesMontant').textContent = m.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+      document.getElementById('feesChange').textContent = change.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+      document.getElementById('feesTotal').textContent = total.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+    }
+    if (inputMontant) inputMontant.addEventListener('input', updateFees);
+
+    var form = document.getElementById('formVrtIntl');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Récapitulatif généré. Une authentification forte par SMS sera requise pour confirmer ce virement international.');
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

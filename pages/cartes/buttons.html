@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Paramètres de carte</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .setting-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-label { font-weight: 500; font-size: 0.9rem; color: #343a40; }
+    .setting-desc  { font-size: 0.78rem; color: #6c757d; margin-top: 2px; }
+    .toggle-switch { position: relative; display: inline-block; width: 46px; height: 24px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .3s; }
+    .toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .3s; }
+    input:checked + .toggle-slider { background-color: #4B49AC; }
+    input:checked + .toggle-slider:before { transform: translateX(22px); }
+    .card-selector { border: 2px solid #e9ecef; border-radius: 10px; padding: 14px; cursor: pointer; transition: border-color 0.2s; margin-bottom: 10px; }
+    .card-selector.active { border-color: #4B49AC; background: #f4f4ff; }
+    .limit-input { width: 120px; text-align: right; }
+    .section-card-title { font-size: 0.95rem; font-weight: 600; color: #4B49AC; border-bottom: 2px solid #4B49AC; padding-bottom: 6px; margin-bottom: 18px; display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+
+    <!-- NAVBAR -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+
+      <!-- SIDEBAR -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-settings"></i></span>
+              Paramètres de carte
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="mes-cartes.html">Mes Cartes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Paramètres</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Sélection de carte -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h5 class="card-title"><i class="ti-credit-card text-primary mr-2"></i>Sélectionnez une carte</h5>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="card-selector active" id="selVisa" onclick="selectCard('visa')">
+                        <div class="d-flex align-items-center">
+                          <div style="background:linear-gradient(135deg,#4B49AC,#7978E9);border-radius:8px;width:48px;height:32px;margin-right:14px;flex-shrink:0;"></div>
+                          <div>
+                            <div class="font-weight-semibold">Visa Débit **** 4521</div>
+                            <small class="text-muted">Compte courant principal — Active</small>
+                          </div>
+                          <span class="ml-auto badge badge-success">Active</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card-selector" id="selMC" onclick="selectCard('mc')">
+                        <div class="d-flex align-items-center">
+                          <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:8px;width:48px;height:32px;margin-right:14px;flex-shrink:0;"></div>
+                          <div>
+                            <div class="font-weight-semibold">Mastercard Crédit **** 8834</div>
+                            <small class="text-muted">Plafond 3 000,00 € — Active</small>
+                          </div>
+                          <span class="ml-auto badge badge-success">Active</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <!-- Autorisations de paiement -->
+            <div class="col-lg-6 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                  <div class="section-card-title"><i class="ti-check-box mr-2"></i>Autorisations de paiement</div>
+
+                  <div class="setting-row">
+                    <div>
+                      <div class="setting-label"><i class="ti-mobile text-muted mr-2"></i>Paiement sans contact (NFC)</div>
+                      <div class="setting-desc">Permet les paiements sans insertion de la carte jusqu'à 50 €</div>
+                    </div>
+                    <label class="toggle-switch ml-3">
+                      <input type="checkbox" checked>
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="setting-row">
+                    <div>
+                      <div class="setting-label"><i class="ti-world text-muted mr-2"></i>Paiements en ligne (e-commerce)</div>
+                      <div class="setting-desc">Achats sur internet avec code 3D Secure</div>
+                    </div>
+                    <label class="toggle-switch ml-3">
+                      <input type="checkbox" checked>
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="setting-row">
+                    <div>
+                      <div class="setting-label"><i class="ti-location-pin text-muted mr-2"></i>Paiements à l'étranger</div>
+                      <div class="setting-desc">Hors zone SEPA — frais de change applicables</div>
+                    </div>
+                    <label class="toggle-switch ml-3">
+                      <input type="checkbox">
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="setting-row">
+                    <div>
+                      <div class="setting-label"><i class="ti-money text-muted mr-2"></i>Retraits DAB</div>
+                      <div class="setting-desc">Retrait espèces aux distributeurs automatiques</div>
+                    </div>
+                    <label class="toggle-switch ml-3">
+                      <input type="checkbox" checked>
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="setting-row">
+                    <div>
+                      <div class="setting-label"><i class="ti-shopping-cart text-muted mr-2"></i>Paiements récurrents (abonnements)</div>
+                      <div class="setting-desc">Prélèvements automatiques liés à des abonnements</div>
+                    </div>
+                    <label class="toggle-switch ml-3">
+                      <input type="checkbox" checked>
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Plafonds personnalisés -->
+            <div class="col-lg-6 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                  <div class="section-card-title"><i class="ti-bar-chart mr-2"></i>Plafonds personnalisés</div>
+                  <form id="formPlafonds" autocomplete="off">
+                    <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+
+                    <div class="setting-row">
+                      <div>
+                        <div class="setting-label">Plafond paiement sans contact / opération</div>
+                        <div class="setting-desc">Max réglementaire : 50,00 €</div>
+                      </div>
+                      <input type="number" class="form-control form-control-sm limit-input" value="50" min="1" max="50" step="1">
+                    </div>
+
+                    <div class="setting-row">
+                      <div>
+                        <div class="setting-label">Plafond paiements en ligne / jour</div>
+                        <div class="setting-desc">Maximum autorisé : 2 000,00 €</div>
+                      </div>
+                      <div class="input-group" style="width:130px;">
+                        <input type="number" class="form-control form-control-sm limit-input" value="500" min="0" max="2000" step="50">
+                        <div class="input-group-append"><span class="input-group-text" style="font-size:0.75rem;">€</span></div>
+                      </div>
+                    </div>
+
+                    <div class="setting-row">
+                      <div>
+                        <div class="setting-label">Plafond retraits DAB / semaine</div>
+                        <div class="setting-desc">Maximum autorisé : 1 000,00 €</div>
+                      </div>
+                      <div class="input-group" style="width:130px;">
+                        <input type="number" class="form-control form-control-sm limit-input" value="500" min="0" max="1000" step="50">
+                        <div class="input-group-append"><span class="input-group-text" style="font-size:0.75rem;">€</span></div>
+                      </div>
+                    </div>
+
+                    <div class="setting-row">
+                      <div>
+                        <div class="setting-label">Plafond paiements à l'étranger / jour</div>
+                        <div class="setting-desc">Maximum autorisé : 3 000,00 €</div>
+                      </div>
+                      <div class="input-group" style="width:130px;">
+                        <input type="number" class="form-control form-control-sm limit-input" value="1000" min="0" max="3000" step="100">
+                        <div class="input-group-append"><span class="input-group-text" style="font-size:0.75rem;">€</span></div>
+                      </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-end" style="gap:10px;">
+                      <button type="reset" class="btn btn-outline-secondary btn-sm">Annuler</button>
+                      <button type="submit" class="btn btn-gradient-primary btn-sm"><i class="ti-check mr-1"></i>Enregistrer les plafonds</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Notifications -->
+          <div class="row">
+            <div class="col-12 mb-4">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <div class="section-card-title"><i class="ti-bell mr-2"></i>Alertes et notifications de carte</div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="setting-row">
+                        <div>
+                          <div class="setting-label">Alerte chaque transaction</div>
+                          <div class="setting-desc">SMS + notification push</div>
+                        </div>
+                        <label class="toggle-switch ml-3"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="setting-row">
+                        <div>
+                          <div class="setting-label">Alerte si transaction &gt; 200 €</div>
+                          <div class="setting-desc">Seuil personnalisable</div>
+                        </div>
+                        <label class="toggle-switch ml-3"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="setting-row">
+                        <div>
+                          <div class="setting-label">Alerte paiement à l'étranger</div>
+                          <div class="setting-desc">Toute transaction hors zone SEPA</div>
+                        </div>
+                        <label class="toggle-switch ml-3"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert alert-info mt-2 p-2 mb-0">
+                    <i class="ti-info-alt mr-2"></i><small>Les modifications de paramètres sont appliquées immédiatement et peuvent nécessiter une authentification forte (DSP2).</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /content-wrapper -->
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank — Établissement de crédit agréé ACPR. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div><!-- /main-panel -->
+    </div><!-- /page-body-wrapper -->
+  </div><!-- /container-scroller -->
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+  <script>
+  (function() {
+    'use strict';
+    function selectCard(type) {
+      document.getElementById('selVisa').classList.toggle('active', type === 'visa');
+      document.getElementById('selMC').classList.toggle('active', type === 'mc');
+    }
+    var form = document.getElementById('formPlafonds');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Paramètres enregistrés. Une confirmation par SMS vous sera envoyée.');
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

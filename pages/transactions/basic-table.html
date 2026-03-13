@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Opérations en attente</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .status-pending   { background:#fff3cd; color:#856404; border-radius:12px; padding:3px 10px; font-size:0.78rem; font-weight:600; }
+    .status-scheduled { background:#d1ecf1; color:#0c5460; border-radius:12px; padding:3px 10px; font-size:0.78rem; font-weight:600; }
+    .status-blocked   { background:#f8d7da; color:#721c24; border-radius:12px; padding:3px 10px; font-size:0.78rem; font-weight:600; }
+    .amount-debit  { color: #fe7c96; font-weight: 600; }
+    .amount-credit { color: #1bcfb4; font-weight: 600; }
+    .ref-code { font-family: monospace; font-size: 0.78rem; color: #6c757d; }
+    .table th { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6c757d; background-color: #f8f9fa; font-weight: 600; }
+    .table td { font-size: 0.875rem; vertical-align: middle; }
+    .countdown { font-weight: 600; color: #4B49AC; font-size: 0.85rem; }
+    .section-header { font-size: 0.9rem; font-weight: 700; color: #4B49AC; border-bottom: 2px solid #4B49AC; padding-bottom: 8px; margin-bottom: 16px; display: flex; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-time"></i></span>
+              Opérations en attente
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="historique.html">Historique</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Opérations en attente</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Résumé -->
+          <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+              <div class="card" style="border-top:3px solid #f3a84b;">
+                <div class="card-body">
+                  <p class="text-muted mb-1" style="font-size:0.8rem;text-transform:uppercase;">Virements programmés</p>
+                  <div style="font-size:1.3rem;font-weight:700;color:#f3a84b;">3</div>
+                  <small class="text-muted">Total : 870,00 €</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="border-top:3px solid #fe7c96;">
+                <div class="card-body">
+                  <p class="text-muted mb-1" style="font-size:0.8rem;text-transform:uppercase;">Prélèvements à venir</p>
+                  <div style="font-size:1.3rem;font-weight:700;color:#fe7c96;">5</div>
+                  <small class="text-muted">Total : 1 248,49 €</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="border-top:3px solid #4B49AC;">
+                <div class="card-body">
+                  <p class="text-muted mb-1" style="font-size:0.8rem;text-transform:uppercase;">Chèques en cours</p>
+                  <div style="font-size:1.3rem;font-weight:700;color:#4B49AC;">1</div>
+                  <small class="text-muted">Total : 320,00 €</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Virements programmés -->
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+              <div class="section-header"><i class="ti-exchange-vertical mr-2"></i>Virements programmés</div>
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Date d'exécution</th>
+                      <th>Bénéficiaire</th>
+                      <th>IBAN destinataire</th>
+                      <th>Motif</th>
+                      <th>Statut</th>
+                      <th class="text-right">Montant</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>14/03/2026</strong><br><span class="countdown">Demain</span></td>
+                      <td>MARTIN Sophie</td>
+                      <td><span class="ref-code">FR76 1820 6004 0300 0015 4571 89</span></td>
+                      <td>Remboursement concert</td>
+                      <td><span class="status-pending">En attente</span></td>
+                      <td class="text-right amount-debit">-120,00 €</td>
+                      <td><button class="btn btn-outline-danger btn-sm"><i class="ti-close"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>15/03/2026</strong><br><span class="countdown">2 jours</span></td>
+                      <td>DUPONT Jean-Paul</td>
+                      <td><span class="ref-code">FR76 3000 4001 0300 0200 1823 54</span></td>
+                      <td>Participation weekend</td>
+                      <td><span class="status-pending">En attente</span></td>
+                      <td class="text-right amount-debit">-250,00 €</td>
+                      <td><button class="btn btn-outline-danger btn-sm"><i class="ti-close"></i></button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>20/03/2026</strong><br><span class="countdown">7 jours</span></td>
+                      <td>Virement automatique — Livret A</td>
+                      <td><span class="ref-code">FR76 3000 4001 0300 0300 7832 00</span></td>
+                      <td>Épargne mensuelle automatique</td>
+                      <td><span class="status-scheduled">Programmé</span></td>
+                      <td class="text-right amount-debit">-500,00 €</td>
+                      <td><button class="btn btn-outline-warning btn-sm"><i class="ti-pencil"></i></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prélèvements à venir -->
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+              <div class="section-header"><i class="ti-agenda mr-2"></i>Prélèvements à venir</div>
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Date prévue</th>
+                      <th>Créancier</th>
+                      <th>Référence mandat</th>
+                      <th>Fréquence</th>
+                      <th>Statut</th>
+                      <th class="text-right">Montant estimé</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>15/03/2026</strong></td>
+                      <td><i class="ti-home text-muted mr-1"></i>SCI LES PINS</td>
+                      <td><span class="ref-code">MANDAT-00234-SCI</span></td>
+                      <td>Mensuel</td>
+                      <td><span class="status-scheduled">Programmé</span></td>
+                      <td class="text-right amount-debit">- 900,00 €</td>
+                    </tr>
+                    <tr>
+                      <td><strong>16/03/2026</strong></td>
+                      <td><i class="ti-bolt text-muted mr-1"></i>EDF ENERGIE</td>
+                      <td><span class="ref-code">MANDAT-EDF-78234</span></td>
+                      <td>Mensuel</td>
+                      <td><span class="status-scheduled">Programmé</span></td>
+                      <td class="text-right amount-debit">- 112,80 €</td>
+                    </tr>
+                    <tr>
+                      <td><strong>18/03/2026</strong></td>
+                      <td><i class="ti-mobile text-muted mr-1"></i>ORANGE TELECOM</td>
+                      <td><span class="ref-code">MANDAT-OFR-00882</span></td>
+                      <td>Mensuel</td>
+                      <td><span class="status-scheduled">Programmé</span></td>
+                      <td class="text-right amount-debit">- 49,99 €</td>
+                    </tr>
+                    <tr>
+                      <td><strong>20/03/2026</strong></td>
+                      <td><i class="ti-car text-muted mr-1"></i>MAIF ASSURANCES</td>
+                      <td><span class="ref-code">MANDAT-MAIF-4410</span></td>
+                      <td>Mensuel</td>
+                      <td><span class="status-scheduled">Programmé</span></td>
+                      <td class="text-right amount-debit">- 157,20 €</td>
+                    </tr>
+                    <tr>
+                      <td><strong>25/03/2026</strong></td>
+                      <td><i class="ti-video-camera text-muted mr-1"></i>CANAL+ DISTRIBUTION</td>
+                      <td><span class="ref-code">MANDAT-CAN-09021</span></td>
+                      <td>Mensuel</td>
+                      <td><span class="status-scheduled">Programmé</span></td>
+                      <td class="text-right amount-debit">- 28,50 €</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="text-muted small mt-3 mb-0"><i class="ti-info-alt mr-1"></i>Les montants des prélèvements sont ceux communiqués par les créanciers et peuvent légèrement varier.</p>
+            </div>
+          </div>
+
+          <!-- Chèques en cours -->
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+              <div class="section-header"><i class="ti-write mr-2"></i>Chèques émis en cours de traitement</div>
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>N° chèque</th>
+                      <th>Bénéficiaire</th>
+                      <th>Date d'émission</th>
+                      <th>Statut</th>
+                      <th class="text-right">Montant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="ref-code">CHQ-7482391</span></td>
+                      <td>LEBLANC &amp; ASSOCIÉS</td>
+                      <td>10/03/2026</td>
+                      <td><span class="status-pending">En cours d'encaissement</span></td>
+                      <td class="text-right amount-debit">-320,00 €</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank — Établissement de crédit agréé ACPR. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+</body>
+</html>

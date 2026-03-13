@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'"/>
+  <title>SkyDash Bank — Historique des transactions</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css"/>
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css"/>
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css"/>
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css"/>
+  <link rel="shortcut icon" href="../../images/favicon.png"/>
+  <style>
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #343a40;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    .amount-credit { color: #1bcfb4; font-weight: 600; }
+    .amount-debit  { color: #fe7c96; font-weight: 600; }
+    .summary-card  { border-top: 3px solid #4B49AC; }
+    .summary-value { font-size: 1.3rem; font-weight: 700; }
+    .filter-bar    { background: #f8f9fb; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border: 1px solid #e9ecef; }
+    .page-header   { margin-bottom: 1.5rem; }
+    .table th      { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6c757d; background-color: #f8f9fa; font-weight: 600; }
+    .table td      { font-size: 0.875rem; vertical-align: middle; }
+    .badge-type-credit { background: #e6fdf9; color: #1bcfb4; font-weight: 600; border-radius: 12px; padding: 0.25em 0.65em; font-size: 0.75rem; }
+    .badge-type-debit  { background: #fff1f3; color: #fe7c96; font-weight: 600; border-radius: 12px; padding: 0.25em 0.65em; font-size: 0.75rem; }
+    .export-btn    { position: relative; }
+    .tooltip-text  { visibility: hidden; opacity: 0; background: #343a40; color: #fff; text-align: center; border-radius: 4px; padding: 4px 10px; position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.75rem; transition: opacity 0.2s; z-index: 10; }
+    .export-btn:hover .tooltip-text { visibility: visible; opacity: 1; }
+    .pagination .page-item.active .page-link { background-color: #4B49AC; border-color: #4B49AC; }
+    .pagination .page-link { color: #4B49AC; }
+    .pagination .page-link:hover { color: #3b3a8c; }
+    .ref-code { font-family: monospace; font-size: 0.78rem; color: #6c757d; }
+    .table-striped tbody tr:nth-of-type(odd) { background-color: rgba(75,73,172,0.03); }
+  </style>
+</head>
+<body>
+<div class="container-scroller">
+
+  <!-- Navbar -->
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+      <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item nav-profile dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+            <img src="../../images/faces/face28.jpg" alt="profil"/>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+            <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+          </div>
+        </li>
+      </ul>
+      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+    </div>
+  </nav>
+
+  <div class="container-fluid page-body-wrapper">
+
+    <!-- Sidebar -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="../../index.html">
+            <i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/comptes/mes-comptes.html">
+            <i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/virements/virement.html">
+            <i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="../../pages/transactions/historique.html">
+            <i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/cartes/mes-cartes.html">
+            <i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/epargne/epargne.html">
+            <i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html">
+            <i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/profil/profil.html">
+            <i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/securite/securite.html">
+            <i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../../pages/aide/aide.html">
+            <i class="ti-help menu-icon"></i><span class="menu-title">Aide</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main content -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+        <!-- Page header -->
+        <div class="page-header">
+          <h3 class="page-title">
+            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+              <i class="ti-receipt"></i>
+            </span>
+            Historique des transactions
+          </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Historique</li>
+            </ol>
+          </nav>
+        </div>
+
+        <!-- Summary row -->
+        <div class="row mb-4">
+          <div class="col-md-4 col-12 mb-3">
+            <div class="card summary-card">
+              <div class="card-body">
+                <p class="text-muted mb-1" style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em;">Total crédits</p>
+                <div class="summary-value amount-credit">+ 7 845,00 €</div>
+                <small class="text-muted">Mars 2026 (13 jours)</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-12 mb-3">
+            <div class="card" style="border-top: 3px solid #fe7c96;">
+              <div class="card-body">
+                <p class="text-muted mb-1" style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em;">Total débits</p>
+                <div class="summary-value amount-debit">- 2 198,37 €</div>
+                <small class="text-muted">Mars 2026 (13 jours)</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-12 mb-3">
+            <div class="card" style="border-top: 3px solid #4B49AC;">
+              <div class="card-body">
+                <p class="text-muted mb-1" style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em;">Solde de la période</p>
+                <div class="summary-value" style="color:#4B49AC;">+ 5 646,63 €</div>
+                <small class="text-muted">Variation nette</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <form id="filterForm" class="form-inline flex-wrap" autocomplete="off">
+            <div class="form-group mr-3 mb-2">
+              <label for="filterCompte" class="mr-2" style="font-size:0.85rem;">Compte</label>
+              <select class="form-control form-control-sm" id="filterCompte" name="filterCompte">
+                <option value="">Tous les comptes</option>
+                <option value="courant" selected>Compte Courant — *4521</option>
+                <option value="epargne">Livret A — *7832</option>
+                <option value="joint">Compte Joint — *1109</option>
+              </select>
+            </div>
+            <div class="form-group mr-3 mb-2">
+              <label for="filterDateDebut" class="mr-2" style="font-size:0.85rem;">Du</label>
+              <input type="date" class="form-control form-control-sm" id="filterDateDebut" name="filterDateDebut" value="2026-03-01"/>
+            </div>
+            <div class="form-group mr-3 mb-2">
+              <label for="filterDateFin" class="mr-2" style="font-size:0.85rem;">Au</label>
+              <input type="date" class="form-control form-control-sm" id="filterDateFin" name="filterDateFin" value="2026-03-13"/>
+            </div>
+            <div class="form-group mr-3 mb-2">
+              <label for="filterType" class="mr-2" style="font-size:0.85rem;">Type</label>
+              <select class="form-control form-control-sm" id="filterType" name="filterType">
+                <option value="">Tous</option>
+                <option value="credit">Crédit</option>
+                <option value="debit">Débit</option>
+              </select>
+            </div>
+            <div class="form-group mr-3 mb-2">
+              <label for="filterMotif" class="mr-2" style="font-size:0.85rem;">Motif</label>
+              <select class="form-control form-control-sm" id="filterMotif" name="filterMotif">
+                <option value="">Tous les motifs</option>
+                <option value="virement">Virement</option>
+                <option value="prelevement">Prélèvement</option>
+                <option value="cb">Paiement CB</option>
+                <option value="salaire">Salaire</option>
+                <option value="retrait">Retrait DAB</option>
+              </select>
+            </div>
+            <div class="mb-2">
+              <button type="button" class="btn btn-sm btn-gradient-primary" id="btnFilter">
+                <i class="ti-search mr-1"></i>Filtrer
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary ml-2" id="btnReset">
+                <i class="ti-reload mr-1"></i>Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Export buttons -->
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <p class="text-muted mb-0" style="font-size:0.85rem;">
+            <strong>182</strong> opérations trouvées &mdash; Page <strong>1</strong> sur 12
+          </p>
+          <div>
+            <span class="export-btn d-inline-block mr-2">
+              <button class="btn btn-sm btn-outline-secondary" disabled>
+                <i class="ti-file mr-1"></i>Télécharger PDF
+              </button>
+              <span class="tooltip-text">Fonctionnalité en cours de déploiement</span>
+            </span>
+            <span class="export-btn d-inline-block">
+              <button class="btn btn-sm btn-outline-secondary" disabled>
+                <i class="ti-layout-list-thumb mr-1"></i>Télécharger CSV
+              </button>
+              <span class="tooltip-text">Fonctionnalité en cours de déploiement</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Transactions table -->
+        <div class="card mb-4">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover mb-0" id="transactionsTable">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Description</th>
+                    <th>Référence</th>
+                    <th>Type</th>
+                    <th class="text-right">Montant</th>
+                    <th class="text-right">Solde</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>13/03/2026</td>
+                    <td><small class="text-muted">14:32</small></td>
+                    <td>
+                      <span class="font-weight-medium">Virement reçu — MARTIN Sophie</span><br/>
+                      <small class="text-muted">Remboursement dîner</small>
+                    </td>
+                    <td><span class="ref-code">VRT-2026031301</span></td>
+                    <td><span class="badge-type-credit">Crédit</span></td>
+                    <td class="text-right amount-credit">+45,00 €</td>
+                    <td class="text-right">12 483,75 €</td>
+                  </tr>
+                  <tr>
+                    <td>12/03/2026</td>
+                    <td><small class="text-muted">11:17</small></td>
+                    <td>
+                      <span class="font-weight-medium">Paiement CB — MONOPRIX PARIS 11</span><br/>
+                      <small class="text-muted">Courses alimentaires</small>
+                    </td>
+                    <td><span class="ref-code">CB-2026031201</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-78,32 €</td>
+                    <td class="text-right">12 438,75 €</td>
+                  </tr>
+                  <tr>
+                    <td>11/03/2026</td>
+                    <td><small class="text-muted">09:05</small></td>
+                    <td>
+                      <span class="font-weight-medium">Retrait DAB — SOCIÉTÉ GÉNÉRALE BASTILLE</span><br/>
+                      <small class="text-muted">Retrait espèces</small>
+                    </td>
+                    <td><span class="ref-code">DAB-2026031101</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-100,00 €</td>
+                    <td class="text-right">12 517,07 €</td>
+                  </tr>
+                  <tr>
+                    <td>10/03/2026</td>
+                    <td><small class="text-muted">16:44</small></td>
+                    <td>
+                      <span class="font-weight-medium">Prélèvement — EDF ENERGIE</span><br/>
+                      <small class="text-muted">Facture électricité mars 2026</small>
+                    </td>
+                    <td><span class="ref-code">PREL-2026031001</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-112,80 €</td>
+                    <td class="text-right">12 617,07 €</td>
+                  </tr>
+                  <tr>
+                    <td>10/03/2026</td>
+                    <td><small class="text-muted">08:22</small></td>
+                    <td>
+                      <span class="font-weight-medium">Virement émis — DUPONT Jean</span><br/>
+                      <small class="text-muted">Remboursement loyer</small>
+                    </td>
+                    <td><span class="ref-code">VRT-2026031002</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-250,00 €</td>
+                    <td class="text-right">12 729,87 €</td>
+                  </tr>
+                  <tr>
+                    <td>08/03/2026</td>
+                    <td><small class="text-muted">19:03</small></td>
+                    <td>
+                      <span class="font-weight-medium">Paiement CB — UBER EATS FRANCE</span><br/>
+                      <small class="text-muted">Restauration en ligne</small>
+                    </td>
+                    <td><span class="ref-code">CB-2026030801</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-32,90 €</td>
+                    <td class="text-right">12 979,87 €</td>
+                  </tr>
+                  <tr>
+                    <td>07/03/2026</td>
+                    <td><small class="text-muted">10:15</small></td>
+                    <td>
+                      <span class="font-weight-medium">Paiement CB — FNAC FORUM DES HALLES</span><br/>
+                      <small class="text-muted">Achat livre &amp; accessoires</small>
+                    </td>
+                    <td><span class="ref-code">CB-2026030701</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-64,50 €</td>
+                    <td class="text-right">13 012,77 €</td>
+                  </tr>
+                  <tr>
+                    <td>06/03/2026</td>
+                    <td><small class="text-muted">07:58</small></td>
+                    <td>
+                      <span class="font-weight-medium">Prélèvement — MAIF ASSURANCES</span><br/>
+                      <small class="text-muted">Assurance habitation mars 2026</small>
+                    </td>
+                    <td><span class="ref-code">PREL-2026030601</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-28,50 €</td>
+                    <td class="text-right">13 077,27 €</td>
+                  </tr>
+                  <tr>
+                    <td>05/03/2026</td>
+                    <td><small class="text-muted">08:00</small></td>
+                    <td>
+                      <span class="font-weight-medium">Virement reçu — DURAND &amp; ASSOCIÉS SARL</span><br/>
+                      <small class="text-muted">Salaire mars 2026</small>
+                    </td>
+                    <td><span class="ref-code">SAL-2026030501</span></td>
+                    <td><span class="badge-type-credit">Crédit</span></td>
+                    <td class="text-right amount-credit">+3 250,00 €</td>
+                    <td class="text-right">13 105,77 €</td>
+                  </tr>
+                  <tr>
+                    <td>04/03/2026</td>
+                    <td><small class="text-muted">12:30</small></td>
+                    <td>
+                      <span class="font-weight-medium">Paiement CB — CARREFOUR NATION</span><br/>
+                      <small class="text-muted">Courses alimentaires</small>
+                    </td>
+                    <td><span class="ref-code">CB-2026030401</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-95,20 €</td>
+                    <td class="text-right">9 855,77 €</td>
+                  </tr>
+                  <tr>
+                    <td>03/03/2026</td>
+                    <td><small class="text-muted">15:47</small></td>
+                    <td>
+                      <span class="font-weight-medium">Virement reçu — LEBLANC Pierre</span><br/>
+                      <small class="text-muted">Part voyage partagé</small>
+                    </td>
+                    <td><span class="ref-code">VRT-2026030301</span></td>
+                    <td><span class="badge-type-credit">Crédit</span></td>
+                    <td class="text-right amount-credit">+150,00 €</td>
+                    <td class="text-right">9 950,97 €</td>
+                  </tr>
+                  <tr>
+                    <td>02/03/2026</td>
+                    <td><small class="text-muted">20:11</small></td>
+                    <td>
+                      <span class="font-weight-medium">Paiement CB — AMAZON EU SARL</span><br/>
+                      <small class="text-muted">Commande #113-9456-7823</small>
+                    </td>
+                    <td><span class="ref-code">CB-2026030201</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-56,99 €</td>
+                    <td class="text-right">9 800,97 €</td>
+                  </tr>
+                  <tr>
+                    <td>01/03/2026</td>
+                    <td><small class="text-muted">06:00</small></td>
+                    <td>
+                      <span class="font-weight-medium">Prélèvement — ORANGE TELECOM</span><br/>
+                      <small class="text-muted">Abonnement mobile &amp; internet</small>
+                    </td>
+                    <td><span class="ref-code">PREL-2026030101</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-49,99 €</td>
+                    <td class="text-right">9 857,96 €</td>
+                  </tr>
+                  <tr>
+                    <td>01/03/2026</td>
+                    <td><small class="text-muted">06:00</small></td>
+                    <td>
+                      <span class="font-weight-medium">Prélèvement — SCI LES PINS</span><br/>
+                      <small class="text-muted">Loyer mars 2026</small>
+                    </td>
+                    <td><span class="ref-code">PREL-2026030102</span></td>
+                    <td><span class="badge-type-debit">Débit</span></td>
+                    <td class="text-right amount-debit">-900,00 €</td>
+                    <td class="text-right">9 907,96 €</td>
+                  </tr>
+                  <tr>
+                    <td>01/03/2026</td>
+                    <td><small class="text-muted">00:01</small></td>
+                    <td>
+                      <span class="font-weight-medium">Virement reçu — CPAM ILE-DE-FRANCE</span><br/>
+                      <small class="text-muted">Remboursement soins médicaux</small>
+                    </td>
+                    <td><span class="ref-code">VRT-2026030103</span></td>
+                    <td><span class="badge-type-credit">Crédit</span></td>
+                    <td class="text-right amount-credit">+128,40 €</td>
+                    <td class="text-right">10 807,96 €</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <small class="text-muted">Affichage de 1 à 15 sur 182 opérations</small>
+          <nav aria-label="Pagination de l'historique">
+            <ul class="pagination pagination-sm mb-0">
+              <li class="page-item disabled">
+                <span class="page-link" aria-label="Précédent">
+                  <span aria-hidden="true">&laquo;</span>
+                </span>
+              </li>
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">1</span>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#">5</a></li>
+              <li class="page-item disabled"><span class="page-link">...</span></li>
+              <li class="page-item"><a class="page-link" href="#">12</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Suivant">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+      </div><!-- /content-wrapper -->
+
+      <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
+            &copy; 2026 SkyDash Bank — Établissement de crédit agréé par l'ACPR. Tous droits réservés.
+          </span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-muted">
+            <i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3
+          </span>
+        </div>
+      </footer>
+
+    </div><!-- /main-panel -->
+  </div><!-- /page-body-wrapper -->
+</div><!-- /container-scroller -->
+
+<script src="../../vendors/js/vendor.bundle.base.js"></script>
+<script src="../../js/off-canvas.js"></script>
+<script src="../../js/hoverable-collapse.js"></script>
+<script src="../../js/template.js"></script>
+<script src="../../js/settings.js"></script>
+<script src="../../js/todolist.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  // Filter button: simple client-side row filtering by type
+  var btnFilter = document.getElementById('btnFilter');
+  var btnReset  = document.getElementById('btnReset');
+
+  function filterTable() {
+    var typeVal  = document.getElementById('filterType').value.toLowerCase();
+    var rows     = document.querySelectorAll('#transactionsTable tbody tr');
+
+    rows.forEach(function (row) {
+      var typeCell = row.querySelector('.badge-type-credit, .badge-type-debit');
+      if (!typeVal) {
+        row.style.display = '';
+        return;
+      }
+      if (typeCell) {
+        var cellType = typeCell.classList.contains('badge-type-credit') ? 'credit' : 'debit';
+        row.style.display = (cellType === typeVal) ? '' : 'none';
+      }
+    });
+  }
+
+  if (btnFilter) {
+    btnFilter.addEventListener('click', filterTable);
+  }
+
+  if (btnReset) {
+    btnReset.addEventListener('click', function () {
+      document.getElementById('filterForm').reset();
+      var rows = document.querySelectorAll('#transactionsTable tbody tr');
+      rows.forEach(function (row) { row.style.display = ''; });
+    });
+  }
+
+  // Disabled export button tooltip (accessibility enhancement)
+  document.querySelectorAll('.export-btn button[disabled]').forEach(function (btn) {
+    btn.setAttribute('aria-disabled', 'true');
+    btn.setAttribute('title', 'Fonctionnalité en cours de déploiement');
+  });
+
+})();
+</script>
+</body>
+</html>

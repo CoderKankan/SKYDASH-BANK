@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Transactions par carte</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .amount-credit { color: #1bcfb4; font-weight: 600; }
+    .amount-debit  { color: #fe7c96; font-weight: 600; }
+    .badge-type-credit { background: #e6fdf9; color: #1bcfb4; font-weight: 600; border-radius: 12px; padding: 0.25em 0.65em; font-size: 0.75rem; }
+    .badge-type-debit  { background: #fff1f3; color: #fe7c96; font-weight: 600; border-radius: 12px; padding: 0.25em 0.65em; font-size: 0.75rem; }
+    .filter-bar { background: #f8f9fb; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; border: 1px solid #e9ecef; }
+    .table th { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #6c757d; background-color: #f8f9fa; font-weight: 600; }
+    .table td { font-size: 0.875rem; vertical-align: middle; }
+    .ref-code { font-family: monospace; font-size: 0.78rem; color: #6c757d; }
+    .card-mini-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600; }
+    .card-visa { background: #ede9ff; color: #4B49AC; }
+    .card-mc   { background: #1a1a2e22; color: #333; }
+    .table-striped tbody tr:nth-of-type(odd) { background-color: rgba(75,73,172,0.03); }
+    .summary-strip { border-radius: 10px; padding: 14px 20px; margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+
+    <!-- NAVBAR -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+
+      <!-- SIDEBAR -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-receipt"></i></span>
+              Transactions par carte
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="mes-cartes.html">Mes Cartes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Transactions par carte</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Résumé mensuel -->
+          <div class="row mb-3">
+            <div class="col-md-4 mb-3">
+              <div class="card" style="border-top:3px solid #4B49AC;">
+                <div class="card-body">
+                  <p class="text-muted mb-1" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;">Visa Débit *4521</p>
+                  <div style="font-size:1.25rem;font-weight:700;color:#fe7c96;">- 1 436,91 €</div>
+                  <small class="text-muted">Dépenses mars 2026 (13 transactions)</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="border-top:3px solid #1a1a2e;">
+                <div class="card-body">
+                  <p class="text-muted mb-1" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;">Mastercard Crédit *8834</p>
+                  <div style="font-size:1.25rem;font-weight:700;color:#fe7c96;">- 487,50 €</div>
+                  <small class="text-muted">Dépenses mars 2026 (6 transactions)</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="border-top:3px solid #1bcfb4;">
+                <div class="card-body">
+                  <p class="text-muted mb-1" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;">Total paiements CB</p>
+                  <div style="font-size:1.25rem;font-weight:700;color:#4B49AC;">- 1 924,41 €</div>
+                  <small class="text-muted">Toutes cartes confondues</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtre -->
+          <div class="filter-bar">
+            <form class="form-inline flex-wrap" autocomplete="off">
+              <div class="form-group mr-3 mb-2">
+                <label for="filterCarte" class="mr-2" style="font-size:0.85rem;">Carte</label>
+                <select class="form-control form-control-sm" id="filterCarte">
+                  <option value="">Toutes les cartes</option>
+                  <option value="visa">Visa Débit *4521</option>
+                  <option value="mc">Mastercard Crédit *8834</option>
+                </select>
+              </div>
+              <div class="form-group mr-3 mb-2">
+                <label for="filterMois" class="mr-2" style="font-size:0.85rem;">Mois</label>
+                <select class="form-control form-control-sm" id="filterMois">
+                  <option value="2026-03" selected>Mars 2026</option>
+                  <option value="2026-02">Février 2026</option>
+                  <option value="2026-01">Janvier 2026</option>
+                  <option value="2025-12">Décembre 2025</option>
+                </select>
+              </div>
+              <div class="form-group mr-3 mb-2">
+                <label for="filterCateg" class="mr-2" style="font-size:0.85rem;">Catégorie</label>
+                <select class="form-control form-control-sm" id="filterCateg">
+                  <option value="">Toutes</option>
+                  <option value="alimentation">Alimentation</option>
+                  <option value="transport">Transport</option>
+                  <option value="restauration">Restauration</option>
+                  <option value="loisirs">Loisirs</option>
+                  <option value="sante">Santé</option>
+                  <option value="services">Services</option>
+                </select>
+              </div>
+              <div class="mb-2">
+                <button type="button" class="btn btn-sm btn-gradient-primary"><i class="ti-search mr-1"></i>Filtrer</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tableau -->
+          <div class="card mb-4">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Carte utilisée</th>
+                      <th>Commerce / Description</th>
+                      <th>Catégorie</th>
+                      <th>Référence</th>
+                      <th>Type</th>
+                      <th class="text-right">Montant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>12/03/2026</td>
+                      <td><span class="card-mini-badge card-visa">VISA *4521</span></td>
+                      <td><strong>MONOPRIX PARIS 11</strong><br><small class="text-muted">Courses alimentaires</small></td>
+                      <td><small><i class="ti-shopping-cart text-muted mr-1"></i>Alimentation</small></td>
+                      <td><span class="ref-code">CB-2026031201</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-78,32 €</td>
+                    </tr>
+                    <tr>
+                      <td>11/03/2026</td>
+                      <td><span class="card-mini-badge card-mc">MC *8834</span></td>
+                      <td><strong>AMAZON EU SARL</strong><br><small class="text-muted">Commande en ligne</small></td>
+                      <td><small><i class="ti-package text-muted mr-1"></i>E-commerce</small></td>
+                      <td><span class="ref-code">CB-2026031101</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-124,99 €</td>
+                    </tr>
+                    <tr>
+                      <td>10/03/2026</td>
+                      <td><span class="card-mini-badge card-visa">VISA *4521</span></td>
+                      <td><strong>SNCF BOUTIQUE</strong><br><small class="text-muted">Billet Paris-Lyon</small></td>
+                      <td><small><i class="ti-location-arrow text-muted mr-1"></i>Transport</small></td>
+                      <td><span class="ref-code">CB-2026031002</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-89,00 €</td>
+                    </tr>
+                    <tr>
+                      <td>08/03/2026</td>
+                      <td><span class="card-mini-badge card-visa">VISA *4521</span></td>
+                      <td><strong>UBER EATS FRANCE</strong><br><small class="text-muted">Livraison repas</small></td>
+                      <td><small><i class="ti-cup text-muted mr-1"></i>Restauration</small></td>
+                      <td><span class="ref-code">CB-2026030801</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-32,90 €</td>
+                    </tr>
+                    <tr>
+                      <td>07/03/2026</td>
+                      <td><span class="card-mini-badge card-mc">MC *8834</span></td>
+                      <td><strong>FNAC FORUM DES HALLES</strong><br><small class="text-muted">Livres &amp; accessoires</small></td>
+                      <td><small><i class="ti-book text-muted mr-1"></i>Loisirs</small></td>
+                      <td><span class="ref-code">CB-2026030701</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-64,50 €</td>
+                    </tr>
+                    <tr>
+                      <td>05/03/2026</td>
+                      <td><span class="card-mini-badge card-visa">VISA *4521</span></td>
+                      <td><strong>PHARMACIE CENTRALE</strong><br><small class="text-muted">Médicaments</small></td>
+                      <td><small><i class="ti-medall text-muted mr-1"></i>Santé</small></td>
+                      <td><span class="ref-code">CB-2026030501</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-18,60 €</td>
+                    </tr>
+                    <tr>
+                      <td>04/03/2026</td>
+                      <td><span class="card-mini-badge card-mc">MC *8834</span></td>
+                      <td><strong>NETFLIX FRANCE SARL</strong><br><small class="text-muted">Abonnement streaming mars</small></td>
+                      <td><small><i class="ti-video-camera text-muted mr-1"></i>Services</small></td>
+                      <td><span class="ref-code">CB-2026030401</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-17,99 €</td>
+                    </tr>
+                    <tr>
+                      <td>03/03/2026</td>
+                      <td><span class="card-mini-badge card-visa">VISA *4521</span></td>
+                      <td><strong>CARREFOUR NATION</strong><br><small class="text-muted">Courses hebdomadaires</small></td>
+                      <td><small><i class="ti-shopping-cart text-muted mr-1"></i>Alimentation</small></td>
+                      <td><span class="ref-code">CB-2026030301</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-95,20 €</td>
+                    </tr>
+                    <tr>
+                      <td>02/03/2026</td>
+                      <td><span class="card-mini-badge card-mc">MC *8834</span></td>
+                      <td><strong>SPOTIFY SARL</strong><br><small class="text-muted">Abonnement musique mars</small></td>
+                      <td><small><i class="ti-music-alt text-muted mr-1"></i>Services</small></td>
+                      <td><span class="ref-code">CB-2026030201</span></td>
+                      <td><span class="badge-type-debit">Débit</span></td>
+                      <td class="text-right amount-debit">-9,99 €</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <small class="text-muted">Affichage de 1 à 9 sur 19 transactions CB</small>
+            <nav>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                <li class="page-item active"><span class="page-link">1</span></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+              </ul>
+            </nav>
+          </div>
+
+        </div><!-- /content-wrapper -->
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank — Établissement de crédit agréé ACPR. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div><!-- /main-panel -->
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+</body>
+</html>

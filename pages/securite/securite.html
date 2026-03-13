@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Sécurité</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .score-circle {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: conic-gradient(#4B49AC 0% 85%, #e9ecef 85% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 0 auto;
+    }
+    .score-inner {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .score-number { font-size: 1.6rem; font-weight: 800; color: #4B49AC; line-height: 1; }
+    .score-label { font-size: 0.68rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; }
+    .session-device-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #f0f0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4B49AC;
+      flex-shrink: 0;
+    }
+    .security-card { border-left: 4px solid #4B49AC; }
+    .security-card.warning-border { border-left-color: #f39c12; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+    <!-- NAVBAR -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <!-- SIDEBAR -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-shield"></i></span>
+              Sécurité
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Sécurité</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Security Score + Quick Status -->
+          <div class="row mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex flex-column align-items-center justify-content-center py-4">
+                  <div class="score-circle mb-3">
+                    <div class="score-inner">
+                      <div class="score-number">85</div>
+                      <div class="score-label">/ 100</div>
+                    </div>
+                  </div>
+                  <h5 class="font-weight-bold text-success mb-0">Bon</h5>
+                  <p class="text-muted small text-center mt-1">Votre score de sécurité est élevé. Quelques améliorations sont possibles.</p>
+                  <span class="badge badge-success px-3 py-2 mt-1"><i class="ti-check mr-1"></i>Compte bien protégé</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9 col-md-6">
+              <div class="row h-100">
+                <div class="col-md-4 mb-4">
+                  <div class="card shadow-sm border-0 h-100 security-card">
+                    <div class="card-body py-3">
+                      <div class="d-flex align-items-center mb-2">
+                        <i class="ti-lock text-primary mr-2" style="font-size:1.2rem;"></i>
+                        <span class="font-weight-semibold">Mot de passe</span>
+                      </div>
+                      <div class="text-muted small mb-2">Dernière modification</div>
+                      <div class="font-weight-semibold">il y a 47 jours</div>
+                      <div class="mt-1 mb-2"><span class="badge badge-warning">À renouveler bientôt</span></div>
+                      <button class="btn btn-outline-primary btn-sm btn-block mt-2" data-toggle="modal" data-target="#modalMdp">
+                        <i class="ti-pencil mr-1"></i>Modifier
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                  <div class="card shadow-sm border-0 h-100 security-card">
+                    <div class="card-body py-3">
+                      <div class="d-flex align-items-center mb-2">
+                        <i class="ti-mobile text-primary mr-2" style="font-size:1.2rem;"></i>
+                        <span class="font-weight-semibold">2FA / MFA</span>
+                      </div>
+                      <div class="text-muted small mb-2">Authentification à deux facteurs</div>
+                      <span class="badge badge-success mb-2"><i class="ti-check mr-1"></i>Activé</span>
+                      <div class="small text-muted mb-2">Via SMS au +33 6 ** ** ** 47</div>
+                      <button class="btn btn-outline-primary btn-sm btn-block mt-2" data-toggle="modal" data-target="#modal2FA">
+                        <i class="ti-settings mr-1"></i>Gérer le 2FA
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                  <div class="card shadow-sm border-0 h-100 security-card">
+                    <div class="card-body py-3">
+                      <div class="d-flex align-items-center mb-2">
+                        <i class="ti-key text-primary mr-2" style="font-size:1.2rem;"></i>
+                        <span class="font-weight-semibold">PIN de validation</span>
+                      </div>
+                      <div class="text-muted small mb-2">Code PIN pour valider les opérations</div>
+                      <span class="badge badge-success mb-2"><i class="ti-check mr-1"></i>Actif</span>
+                      <div class="small text-muted mb-2">Dernière modification: 120 jours</div>
+                      <button class="btn btn-outline-primary btn-sm btn-block mt-2" data-toggle="modal" data-target="#modalPin">
+                        <i class="ti-pencil mr-1"></i>Modifier le PIN
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sessions actives -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="card-title mb-0"><i class="ti-desktop text-primary mr-2"></i>Sessions actives</h4>
+                    <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalRevoquerTout">
+                      <i class="ti-power-off mr-1"></i>Révoquer toutes les autres sessions
+                    </button>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Appareil</th>
+                          <th>Adresse IP</th>
+                          <th>Localisation</th>
+                          <th>Depuis</th>
+                          <th>Dernière activité</th>
+                          <th class="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="table-success">
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <div class="session-device-icon mr-3"><i class="ti-desktop"></i></div>
+                              <div>
+                                <div class="font-weight-semibold">Windows 10 — Chrome 122</div>
+                                <span class="badge badge-success">Session actuelle</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td><code>185.234.***.***</code></td>
+                          <td><i class="ti-location-pin text-muted mr-1"></i>Paris, France</td>
+                          <td>Aujourd'hui, 09:14</td>
+                          <td>À l'instant</td>
+                          <td class="text-center">
+                            <span class="text-muted small">Session en cours</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <div class="session-device-icon mr-3"><i class="ti-mobile-alt"></i></div>
+                              <div>
+                                <div class="font-weight-semibold">iPhone 15 — Safari (iOS 17)</div>
+                                <small class="text-muted">Application mobile SkyDash</small>
+                              </div>
+                            </div>
+                          </td>
+                          <td><code>92.185.***.***</code></td>
+                          <td><i class="ti-location-pin text-muted mr-1"></i>Paris, France</td>
+                          <td>Hier, 18:42</td>
+                          <td>Hier, 20:11</td>
+                          <td class="text-center">
+                            <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalRevoquerSession">
+                              <i class="ti-power-off mr-1"></i>Révoquer
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <div class="session-device-icon mr-3"><i class="ti-desktop"></i></div>
+                              <div>
+                                <div class="font-weight-semibold">Windows 10 — Firefox 123</div>
+                                <small class="text-muted">Accès bureau domicile</small>
+                              </div>
+                            </div>
+                          </td>
+                          <td><code>82.127.***.***</code></td>
+                          <td><i class="ti-location-pin text-muted mr-1"></i>Lyon, France</td>
+                          <td>05/03/2025, 14:20</td>
+                          <td>06/03/2025, 08:55</td>
+                          <td class="text-center">
+                            <button class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalRevoquerSession">
+                              <i class="ti-power-off mr-1"></i>Révoquer
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Historique des connexions -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h4 class="card-title"><i class="ti-receipt text-primary mr-2"></i>Historique des connexions (10 dernières)</h4>
+                  <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Date & Heure</th>
+                          <th>Appareil</th>
+                          <th>Adresse IP</th>
+                          <th>Localisation</th>
+                          <th>Statut</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>13/03/2025 09:14</td>
+                          <td>Chrome / Windows</td>
+                          <td><code>185.234.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                        <tr>
+                          <td>12/03/2025 18:42</td>
+                          <td>Safari / iPhone</td>
+                          <td><code>92.185.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                        <tr>
+                          <td>12/03/2025 12:03</td>
+                          <td>Chrome / Windows</td>
+                          <td><code>185.234.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                        <tr>
+                          <td>11/03/2025 08:30</td>
+                          <td>Firefox / Windows</td>
+                          <td><code>82.127.***.***</code></td>
+                          <td>Lyon, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                        <tr class="table-danger">
+                          <td>10/03/2025 23:47</td>
+                          <td>Chrome / Android</td>
+                          <td><code>41.108.***.***</code></td>
+                          <td>Casablanca, MA</td>
+                          <td><span class="badge badge-danger"><i class="ti-close mr-1"></i>Échec — Suspect</span></td>
+                        </tr>
+                        <tr>
+                          <td>10/03/2025 14:15</td>
+                          <td>Safari / iPhone</td>
+                          <td><code>92.185.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                        <tr class="table-warning">
+                          <td>09/03/2025 20:22</td>
+                          <td>Chrome / Windows</td>
+                          <td><code>185.234.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-warning"><i class="ti-close mr-1"></i>Échec — PIN incorrect</span></td>
+                        </tr>
+                        <tr>
+                          <td>09/03/2025 20:24</td>
+                          <td>Chrome / Windows</td>
+                          <td><code>185.234.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                        <tr>
+                          <td>08/03/2025 11:05</td>
+                          <td>Safari / iPhone</td>
+                          <td><code>92.185.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                        <tr>
+                          <td>07/03/2025 09:50</td>
+                          <td>Chrome / Windows</td>
+                          <td><code>185.234.***.***</code></td>
+                          <td>Paris, FR</td>
+                          <td><span class="badge badge-success"><i class="ti-check mr-1"></i>Succès</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="alert alert-danger small mt-2 p-2">
+                    <i class="ti-alert mr-1"></i><strong>Alerte détectée :</strong> Une tentative de connexion depuis le Maroc a été bloquée le 10/03/2025. Si cette tentative ne vient pas de vous, <a href="#" class="alert-link">contactez immédiatement le support</a>.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alertes de sécurité -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h4 class="card-title"><i class="ti-bell text-primary mr-2"></i>Alertes de sécurité</h4>
+                  <p class="text-muted small mb-4">Configurez les alertes que vous souhaitez recevoir par SMS et/ou email pour surveiller votre compte en temps réel.</p>
+
+                  <div class="card border mb-3">
+                    <div class="card-body py-0">
+                      <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <div>
+                          <div class="font-weight-semibold">Alerte à chaque nouvelle connexion</div>
+                          <small class="text-muted">Recevoir une notification à chaque connexion à votre espace client</small>
+                        </div>
+                        <div class="d-flex align-items-center" style="gap:12px;">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertConnexionEmail" checked>
+                            <label class="custom-control-label" for="alertConnexionEmail">Email</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertConnexionSMS" checked>
+                            <label class="custom-control-label" for="alertConnexionSMS">SMS</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <div>
+                          <div class="font-weight-semibold">Alerte paiement supérieur à 500 €</div>
+                          <small class="text-muted">Recevoir une alerte pour tout paiement ou virement dépassant 500 €</small>
+                        </div>
+                        <div class="d-flex align-items-center" style="gap:12px;">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertPaiementEmail" checked>
+                            <label class="custom-control-label" for="alertPaiementEmail">Email</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertPaiementSMS" checked>
+                            <label class="custom-control-label" for="alertPaiementSMS">SMS</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <div>
+                          <div class="font-weight-semibold">Alerte transaction à l'étranger</div>
+                          <small class="text-muted">Être alerté de toute transaction effectuée depuis un pays étranger</small>
+                        </div>
+                        <div class="d-flex align-items-center" style="gap:12px;">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertEtrangerEmail" checked>
+                            <label class="custom-control-label" for="alertEtrangerEmail">Email</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertEtrangerSMS" checked>
+                            <label class="custom-control-label" for="alertEtrangerSMS">SMS</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <div>
+                          <div class="font-weight-semibold">Alerte ajout de bénéficiaire</div>
+                          <small class="text-muted">Être notifié lors de l'ajout ou la modification d'un bénéficiaire</small>
+                        </div>
+                        <div class="d-flex align-items-center" style="gap:12px;">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertBenefEmail" checked>
+                            <label class="custom-control-label" for="alertBenefEmail">Email</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertBenefSMS" checked>
+                            <label class="custom-control-label" for="alertBenefSMS">SMS</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <div>
+                          <div class="font-weight-semibold">Alerte solde inférieur à 200 €</div>
+                          <small class="text-muted">Être averti lorsque le solde de votre compte principal est bas</small>
+                        </div>
+                        <div class="d-flex align-items-center" style="gap:12px;">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertSoldeEmail" checked>
+                            <label class="custom-control-label" for="alertSoldeEmail">Email</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertSoldeSMS">
+                            <label class="custom-control-label" for="alertSoldeSMS">SMS</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center py-3">
+                        <div>
+                          <div class="font-weight-semibold">Alerte modification du mot de passe ou PIN</div>
+                          <small class="text-muted">Notification immédiate en cas de changement de vos identifiants de sécurité</small>
+                        </div>
+                        <div class="d-flex align-items-center" style="gap:12px;">
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertMdpEmail" checked>
+                            <label class="custom-control-label" for="alertMdpEmail">Email</label>
+                          </div>
+                          <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="alertMdpSMS" checked>
+                            <label class="custom-control-label" for="alertMdpSMS">SMS</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-gradient-primary">
+                    <i class="ti-check mr-2"></i>Enregistrer les préférences d'alertes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /content-wrapper -->
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2025 SkyDash Bank — Banque digitale sécurisée. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div><!-- /main-panel -->
+    </div><!-- /page-body-wrapper -->
+  </div><!-- /container-scroller -->
+
+  <!-- Modal Modifier Mot de Passe -->
+  <div class="modal fade" id="modalMdp" tabindex="-1" role="dialog" aria-labelledby="modalMdpLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalMdpLabel"><i class="ti-lock text-primary mr-2"></i>Modifier le mot de passe</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-info small p-2 mb-3"><i class="ti-info-alt mr-1"></i>Le nouveau mot de passe doit contenir au moins 12 caractères, une majuscule, un chiffre et un caractère spécial.</div>
+          <form id="formMdp" autocomplete="off" novalidate>
+            <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+            <div class="form-group">
+              <label for="ancienMdp">Mot de passe actuel</label>
+              <input type="password" class="form-control" id="ancienMdp" name="ancien_mdp" placeholder="••••••••••••" required autocomplete="current-password">
+            </div>
+            <div class="form-group">
+              <label for="nouveauMdp">Nouveau mot de passe</label>
+              <input type="password" class="form-control" id="nouveauMdp" name="nouveau_mdp" placeholder="••••••••••••" minlength="12" required autocomplete="new-password">
+              <div id="mdpStrength" class="mt-1"></div>
+            </div>
+            <div class="form-group">
+              <label for="confirmMdp">Confirmer le nouveau mot de passe</label>
+              <input type="password" class="form-control" id="confirmMdp" name="confirm_mdp" placeholder="••••••••••••" minlength="12" required autocomplete="new-password">
+            </div>
+            <div class="alert alert-warning small p-2">
+              <i class="ti-mobile mr-1"></i>Un code de confirmation vous sera envoyé par SMS pour valider ce changement.
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+          <button type="submit" form="formMdp" class="btn btn-gradient-primary"><i class="ti-check mr-1"></i>Confirmer le changement</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2FA -->
+  <div class="modal fade" id="modal2FA" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="ti-mobile text-primary mr-2"></i>Gérer l'authentification à deux facteurs</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-success p-2 mb-3"><i class="ti-check mr-1"></i><strong>2FA activé</strong> — Via SMS au numéro +33 6 ** ** ** 47</div>
+          <h6>Méthodes disponibles</h6>
+          <div class="list-group mb-3">
+            <label class="list-group-item d-flex align-items-center">
+              <input type="radio" name="methode2fa" class="mr-3" checked>
+              <div>
+                <div class="font-weight-semibold">SMS (méthode actuelle)</div>
+                <small class="text-muted">Code envoyé au +33 6 ** ** ** 47 à chaque connexion</small>
+              </div>
+            </label>
+            <label class="list-group-item d-flex align-items-center">
+              <input type="radio" name="methode2fa" class="mr-3">
+              <div>
+                <div class="font-weight-semibold">Application TOTP (Google Authenticator, Authy)</div>
+                <small class="text-muted">Code généré toutes les 30 secondes par une application</small>
+              </div>
+            </label>
+            <label class="list-group-item d-flex align-items-center">
+              <input type="radio" name="methode2fa" class="mr-3">
+              <div>
+                <div class="font-weight-semibold">Clé de sécurité physique (FIDO2/WebAuthn)</div>
+                <small class="text-muted">YubiKey ou équivalent — Sécurité maximale</small>
+              </div>
+            </label>
+          </div>
+          <button class="btn btn-outline-danger btn-sm"><i class="ti-close mr-1"></i>Désactiver le 2FA (déconseillé)</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-gradient-primary"><i class="ti-check mr-1"></i>Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal PIN -->
+  <div class="modal fade" id="modalPin" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="ti-key text-primary mr-2"></i>Modifier le PIN de validation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form id="formPin" autocomplete="off" novalidate>
+            <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+            <div class="form-group">
+              <label>PIN actuel (4 à 6 chiffres)</label>
+              <input type="password" class="form-control" placeholder="••••••" maxlength="6" minlength="4" pattern="[0-9]{4,6}" required inputmode="numeric">
+            </div>
+            <div class="form-group">
+              <label>Nouveau PIN</label>
+              <input type="password" class="form-control" placeholder="••••••" maxlength="6" minlength="4" pattern="[0-9]{4,6}" required inputmode="numeric">
+              <small class="text-muted">N'utilisez pas votre date de naissance ou un code facile à deviner.</small>
+            </div>
+            <div class="form-group">
+              <label>Confirmer le nouveau PIN</label>
+              <input type="password" class="form-control" placeholder="••••••" maxlength="6" minlength="4" pattern="[0-9]{4,6}" required inputmode="numeric">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+          <button type="submit" form="formPin" class="btn btn-gradient-primary"><i class="ti-check mr-1"></i>Changer le PIN</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Révoquer Session -->
+  <div class="modal fade" id="modalRevoquerSession" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title"><i class="ti-power-off mr-2"></i>Révoquer la session</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <p>Cette action mettra fin à la session sélectionnée. L'appareil concerné devra se reconnecter.</p>
+          <div class="alert alert-info small p-2"><i class="ti-info-alt mr-1"></i>Si vous ne reconnaissez pas cette session, changez immédiatement votre mot de passe.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-danger"><i class="ti-power-off mr-1"></i>Confirmer la révocation</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Révoquer Tout -->
+  <div class="modal fade" id="modalRevoquerTout" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title"><i class="ti-power-off mr-2"></i>Révoquer toutes les autres sessions</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <p>Cette action va déconnecter <strong>tous vos autres appareils</strong>. Seule votre session actuelle sera maintenue.</p>
+          <div class="alert alert-warning small p-2"><i class="ti-info-alt mr-1"></i>Recommandé si vous suspectez un accès non autorisé à votre compte.</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-danger"><i class="ti-power-off mr-1"></i>Déconnecter tous les autres appareils</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+</body>
+</html>

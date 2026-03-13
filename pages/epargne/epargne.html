@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Épargne</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .epargne-card-header {
+      background: linear-gradient(135deg, #4B49AC, #7978E9);
+      color: #fff;
+      border-radius: 8px 8px 0 0;
+      padding: 16px 20px;
+    }
+    .epargne-card-header.pel {
+      background: linear-gradient(135deg, #198754, #20c997);
+    }
+    .epargne-card-header.av {
+      background: linear-gradient(135deg, #e67e22, #f39c12);
+    }
+    .stat-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .projection-good { color: #198754; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+    <!-- NAVBAR -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <!-- SIDEBAR -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-stats-up"></i></span>
+              Épargne
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Épargne</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Summary stats row -->
+          <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                  <div class="stat-icon-box bg-gradient-primary text-white mr-3">
+                    <i class="ti-wallet"></i>
+                  </div>
+                  <div>
+                    <div class="text-muted small">Total épargne</div>
+                    <div class="h4 font-weight-bold mb-0 text-primary">15 830,00 €</div>
+                    <small class="text-success"><i class="ti-arrow-up"></i> +2,1% depuis janvier</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                  <div class="stat-icon-box bg-gradient-success text-white mr-3">
+                    <i class="ti-money"></i>
+                  </div>
+                  <div>
+                    <div class="text-muted small">Intérêts perçus (2025)</div>
+                    <div class="h4 font-weight-bold mb-0 text-success">312,45 €</div>
+                    <small class="text-muted">Depuis le 01/01/2025</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-center">
+                  <div class="stat-icon-box bg-gradient-warning text-white mr-3">
+                    <i class="ti-stats-up"></i>
+                  </div>
+                  <div>
+                    <div class="text-muted small">Taux moyen pondéré</div>
+                    <div class="h4 font-weight-bold mb-0 text-warning">2,80 %</div>
+                    <small class="text-muted">Moyenne sur tous les produits</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mes produits d'épargne -->
+          <h4 class="mb-3 font-weight-semibold"><i class="ti-package text-primary mr-2"></i>Mes produits d'épargne</h4>
+          <div class="row mb-4">
+
+            <!-- Livret A -->
+            <div class="col-lg-4 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="epargne-card-header">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h5 class="mb-0 text-white font-weight-bold">Livret A</h5>
+                      <small class="text-white-50">Épargne réglementée</small>
+                    </div>
+                    <span class="badge badge-light text-primary">Taux : 3 %</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Solde actuel</span>
+                    <strong>8 250,00 €</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Plafond légal</span>
+                    <span>22 950,00 €</span>
+                  </div>
+                  <div class="mt-2 mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                      <small class="text-muted">Utilisation du plafond</small>
+                      <small class="font-weight-semibold">35,9 %</small>
+                    </div>
+                    <div class="progress" style="height:8px;">
+                      <div class="progress-bar bg-gradient-primary" role="progressbar" style="width:35.9%" aria-valuenow="35.9" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small class="text-muted">Capacité restante : 14 700,00 €</small>
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Intérêts 2025</span>
+                    <strong class="text-success">+185,10 €</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Disponibilité</span>
+                    <span class="text-success">Immédiate</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-muted small">Fiscalité</span>
+                    <span>Exonéré d'impôt</span>
+                  </div>
+                  <button class="btn btn-outline-primary btn-sm btn-block mt-3" data-toggle="modal" data-target="#modalVirementEpargne">
+                    <i class="ti-plus mr-1"></i>Alimenter ce livret
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PEL -->
+            <div class="col-lg-4 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="epargne-card-header pel">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h5 class="mb-0 text-white font-weight-bold">PEL</h5>
+                      <small class="text-white-50">Plan Épargne Logement</small>
+                    </div>
+                    <span class="badge badge-light text-success">Taux : 2 %</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Solde actuel</span>
+                    <strong>5 320,00 €</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Versements mensuels</span>
+                    <span>200,00 €</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Durée minimale</span>
+                    <span>4 ans</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Date d'ouverture</span>
+                    <span>12/03/2022</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Date clôture possible</span>
+                    <span>12/03/2026</span>
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Intérêts 2025</span>
+                    <strong class="text-success">+86,25 €</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Droits à prêt estimés</span>
+                    <span class="text-info">26 600,00 €</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-muted small">Prime d'état</span>
+                    <span class="text-warning">Sous conditions</span>
+                  </div>
+                  <div class="alert alert-warning p-2 mt-3 small">
+                    <i class="ti-timer mr-1"></i>Ce plan atteint sa durée minimale dans <strong>0 mois</strong>.
+                  </div>
+                  <button class="btn btn-outline-success btn-sm btn-block mt-2">
+                    <i class="ti-info mr-1"></i>Détails du plan
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Assurance-vie -->
+            <div class="col-lg-4 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="epargne-card-header av">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h5 class="mb-0 text-white font-weight-bold">Assurance-vie</h5>
+                      <small class="text-white-50">Fonds en euros garanti</small>
+                    </div>
+                    <span class="badge badge-light text-warning">Taux : 1,8 %</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Valeur de rachat</span>
+                    <strong>2 260,00 €</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Date de souscription</span>
+                    <span>15/03/2019</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Taux garanti 2025</span>
+                    <span>1,80 %</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Ancienneté</span>
+                    <span class="text-success">6 ans — Avantage fiscal</span>
+                  </div>
+                  <hr>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Intérêts 2025</span>
+                    <strong class="text-success">+41,10 €</strong>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Primes versées (total)</span>
+                    <span>2 100,00 €</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted small">Plus-value latente</span>
+                    <span class="text-success">+160,00 €</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-muted small">Bénéficiaire désigné</span>
+                    <span>Marie Dupont (conjointe)</span>
+                  </div>
+                  <div class="alert alert-info p-2 mt-3 small">
+                    <i class="ti-star mr-1"></i>Fiscalité avantageuse après 8 ans (abattement 4 600 € / an).
+                  </div>
+                  <button class="btn btn-outline-warning btn-sm btn-block mt-2">
+                    <i class="ti-file mr-1"></i>Consulter le contrat
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Projections -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h4 class="card-title"><i class="ti-bar-chart text-primary mr-2"></i>Projections de croissance</h4>
+                  <p class="text-muted small mb-3">Projections calculées sur la base des taux actuels, avec versements programmés inchangés. Ces projections sont indicatives.</p>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover text-center">
+                      <thead class="thead-light">
+                        <tr>
+                          <th class="text-left">Produit</th>
+                          <th>Solde actuel</th>
+                          <th>Dans 1 an</th>
+                          <th>Dans 3 ans</th>
+                          <th>Dans 5 ans</th>
+                          <th>Dans 10 ans</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="text-left font-weight-semibold"><i class="ti-stats-up text-primary mr-1"></i>Livret A (3%)</td>
+                          <td>8 250,00 €</td>
+                          <td class="projection-good">8 497,50 €</td>
+                          <td class="projection-good">9 019,30 €</td>
+                          <td class="projection-good">9 571,97 €</td>
+                          <td class="projection-good">11 087,49 €</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left font-weight-semibold"><i class="ti-home text-success mr-1"></i>PEL (2% + versements 200€/mois)</td>
+                          <td>5 320,00 €</td>
+                          <td class="projection-good">7 826,40 €</td>
+                          <td class="projection-good">12 992,26 €</td>
+                          <td class="projection-good">18 369,59 €</td>
+                          <td class="projection-good">31 240,14 €</td>
+                        </tr>
+                        <tr>
+                          <td class="text-left font-weight-semibold"><i class="ti-shield text-warning mr-1"></i>Assurance-vie (1,8%)</td>
+                          <td>2 260,00 €</td>
+                          <td class="projection-good">2 300,68 €</td>
+                          <td class="projection-good">2 384,98 €</td>
+                          <td class="projection-good">2 472,14 €</td>
+                          <td class="projection-good">2 699,61 €</td>
+                        </tr>
+                        <tr class="table-active font-weight-bold">
+                          <td class="text-left">Total épargne</td>
+                          <td>15 830,00 €</td>
+                          <td class="text-success">18 624,58 €</td>
+                          <td class="text-success">24 396,54 €</td>
+                          <td class="text-success">30 413,70 €</td>
+                          <td class="text-success">45 027,24 €</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p class="text-muted small mt-2"><i class="ti-info-alt mr-1"></i>Ces simulations ne constituent pas un conseil en investissement. Les taux sont susceptibles d'évoluer. Consultez votre conseiller pour une étude personnalisée.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions bottom row -->
+          <div class="row">
+            <!-- Nouveau produit -->
+            <div class="col-lg-5 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center text-center py-4">
+                  <i class="ti-plus-alt text-primary" style="font-size:2.5rem;"></i>
+                  <h5 class="mt-3 mb-2">Ouvrir un nouveau produit d'épargne</h5>
+                  <p class="text-muted small mb-3">Découvrez nos offres : LDDS, PEA, compte à terme, SCPI et bien plus encore.</p>
+                  <button class="btn btn-outline-primary btn-fw" data-toggle="modal" data-target="#modalNouveauProduit">
+                    <i class="ti-plus mr-2"></i>Découvrir nos produits
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Virement vers l'épargne -->
+            <div class="col-lg-7 mb-4">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h4 class="card-title"><i class="ti-exchange-vertical text-primary mr-2"></i>Virement vers l'épargne</h4>
+                  <p class="text-muted small">Transférez rapidement des fonds de votre compte courant vers l'un de vos produits d'épargne.</p>
+                  <form id="formVirementEpargne" autocomplete="off">
+                    <input type="hidden" name="csrf_token" value="skydash-csrf-placeholder">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="compteSource">Compte source</label>
+                          <select class="form-control" id="compteSource" name="compte_source" required>
+                            <option value="cc_principal">Compte Courant Principal — Solde : 3 247,82 €</option>
+                            <option value="cc_joint">Compte Joint — Solde : 1 020,00 €</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="compteDestEpargne">Produit d'épargne destination</label>
+                          <select class="form-control" id="compteDestEpargne" name="compte_destination" required>
+                            <option value="livret_a">Livret A — Solde : 8 250,00 €</option>
+                            <option value="pel">PEL — Solde : 5 320,00 €</option>
+                            <option value="av">Assurance-vie — Valeur : 2 260,00 €</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="montantEpargne">Montant (€)</label>
+                          <input type="number" class="form-control" id="montantEpargne" name="montant" placeholder="Ex : 200" min="10" max="10000" step="0.01" required>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="dateEpargne">Date d'exécution</label>
+                          <input type="date" class="form-control" id="dateEpargne" name="date_execution">
+                          <small class="text-muted">Laisser vide pour immédiat</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-check mb-3">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="virement_programme"> Programmer ce virement mensuellement
+                        <i class="input-helper"></i>
+                      </label>
+                    </div>
+                    <button type="submit" class="btn btn-gradient-success btn-fw">
+                      <i class="ti-stats-up mr-2"></i>Épargner maintenant
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /content-wrapper -->
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2025 SkyDash Bank — Banque digitale sécurisée. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div><!-- /main-panel -->
+    </div><!-- /page-body-wrapper -->
+  </div><!-- /container-scroller -->
+
+  <!-- Modal Virement Épargne -->
+  <div class="modal fade" id="modalVirementEpargne" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="ti-exchange-vertical text-primary mr-2"></i>Alimenter le Livret A</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Montant à verser (€)</label>
+            <input type="number" class="form-control" placeholder="Ex : 500" min="10">
+          </div>
+          <div class="form-group">
+            <label>Depuis le compte</label>
+            <select class="form-control">
+              <option>Compte Courant Principal — 3 247,82 €</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-gradient-success"><i class="ti-check mr-1"></i>Confirmer le versement</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Nouveau Produit -->
+  <div class="modal fade" id="modalNouveauProduit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="ti-plus text-primary mr-2"></i>Nos produits d'épargne disponibles</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="card border h-100">
+                <div class="card-body">
+                  <h6 class="font-weight-bold">LDDS <span class="badge badge-success ml-1">3%</span></h6>
+                  <p class="text-muted small mb-2">Livret de Développement Durable et Solidaire. Plafond 12 000 €. Disponibilité immédiate. Exonéré d'impôt.</p>
+                  <button class="btn btn-outline-primary btn-sm">Ouvrir un LDDS</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card border h-100">
+                <div class="card-body">
+                  <h6 class="font-weight-bold">PEA <span class="badge badge-warning ml-1">Variable</span></h6>
+                  <p class="text-muted small mb-2">Plan d'Épargne en Actions. Plafond 150 000 €. Fiscalité avantageuse après 5 ans. Investissement en actions européennes.</p>
+                  <button class="btn btn-outline-warning btn-sm">En savoir plus</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card border h-100">
+                <div class="card-body">
+                  <h6 class="font-weight-bold">Compte à Terme <span class="badge badge-info ml-1">3,2%</span></h6>
+                  <p class="text-muted small mb-2">Placement garanti sur une durée déterminée (6 à 36 mois). Taux fixe attractif. Capital garanti.</p>
+                  <button class="btn btn-outline-info btn-sm">Simuler un CAT</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="card border h-100">
+                <div class="card-body">
+                  <h6 class="font-weight-bold">SCPI <span class="badge badge-secondary ml-1">~4-5%</span></h6>
+                  <p class="text-muted small mb-2">Sociétés Civiles de Placement Immobilier. Revenus locatifs réguliers. Ticket d'entrée dès 1 000 €.</p>
+                  <button class="btn btn-outline-secondary btn-sm">Découvrir les SCPI</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-info mt-2 small">
+            <i class="ti-phone mr-1"></i>Pour toute souscription, votre conseiller vous accompagnera. Prenez rendez-vous au <strong>0 800 123 456</strong>.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+</body>
+</html>

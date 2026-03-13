@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';">
+  <title>SkyDash Bank — Documentation & Guides</title>
+  <link rel="stylesheet" href="../../vendors/feather/feather.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    .doc-card { border: 1px solid #e9ecef; border-radius: 12px; padding: 20px; height: 100%; transition: box-shadow 0.2s, border-color 0.2s; cursor: pointer; }
+    .doc-card:hover { box-shadow: 0 4px 20px rgba(75,73,172,0.12); border-color: #4B49AC; }
+    .doc-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 14px; }
+    .doc-icon-primary { background: #f0efff; color: #4B49AC; }
+    .doc-icon-success { background: #e6fdf9; color: #1bcfb4; }
+    .doc-icon-warning { background: #fff8ec; color: #f3a84b; }
+    .doc-icon-danger  { background: #fff0f2; color: #fe7c96; }
+    .faq-item { border: 1px solid #e9ecef; border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+    .faq-question { background: #f8f9fb; padding: 14px 18px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+    .faq-question:hover { background: #f0efff; }
+    .faq-answer { display: none; padding: 14px 18px; font-size: 0.88rem; color: #495057; line-height: 1.7; border-top: 1px solid #e9ecef; }
+    .faq-answer.open { display: block; }
+    .search-doc { border-radius: 30px; border: 2px solid #e9ecef; padding: 10px 20px; font-size: 0.95rem; }
+    .search-doc:focus { border-color: #4B49AC; box-shadow: none; outline: none; }
+    .guide-badge { background: #f0efff; color: #4B49AC; border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; font-weight: 600; }
+    .toc-link { color: #4B49AC; text-decoration: none; font-size: 0.88rem; display: block; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+    .toc-link:hover { color: #3b3a8c; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="../../index.html"><img src="../../images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="../../images/faces/face28.jpg" alt="profil"/>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="../../pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
+              <a class="dropdown-item" href="../../pages/samples/login.html"><i class="ti-power-off text-primary"></i> Déconnexion</a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas"><span class="icon-menu"></span></button>
+      </div>
+    </nav>
+
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item"><a class="nav-link" href="../../index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a></li>
+          <li class="nav-item"><a class="nav-link" href="../../pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a></li>
+          <li class="nav-item active"><a class="nav-link" href="../../pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3 class="page-title">
+              <span class="page-title-icon bg-gradient-primary text-white mr-2"><i class="ti-book"></i></span>
+              Documentation &amp; Guides
+            </h3>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../../index.html">Accueil</a></li>
+                <li class="breadcrumb-item"><a href="aide.html">Aide</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Documentation</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Barre de recherche -->
+          <div class="row mb-4">
+            <div class="col-md-8 offset-md-2">
+              <div class="input-group">
+                <div class="input-group-prepend"><span class="input-group-text" style="border-radius:30px 0 0 30px;border-right:none;background:none;"><i class="ti-search text-muted"></i></span></div>
+                <input type="search" class="form-control search-doc" id="searchDoc" placeholder="Rechercher dans la documentation…" autocomplete="off" style="border-left:none;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Guides thématiques -->
+          <div class="row mb-4">
+            <div class="col-12 mb-3">
+              <h5 class="font-weight-semibold"><i class="ti-map text-primary mr-2"></i>Guides pratiques</h5>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-primary"><i class="ti-exchange-vertical"></i></div>
+                <h6 class="font-weight-semibold">Virements SEPA</h6>
+                <p class="text-muted small mb-2">Comment effectuer un virement, ajouter un bénéficiaire, programmer des virements récurrents.</p>
+                <span class="guide-badge">5 articles</span>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-success"><i class="ti-credit-card"></i></div>
+                <h6 class="font-weight-semibold">Gestion des cartes</h6>
+                <p class="text-muted small mb-2">Bloquer, débloquer, modifier les plafonds, signaler une perte, commandes de carte.</p>
+                <span class="guide-badge">8 articles</span>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-warning"><i class="ti-stats-up"></i></div>
+                <h6 class="font-weight-semibold">Épargne &amp; Placements</h6>
+                <p class="text-muted small mb-2">Comprendre le Livret A, PEL, LDDS, simuler vos projets d'épargne.</p>
+                <span class="guide-badge">6 articles</span>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-danger"><i class="ti-shield"></i></div>
+                <h6 class="font-weight-semibold">Sécurité bancaire</h6>
+                <p class="text-muted small mb-2">Authentification forte DSP2, phishing, fraude, RGPD, mot de passe.</p>
+                <span class="guide-badge">10 articles</span>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-primary"><i class="ti-world"></i></div>
+                <h6 class="font-weight-semibold">Virements internationaux</h6>
+                <p class="text-muted small mb-2">SWIFT, codes BIC/IBAN, frais de change, délais, conformité AML.</p>
+                <span class="guide-badge">4 articles</span>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-success"><i class="ti-receipt"></i></div>
+                <h6 class="font-weight-semibold">Relevés &amp; Documents</h6>
+                <p class="text-muted small mb-2">Télécharger relevés, RIB, attestations de solde, documents fiscaux.</p>
+                <span class="guide-badge">3 articles</span>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-warning"><i class="ti-id-badge"></i></div>
+                <h6 class="font-weight-semibold">Mon compte &amp; Profil</h6>
+                <p class="text-muted small mb-2">Mettre à jour vos informations, changer d'adresse, modifier le mot de passe.</p>
+                <span class="guide-badge">5 articles</span>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+              <div class="doc-card">
+                <div class="doc-icon doc-icon-danger"><i class="ti-alert"></i></div>
+                <h6 class="font-weight-semibold">Litiges &amp; Contestations</h6>
+                <p class="text-muted small mb-2">Contester une transaction, signaler une fraude, remboursement DSP2.</p>
+                <span class="guide-badge">7 articles</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ -->
+          <div class="row mb-4">
+            <div class="col-lg-8">
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h5 class="card-title mb-4"><i class="ti-help text-primary mr-2"></i>Questions fréquentes</h5>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                      Comment effectuer un virement vers un nouveau bénéficiaire ?
+                      <i class="ti-angle-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      Accédez à <strong>Virements &gt; Nouveau virement</strong>, cliquez sur "Ajouter un bénéficiaire", saisissez l'IBAN et le nom du bénéficiaire. Une validation par code SMS vous sera demandée lors du premier virement vers un nouveau compte (exigence DSP2).
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                      Ma carte a été bloquée suite à 3 tentatives de code PIN erronées. Comment la débloquer ?
+                      <i class="ti-angle-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      Après 3 saisies incorrectes du code PIN, votre carte est bloquée par sécurité. Pour la débloquer, contactez notre service client au <strong>09 69 39 39 39</strong> (appel non surtaxé, 8h–20h du lundi au vendredi) ou rendez-vous dans votre agence avec une pièce d'identité. Le déblocage en ligne n'est pas possible pour des raisons de sécurité.
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                      Qu'est-ce que l'authentification forte (DSP2) ?
+                      <i class="ti-angle-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      La DSP2 (Directive sur les Services de Paiement) impose une <strong>authentification forte</strong> pour sécuriser les transactions en ligne supérieures à 30 €. Cela signifie que vous devez valider l'opération avec au moins deux facteurs parmi : ce que vous connaissez (mot de passe), ce que vous possédez (code SMS), ce que vous êtes (biométrie). Cette mesure protège contre la fraude bancaire.
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                      Je pense avoir été victime de phishing. Que dois-je faire ?
+                      <i class="ti-angle-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      <strong>Agissez immédiatement :</strong> (1) Changez votre mot de passe depuis la page <a href="../securite/securite.html">Sécurité</a>, (2) Vérifiez vos transactions récentes, (3) Bloquez vos cartes si nécessaire, (4) Appelez notre numéro d'urgence : <strong>0 800 500 600</strong> (gratuit, 24h/24). SkyDash Bank ne vous demandera <u>jamais</u> votre code PIN ou votre mot de passe par téléphone ou email.
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                      Comment contester une transaction que je ne reconnais pas ?
+                      <i class="ti-angle-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      Accédez à <strong>Historique des transactions</strong>, cliquez sur la transaction concernée et sélectionnez "Contester cette opération". Vous disposez d'un délai de <strong>13 mois</strong> pour contester une transaction non autorisée. Pour les paiements par carte, le délai est réduit à 70 jours (13 mois pour fraude avérée). Le remboursement est effectué dans les 24 heures en cas de fraude confirmée.
+                    </div>
+                  </div>
+
+                  <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                      Comment exercer mes droits RGPD (accès, rectification, suppression) ?
+                      <i class="ti-angle-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                      Conformément au RGPD, vous pouvez exercer vos droits en envoyant une demande à <strong>dpo@skydashbank.fr</strong> avec une copie de votre pièce d'identité. Le délai de réponse est d'un mois. Pour la suppression, notez que certaines données bancaires doivent être conservées 5 à 10 ans en vertu des obligations légales (LCB-FT, Code monétaire).
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Table des matières / liens rapides -->
+            <div class="col-lg-4">
+              <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                  <h6 class="font-weight-semibold mb-3"><i class="ti-link text-primary mr-2"></i>Liens rapides</h6>
+                  <a class="toc-link" href="#"><i class="ti-file mr-2"></i>Conditions générales d'utilisation</a>
+                  <a class="toc-link" href="#"><i class="ti-file mr-2"></i>Politique de confidentialité</a>
+                  <a class="toc-link" href="#"><i class="ti-file mr-2"></i>Tarifs bancaires 2026</a>
+                  <a class="toc-link" href="#"><i class="ti-file mr-2"></i>Convention de compte</a>
+                  <a class="toc-link" href="#"><i class="ti-file mr-2"></i>Tableau des frais et commissions</a>
+                  <a class="toc-link" href="#"><i class="ti-file mr-2"></i>Charte de protection des données</a>
+                  <a class="toc-link" href="#"><i class="ti-file mr-2"></i>Guide de sécurité client</a>
+                </div>
+              </div>
+
+              <div class="card shadow-sm border-0">
+                <div class="card-body">
+                  <h6 class="font-weight-semibold mb-3"><i class="ti-headphone-alt text-primary mr-2"></i>Besoin d'aide ?</h6>
+                  <div class="mb-3">
+                    <div class="font-weight-semibold">Service client</div>
+                    <div><i class="ti-mobile text-primary mr-2"></i>09 69 39 39 39</div>
+                    <small class="text-muted">Lun-Ven 8h–20h, Sam 9h–17h</small>
+                  </div>
+                  <div class="mb-3">
+                    <div class="font-weight-semibold">Urgence (opposition carte)</div>
+                    <div><i class="ti-alert text-danger mr-2"></i>0 892 705 705</div>
+                    <small class="text-muted">7j/7, 24h/24 — Numéro interbancaire</small>
+                  </div>
+                  <a href="aide.html" class="btn btn-gradient-primary btn-sm btn-fw"><i class="ti-comment-alt mr-2"></i>Contacter le support</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank — Établissement de crédit agréé ACPR. PCI-DSS • RGPD • ISO 27001</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/off-canvas.js"></script>
+  <script src="../../js/hoverable-collapse.js"></script>
+  <script src="../../js/template.js"></script>
+  <script src="../../js/settings.js"></script>
+  <script src="../../js/todolist.js"></script>
+  <script>
+  (function() {
+    'use strict';
+    function toggleFaq(el) {
+      var answer = el.nextElementSibling;
+      var icon = el.querySelector('i');
+      var isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-answer.open').forEach(function(a) { a.classList.remove('open'); });
+      document.querySelectorAll('.faq-question i').forEach(function(i) { i.className = 'ti-angle-down'; });
+      if (!isOpen) {
+        answer.classList.add('open');
+        if (icon) icon.className = 'ti-angle-up';
+      }
+    }
+    window.toggleFaq = toggleFaq;
+
+    var searchInput = document.getElementById('searchDoc');
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        var q = this.value.toLowerCase();
+        document.querySelectorAll('.faq-item').forEach(function(item) {
+          var text = item.textContent.toLowerCase();
+          item.style.display = (!q || text.includes(q)) ? '' : 'none';
+        });
+      });
+    }
+  })();
+  </script>
+</body>
+</html>
