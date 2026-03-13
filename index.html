@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
   <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="css/skydash-bank.css">
   <link rel="shortcut icon" href="images/favicon.png" />
   <style>
     /* ── Palette SkyDash Bank ── */
@@ -440,7 +441,7 @@
             </a>
           </div>
           <div class="col-6 col-md-2 mb-3">
-            <a href="pages/virements/basic_elements.html" class="quick-action">
+            <a href="pages/virements/virement.html" class="quick-action">
               <div class="quick-action-icon"><i class="ti-world"></i></div>
               <div class="quick-action-label">International</div>
             </a>
@@ -452,7 +453,7 @@
             </a>
           </div>
           <div class="col-6 col-md-2 mb-3">
-            <a href="pages/epargne/mdi.html" class="quick-action">
+            <a href="pages/epargne/epargne.html" class="quick-action">
               <div class="quick-action-icon" style="background:#e6fdf9;color:#1bcfb4;"><i class="ti-calculator"></i></div>
               <div class="quick-action-label">Simulateur</div>
             </a>
@@ -464,7 +465,7 @@
             </a>
           </div>
           <div class="col-6 col-md-2 mb-3">
-            <a href="pages/comptes/chartjs.html" class="quick-action">
+            <a href="pages/comptes/mes-comptes.html" class="quick-action">
               <div class="quick-action-icon" style="background:#fff0f2;color:#fe7c96;"><i class="ti-bar-chart-alt"></i></div>
               <div class="quick-action-label">Analyses</div>
             </a>
@@ -547,7 +548,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h6 class="font-weight-semibold mb-0"><i class="ti-stats-up text-primary mr-2"></i>Flux financiers — 6 mois</h6>
-                  <a href="pages/comptes/chartjs.html" style="font-size:0.8rem;color:#4B49AC;">Analyses complètes</a>
+                  <a href="pages/comptes/mes-comptes.html" style="font-size:0.8rem;color:#4B49AC;">Analyses complètes</a>
                 </div>
                 <div class="chart-container">
                   <canvas id="chartDashboard"></canvas>
@@ -599,7 +600,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h6 class="font-weight-semibold mb-0"><i class="ti-agenda text-primary mr-2"></i>Prélèvements à venir</h6>
-                  <a href="pages/transactions/basic-table.html" style="font-size:0.8rem;color:#4B49AC;">Tout voir</a>
+                  <a href="pages/transactions/historique.html" style="font-size:0.8rem;color:#4B49AC;">Tout voir</a>
                 </div>
                 <div class="table-responsive">
                   <table class="table table-sm mb-0" style="font-size:0.85rem;">
@@ -660,7 +661,7 @@
                 <div class="alert alert-info p-2 mb-2" style="font-size:0.82rem;">
                   <i class="ti-credit-card mr-2"></i>
                   Votre <strong>Mastercard *8834</strong> expire le 31/03/2026. Commandez votre carte de remplacement.
-                  <a href="pages/cartes/typography.html" class="ml-2" style="font-weight:600;">Commander →</a>
+                  <a href="pages/cartes/mes-cartes.html" class="ml-2" style="font-weight:600;">Commander →</a>
                 </div>
 
                 <div class="alert alert-success p-2 mb-2" style="font-size:0.82rem;">
@@ -684,11 +685,12 @@
       <!-- ════════════════ FOOTER ════════════════ -->
       <footer class="footer">
         <div class="d-sm-flex justify-content-center justify-content-sm-between">
-          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
-            © 2026 SkyDash Bank — Établissement de crédit agréé par l'ACPR. PCI-DSS • RGPD • ISO 27001 • DSP2
-          </span>
-          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-muted">
-            <i class="ti-shield text-success"></i> Connexion sécurisée TLS 1.3
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank. Tous droits réservés.</span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+            <a href="pages/legal/conditions.html">Conditions d'utilisation</a> &nbsp;·&nbsp;
+            <a href="pages/legal/confidentialite.html">Confidentialité</a> &nbsp;·&nbsp;
+            <a href="pages/aide/aide.html">Aide</a> &nbsp;·&nbsp;
+            <a href="pages/securite/securite.html">Sécurité</a>
           </span>
         </div>
       </footer>
@@ -819,5 +821,7 @@
 
 }());
 </script>
+<script src="js/skydash-store.js"></script>
+<script src="js/skydash-ui.js"></script>
 </body>
 </html>

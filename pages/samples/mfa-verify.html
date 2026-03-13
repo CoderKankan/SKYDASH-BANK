@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vérification MFA — SkyDash Bank</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/skydash-bank.css">
+  <link rel="shortcut icon" href="../../images/favicon.png" />
+  <style>
+    /* Same purple gradient style as login */
+    body { background: linear-gradient(135deg, #4B49AC 0%, #2c2b6b 100%); min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:'Rubik',sans-serif; }
+    .mfa-card { background:#fff; border-radius:20px; padding:2.5rem; max-width:420px; width:100%; box-shadow:0 20px 60px rgba(75,73,172,.35); }
+    .otp-inputs { display:flex; gap:.5rem; justify-content:center; margin:1.5rem 0; }
+    .otp-inputs input { width:48px; height:56px; text-align:center; font-size:1.5rem; font-weight:700; border:2px solid #e2e8f0; border-radius:10px; color:#4B49AC; transition:all .2s; }
+    .otp-inputs input:focus { border-color:#4B49AC; box-shadow:0 0 0 3px rgba(75,73,172,.15); outline:none; }
+    .btn-verify { background:linear-gradient(135deg,#4B49AC,#6c5ce7); color:#fff; border:none; width:100%; padding:.875rem; border-radius:12px; font-size:1rem; font-weight:600; letter-spacing:.3px; cursor:pointer; transition:all .3s; }
+    .btn-verify:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(75,73,172,.4); }
+    .brand-logo { text-align:center; margin-bottom:1.5rem; }
+    .brand-logo .logo-icon { width:64px; height:64px; background:linear-gradient(135deg,#4B49AC,#6c5ce7); border-radius:16px; display:inline-flex; align-items:center; justify-content:center; margin-bottom:.75rem; }
+    .sca-badge { background:linear-gradient(135deg,#1bcfb4,#0ab39c); color:#fff; padding:.25rem .75rem; border-radius:20px; font-size:.72rem; font-weight:600; display:inline-block; }
+  </style>
+</head>
+<body>
+  <div class="mfa-card">
+    <div class="brand-logo">
+      <div class="logo-icon"><i class="ti-shield" style="color:#fff;font-size:1.8rem;"></i></div>
+      <h4 style="color:#4B49AC;font-weight:700;margin:0;">SkyDash Bank</h4>
+      <div class="mt-1"><span class="sca-badge">&#x1F510; DSP2 / SCA</span></div>
+    </div>
+
+    <div id="mfaForm">
+      <h5 style="text-align:center;font-weight:700;color:#1a1a2e;margin-bottom:.5rem;">Vérification en deux étapes</h5>
+      <p style="text-align:center;color:#6c757d;font-size:.875rem;margin-bottom:0;">Code envoyé au <strong id="phoneDisplay">+33 6 &bull;&bull; &bull;&bull; &bull;&bull; 42</strong></p>
+
+      <div class="otp-inputs" id="otpBoxes">
+        <input type="tel" maxlength="1" class="otp-digit" autocomplete="one-time-code">
+        <input type="tel" maxlength="1" class="otp-digit">
+        <input type="tel" maxlength="1" class="otp-digit">
+        <input type="tel" maxlength="1" class="otp-digit">
+        <input type="tel" maxlength="1" class="otp-digit">
+        <input type="tel" maxlength="1" class="otp-digit">
+      </div>
+
+      <div id="errorMsg" style="display:none;background:#fff5f5;border:1px solid #fe7c96;color:#c0392b;padding:.75rem;border-radius:8px;text-align:center;font-size:.875rem;margin-bottom:1rem;"></div>
+
+      <button class="btn-verify" id="btnVerify" onclick="verifyOTP()">
+        <i class="ti-check mr-2"></i>Vérifier
+      </button>
+
+      <div class="text-center mt-3">
+        <span style="color:#6c757d;font-size:.875rem;">Pas reçu le code ? </span>
+        <a href="#" id="resendLink" onclick="resendOTP(event)" style="color:#4B49AC;font-weight:600;font-size:.875rem;">Renvoyer</a>
+        <span id="resendTimer" style="color:#6c757d;font-size:.875rem;display:none;"> (<span id="resendCount">60</span>s)</span>
+      </div>
+
+      <div class="mt-3 text-center">
+        <label style="cursor:pointer;font-size:.875rem;color:#6c757d;">
+          <input type="checkbox" id="trustedDevice" style="margin-right:.4rem;">
+          Ne plus demander sur cet appareil (30 jours)
+        </label>
+      </div>
+    </div>
+
+    <div id="successPanel" style="display:none;text-align:center;padding:1rem 0;">
+      <div style="font-size:3rem;margin-bottom:1rem;">&#x2705;</div>
+      <h5 style="color:#1bcfb4;font-weight:700;">Identité vérifiée !</h5>
+      <p style="color:#6c757d;font-size:.875rem;">Redirection en cours&hellip;</p>
+    </div>
+
+    <!-- Honeypot -->
+    <input name="website" tabindex="-1" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" autocomplete="off">
+
+    <div class="mt-4 text-center">
+      <a href="login.html" style="color:#6c757d;font-size:.875rem;"><i class="ti-arrow-left mr-1"></i>Retour à la connexion</a>
+    </div>
+
+    <div class="mt-3 text-center" style="font-size:.75rem;color:#adb5bd;">
+      <a href="../../pages/legal/conditions.html" class="text-muted mx-2">CGU</a>
+      <a href="../../pages/legal/confidentialite.html" class="text-muted mx-2">Confidentialité</a>
+    </div>
+  </div>
+
+  <script src="../../vendors/js/vendor.bundle.base.js"></script>
+  <script src="../../js/skydash-store.js"></script>
+  <script>
+    // OTP auto-advance
+    document.querySelectorAll('.otp-digit').forEach(function(inp, i, all) {
+      inp.addEventListener('input', function(e) {
+        if (inp.value.length === 1 && i < all.length - 1) all[i+1].focus();
+      });
+      inp.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' && !inp.value && i > 0) all[i-1].focus();
+      });
+      inp.addEventListener('paste', function(e) {
+        e.preventDefault();
+        var digits = (e.clipboardData.getData('text').replace(/\D/g,'')).slice(0,6).split('');
+        digits.forEach(function(d,j) { if(all[i+j]) all[i+j].value=d; });
+        var next = Math.min(i+digits.length, all.length-1);
+        all[next].focus();
+      });
+    });
+
+    // Brute force
+    var attempts = parseInt(sessionStorage.getItem('sb_mfa_attempts')||'0');
+    var MAX_ATTEMPTS = 3;
+
+    function verifyOTP() {
+      if (document.querySelector('input[name="website"]').value) return;
+      var code = Array.from(document.querySelectorAll('.otp-digit')).map(function(i){return i.value;}).join('');
+      if (code.length < 6) { showError('Veuillez entrer les 6 chiffres du code.'); return; }
+      if (attempts >= MAX_ATTEMPTS) { showError('Trop de tentatives. Veuillez recommencer la connexion.'); return; }
+
+      // Demo: accept any 6-digit code
+      if (/^\d{6}$/.test(code)) {
+        if (document.getElementById('trustedDevice').checked) {
+          sessionStorage.setItem('sb_mfa_trusted','1');
+          sessionStorage.setItem('sb_mfa_trusted_until', Date.now() + 30*24*3600*1000);
+        }
+        sessionStorage.removeItem('sb_mfa_attempts');
+        document.getElementById('mfaForm').style.display='none';
+        document.getElementById('successPanel').style.display='block';
+        setTimeout(function() { window.location.href='../../index.html'; }, 1500);
+      } else {
+        attempts++;
+        sessionStorage.setItem('sb_mfa_attempts', attempts);
+        showError('Code incorrect. ' + (MAX_ATTEMPTS - attempts) + ' tentative(s) restante(s).');
+        document.querySelectorAll('.otp-digit').forEach(function(i){i.value='';});
+        document.querySelector('.otp-digit').focus();
+      }
+    }
+
+    function showError(msg) {
+      var el = document.getElementById('errorMsg');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+
+    // Resend with countdown
+    var resendInterval;
+    function startResendCountdown(sec) {
+      sec = sec || 60;
+      var link = document.getElementById('resendLink');
+      var timer = document.getElementById('resendTimer');
+      var count = document.getElementById('resendCount');
+      link.style.pointerEvents='none'; link.style.opacity='.5';
+      timer.style.display='inline';
+      count.textContent=sec;
+      clearInterval(resendInterval);
+      resendInterval = setInterval(function(){
+        sec--;
+        count.textContent=sec;
+        if(sec<=0){
+          clearInterval(resendInterval);
+          link.style.pointerEvents='auto'; link.style.opacity='1';
+          timer.style.display='none';
+        }
+      },1000);
+    }
+    startResendCountdown(60);
+
+    function resendOTP(e) {
+      e.preventDefault();
+      document.getElementById('errorMsg').style.display='none';
+      startResendCountdown(60);
+      // Show brief confirmation
+      var btn = document.getElementById('btnVerify');
+      var orig = btn.innerHTML;
+      btn.innerHTML='<i class="ti-check mr-2"></i>Code renvoyé !';
+      setTimeout(function(){btn.innerHTML=orig;}, 2000);
+    }
+
+    // Focus first input
+    document.querySelector('.otp-digit').focus();
+  </script>
+</body>
+</html>
