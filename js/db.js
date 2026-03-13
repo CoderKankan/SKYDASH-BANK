@@ -26,7 +26,12 @@
 
     };
 
-    window.db = db;
+    /* SÉCURITÉ — OWASP A02 / RGPD Art.32
+     * Suppression de l'exposition globale window.db.
+     * Les données réelles transitent uniquement via /api/* (JWT requis).
+     * Ce module est réservé aux démos UI locales uniquement.
+     */
+    var _internalDb = db; // Accès restreint au scope IIFE
 
 
     db.countries = [{
