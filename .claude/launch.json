@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Frontend (BrowserSync)",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "node_modules\\.bin\\browser-sync.cmd", "start", "--server", "--port", "3000", "--no-open"],
+      "port": 3000
+    },
+    {
+      "name": "Backend API (Express + nodemon)",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "npm", "run", "dev"],
+      "port": 4000
+    }
+  ]
+}

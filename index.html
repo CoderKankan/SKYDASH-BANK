@@ -752,5 +752,72 @@
   }
 })();
 </script>
+
+<!-- ── SkyDash Bank API Integration ── -->
+<script>
+(function() {
+  'use strict';
+
+  /* Récupération du token en mémoire (stocké après login) */
+  var token = window._accessToken || null;
+  if (!token) return; // Mode démo statique si non connecté
+
+  /* Mise à jour dynamique du dashboard depuis l'API */
+  fetch('/api/dashboard/summary', {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'X-Requested-With': 'XMLHttpRequest',
+      'Accept': 'application/json',
+    },
+    credentials: 'include',
+  })
+  .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+  .then(function(res) {
+    if (!res.success) return;
+    var d = res.data;
+
+    /* Mise à jour solde global */
+    var balanceEl = document.querySelector('.balance-amount');
+    if (balanceEl && d.soldeGlobal !== undefined) {
+      balanceEl.textContent = d.soldeGlobal.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+    }
+
+    /* Mise à jour prénom */
+    var greetEl = document.querySelector('.greeting-name');
+    if (greetEl && d.user && d.user.prenom) {
+      greetEl.textContent = d.user.prenom;
+    }
+
+    /* Badge notifications */
+    var badgeEl = document.querySelector('.notification-badge');
+    if (badgeEl && d.notifications) {
+      badgeEl.textContent = d.notifications.nonLues;
+      badgeEl.style.display = d.notifications.nonLues > 0 ? 'inline' : 'none';
+    }
+  })
+  .catch(function(err) {
+    /* Silencieux — les données statiques restent affichées */
+    if (typeof console !== 'undefined') console.warn('[SkyDash] API non disponible, affichage statique.', err);
+  });
+
+  /* Renouvellement silencieux du token toutes les 12 min (expire à 15 min) */
+  setInterval(function() {
+    fetch('/api/auth/refresh', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    })
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (data && data.data && data.data.accessToken) {
+        window._accessToken = data.data.accessToken;
+      }
+    })
+    .catch(function() {});
+  }, 12 * 60 * 1000);
+
+}());
+</script>
 </body>
 </html>

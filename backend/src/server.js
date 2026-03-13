@@ -27,9 +27,15 @@ const {
 } = require('./middleware/security');
 
 // Routes
-const authRoutes = require('./routes/auth');
-const dashboardRoutes = require('./routes/dashboard');
-const rgpdRoutes = require('./middleware/rgpd');
+const authRoutes         = require('./routes/auth');
+const dashboardRoutes    = require('./routes/dashboard');
+const comptesRoutes      = require('./routes/comptes');
+const transactionsRoutes = require('./routes/transactions');
+const virementsRoutes    = require('./routes/virements');
+const cartesRoutes       = require('./routes/cartes');
+const epargneRoutes      = require('./routes/epargne');
+const beneficiairesRoutes = require('./routes/beneficiaires');
+const rgpdRoutes         = require('./middleware/rgpd');
 
 // Conformité réglementaire
 const {
@@ -114,6 +120,14 @@ app.use('/api/auth', authRoutes);
 
 // Routes du dashboard (protégées)
 app.use('/api/dashboard', dashboardRoutes);
+
+// Routes bancaires (protégées — JWT requis)
+app.use('/api/comptes',       comptesRoutes);
+app.use('/api/transactions',  transactionsRoutes);
+app.use('/api/virements',     virementsRoutes);
+app.use('/api/cartes',        cartesRoutes);
+app.use('/api/epargne',       epargneRoutes);
+app.use('/api/beneficiaires', beneficiairesRoutes);
 
 // Routes RGPD — Droits des personnes (Art. 15-22)
 app.use('/api/rgpd', rgpdRoutes);
