@@ -1,966 +1,442 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none'; base-uri 'self';">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <title>SkyDash Bank — Tableau de bord</title>
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord — SkyDash Bank</title>
   <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="css/vertical-layout-light/style.css">
   <link rel="stylesheet" href="css/skydash-bank.css">
-  <link rel="shortcut icon" href="images/favicon.png" />
-  <style>
-    /* ── Palette SkyDash Bank ── */
-    :root {
-      --primary: #4B49AC;
-      --primary-dark: #3d3c9a;
-      --secondary: #7978E9;
-      --success: #1bcfb4;
-      --danger: #fe7c96;
-      --warning: #f3a84b;
-      --gold: #FFC100;
-    }
-
-    /* ── Solde principal ── */
-    .balance-hero {
-      background: linear-gradient(135deg, #4B49AC 0%, #7978E9 60%, #5c9cf5 100%);
-      border-radius: 18px;
-      color: #fff;
-      padding: 32px 36px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 32px rgba(75,73,172,0.30);
-    }
-    .balance-hero::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 240px; height: 240px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.07);
-    }
-    .balance-hero::after {
-      content: '';
-      position: absolute;
-      bottom: -80px; right: 100px;
-      width: 280px; height: 280px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.04);
-    }
-    .balance-amount {
-      font-size: 2.6rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      line-height: 1.1;
-    }
-    .balance-label {
-      font-size: 0.8rem;
-      opacity: 0.75;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 4px;
-    }
-    .balance-iban {
-      font-family: 'Courier New', monospace;
-      font-size: 0.78rem;
-      opacity: 0.65;
-      letter-spacing: 2px;
-      margin-top: 6px;
-    }
-    .balance-badge {
-      background: rgba(255,255,255,0.2);
-      border-radius: 20px;
-      padding: 3px 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      display: inline-block;
-      margin-top: 10px;
-    }
-
-    /* ── Mini comptes ── */
-    .account-pill {
-      background: #f8f9fb;
-      border: 1px solid #e9ecef;
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      transition: background 0.2s;
-    }
-    .account-pill:hover { background: #f0efff; }
-    .account-icon {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem;
-      margin-right: 12px;
-      flex-shrink: 0;
-    }
-    .account-balance { font-size: 1rem; font-weight: 700; color: #343a40; }
-    .account-name { font-size: 0.78rem; color: #6c757d; }
-
-    /* ── Actions rapides ── */
-    .quick-action {
-      background: #fff;
-      border: 1.5px solid #e9ecef;
-      border-radius: 14px;
-      padding: 18px 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.18s;
-      text-decoration: none;
-      display: block;
-      color: #343a40;
-    }
-    .quick-action:hover {
-      border-color: var(--primary);
-      box-shadow: 0 4px 18px rgba(75,73,172,0.13);
-      background: #f6f5ff;
-      text-decoration: none;
-      color: var(--primary);
-    }
-    .quick-action-icon {
-      width: 48px; height: 48px;
-      border-radius: 14px;
-      background: #f0efff;
-      color: var(--primary);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      margin: 0 auto 10px;
-      transition: background 0.18s;
-    }
-    .quick-action:hover .quick-action-icon { background: var(--primary); color: #fff; }
-    .quick-action-label { font-size: 0.8rem; font-weight: 600; }
-
-    /* ── Transactions ── */
-    .tx-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f4f4f4; }
-    .tx-row:last-child { border-bottom: none; }
-    .tx-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-size: 1rem; }
-    .tx-desc { flex: 1; min-width: 0; }
-    .tx-title { font-size: 0.87rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .tx-sub { font-size: 0.75rem; color: #6c757d; }
-    .tx-amount { font-size: 0.95rem; font-weight: 700; margin-left: 12px; white-space: nowrap; }
-    .amount-credit { color: #1bcfb4; }
-    .amount-debit  { color: #fe7c96; }
-
-    /* ── KPI Cards ── */
-    .kpi-mini { border-radius: 12px; padding: 18px 20px; color: #fff; position: relative; overflow: hidden; }
-    .kpi-mini::after { content:''; position:absolute; bottom:-20px; right:-20px; width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.1); }
-    .kpi-mini-value { font-size: 1.5rem; font-weight: 800; }
-    .kpi-mini-label { font-size: 0.72rem; opacity: 0.82; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
-    .kpi-mini-trend { font-size: 0.75rem; opacity: 0.85; margin-top: 8px; }
-
-    /* ── Carte promo ── */
-    .card-promo {
-      background: linear-gradient(135deg, #FFC100, #f3a84b);
-      border-radius: 14px;
-      padding: 20px 22px;
-      color: #fff;
-    }
-
-    /* ── Alerte sécurité ── */
-    .security-score { font-size: 2rem; font-weight: 800; color: #1bcfb4; }
-
-    /* ── Chart container ── */
-    .chart-container { position: relative; height: 200px; }
-
-    /* Override card */
-    .card.banking-card { border: none; border-radius: 14px; box-shadow: 0 2px 12px rgba(75,73,172,0.07); }
-
-    /* Progress bar */
-    .progress-thin { height: 6px; border-radius: 3px; }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container-scroller">
 
-  <!-- ════════════════ NAVBAR ════════════════ -->
-  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-      <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="images/logo.svg" class="mr-2" alt="SkyDash Bank"/></a>
-      <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg" alt="SkyDash Bank"/></a>
+  <!-- ── Top Navbar ──────────────────────────────────────────── -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo" href="index.html" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#4B49AC,#6c5ce7);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.1rem;flex-shrink:0;">S</div>
+        <span style="font-size:1rem;font-weight:800;color:#1a1a2e;white-space:nowrap;">SkyDash <span style="color:#4B49AC;">Bank</span></span>
+      </a>
     </div>
-    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-      <ul class="navbar-nav mr-lg-2">
-        <!-- Notification -->
-        <li class="nav-item dropdown d-none d-lg-block">
-          <a class="nav-link count-indicator dropdown-toggle" href="#" data-toggle="dropdown">
-            <i class="icon-bell mx-0"></i>
-            <span class="count bg-danger">3</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" style="min-width:300px;max-width:340px;">
-            <p class="mb-0 font-weight-bold text-center px-3 py-2" style="font-size:0.85rem;">Notifications</p>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
-              <div class="preview-thumbnail">
-                <div class="preview-icon bg-danger rounded-circle" style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;margin-right:10px;flex-shrink:0;">
-                  <i class="ti-alert text-white" style="font-size:0.9rem;"></i>
-                </div>
-              </div>
-              <div class="preview-item-content d-flex flex-grow">
-                <div class="flex-grow" style="font-size:0.82rem;">
-                  <span class="font-weight-semibold">Tentative de connexion suspecte</span>
-                  <p class="text-muted">Connexion depuis un nouvel appareil détectée — il y a 2h</p>
-                </div>
-              </div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
-              <div style="font-size:0.82rem;">
-                <span class="font-weight-semibold"><i class="ti-money text-success mr-1"></i>Salaire reçu</span>
-                <p class="text-muted">+3 250,00 € — DURAND &amp; ASSOCIÉS — 05/03/2026</p>
-              </div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
-              <div style="font-size:0.82rem;">
-                <span class="font-weight-semibold"><i class="ti-credit-card text-warning mr-1"></i>Carte bientôt expirée</span>
-                <p class="text-muted">Votre Mastercard *8834 expire dans 18 jours</p>
-              </div>
-            </a>
-          </div>
-        </li>
-      </ul>
-      <ul class="navbar-nav navbar-nav-right">
-        <li class="nav-item nav-profile dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-            <img src="images/faces/face28.jpg" alt="Profil"/>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-            <a class="dropdown-item" href="pages/profil/profil.html"><i class="ti-user text-primary"></i> JEAN DUPONT</a>
-            <a class="dropdown-item" href="pages/profil/profil.html"><i class="ti-settings text-primary"></i> Mon Profil</a>
-            <a class="dropdown-item" href="pages/securite/securite.html"><i class="ti-shield text-primary"></i> Sécurité</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="pages/samples/login.html"><i class="ti-power-off text-danger"></i> Déconnexion</a>
-          </div>
-        </li>
-      </ul>
-      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-        <span class="icon-menu"></span>
-      </button>
+
+    <!-- SG-Style Primary Navigation -->
+    <div class="sg-primary-nav" id="sgPrimaryNav">
+      <a href="index.html" class="active">🏠 Tableau de bord</a>
+      <a href="pages/comptes/mes-comptes.html">💳 Mes comptes</a>
+      <a href="pages/virements/virement.html">↔️ Virements</a>
+      <a href="pages/transactions/historique.html">📋 Historique</a>
+      <a href="pages/epargne/epargne.html">🏦 Épargne</a>
+      <a href="pages/cartes/mes-cartes.html">💳 Mes cartes</a>
+      <a href="pages/beneficiaires/beneficiaires.html">👥 Bénéficiaires</a>
+    </div>
+
+    <div class="navbar-menu-wrapper d-flex align-items-center">
+      <!-- Session timer -->
+      <span id="sb-session-timer" style="display:none;"></span>
+      <!-- Notifications -->
+      <div style="position:relative;margin-right:.5rem;">
+        <button style="background:none;border:none;font-size:1.2rem;cursor:pointer;padding:.4rem;" title="Notifications">🔔</button>
+        <span class="sb-notif-badge" id="sbNotifBadge" style="display:none;"></span>
+      </div>
+      <!-- User -->
+      <div class="dropdown">
+        <button class="dropdown-toggle" data-toggle="dropdown" style="background:var(--sb-primary-lt);border:none;border-radius:8px;padding:.4rem .875rem;font-weight:700;font-size:.82rem;color:var(--sb-primary);cursor:pointer;display:flex;align-items:center;gap:.4rem;">
+          👤 Mon compte
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" style="min-width:180px;border:1px solid var(--sb-gray-200);border-radius:12px;box-shadow:var(--sb-shadow-lg);padding:.5rem;">
+          <a class="dropdown-item" href="pages/profil/profil.html" style="font-size:.875rem;border-radius:8px;padding:.5rem .875rem;">Mon profil</a>
+          <a class="dropdown-item" href="pages/securite/securite.html" style="font-size:.875rem;border-radius:8px;padding:.5rem .875rem;">Sécurité</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="pages/samples/login.html" style="font-size:.875rem;border-radius:8px;padding:.5rem .875rem;">Déconnexion</a>
+        </div>
+      </div>
     </div>
   </nav>
 
-  <div class="container-fluid page-body-wrapper">
-
-    <!-- ════════════════ SIDEBAR ════════════════ -->
-    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <div class="page-body-wrapper">
+    <!-- Sidebar (hidden by CSS on desktop, kept for mobile toggle) -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar" style="display:none;">
       <ul class="nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html"><i class="icon-grid menu-icon"></i><span class="menu-title">Tableau de bord</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/comptes/mes-comptes.html"><i class="ti-wallet menu-icon"></i><span class="menu-title">Mes Comptes</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/virements/virement.html"><i class="ti-exchange-vertical menu-icon"></i><span class="menu-title">Virements</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/transactions/historique.html"><i class="ti-receipt menu-icon"></i><span class="menu-title">Historique</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/cartes/mes-cartes.html"><i class="ti-credit-card menu-icon"></i><span class="menu-title">Mes Cartes</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/epargne/epargne.html"><i class="ti-stats-up menu-icon"></i><span class="menu-title">Épargne</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/beneficiaires/beneficiaires.html"><i class="ti-user menu-icon"></i><span class="menu-title">Bénéficiaires</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/profil/profil.html"><i class="ti-id-badge menu-icon"></i><span class="menu-title">Mon Profil</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/securite/securite.html"><i class="ti-shield menu-icon"></i><span class="menu-title">Sécurité</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="pages/aide/aide.html"><i class="ti-help menu-icon"></i><span class="menu-title">Aide</span></a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="index.html"><span class="menu-title">Tableau de bord</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="pages/comptes/mes-comptes.html"><span class="menu-title">Mes Comptes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="pages/virements/virement.html"><span class="menu-title">Virements</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="pages/transactions/historique.html"><span class="menu-title">Historique</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="pages/cartes/mes-cartes.html"><span class="menu-title">Mes Cartes</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="pages/epargne/epargne.html"><span class="menu-title">Épargne</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="pages/beneficiaires/beneficiaires.html"><span class="menu-title">Bénéficiaires</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="pages/aide/aide.html"><span class="menu-title">Aide</span></a></li>
       </ul>
     </nav>
 
-    <!-- ════════════════ MAIN PANEL ════════════════ -->
     <div class="main-panel">
-
-      <!-- SG-style Quick Navigation -->
-      <div class="sg-quick-nav" style="background:#fff;border-bottom:2px solid #f0efff;padding:.5rem 1.5rem;display:flex;gap:.25rem;overflow-x:auto;position:sticky;top:70px;z-index:99;box-shadow:0 2px 8px rgba(75,73,172,.06);">
-        <a href="index.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#4B49AC;font-weight:600;font-size:.875rem;text-decoration:none;border-bottom:2px solid #4B49AC;white-space:nowrap;">🏠 Tableau de bord</a>
-        <a href="pages/comptes/mes-comptes.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">💳 Mes comptes</a>
-        <a href="pages/virements/virement.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">↔️ Virements</a>
-        <a href="pages/epargne/epargne.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">🏦 Épargne</a>
-        <a href="pages/cartes/mes-cartes.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">💳 Mes cartes</a>
-        <a href="pages/beneficiaires/beneficiaires.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">👥 Bénéficiaires</a>
-        <a href="pages/transactions/historique.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">📋 Historique</a>
-        <a href="pages/aide/aide.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">❓ Aide</a>
-      </div>
-
       <div class="content-wrapper">
+        <div class="sb-page sb-fade-in">
 
-        <!-- Page Header -->
-        <div class="page-header mb-4">
-          <div>
-            <h3 class="page-title mb-0">Bonjour, <strong>Jean</strong> 👋</h3>
-            <small class="text-muted">Vendredi 13 mars 2026 — Dernière connexion : 12/03/2026 à 18h42</small>
-          </div>
-          <div class="d-none d-md-flex align-items-center" style="gap:10px;">
-            <span class="badge badge-success py-1 px-2"><i class="ti-shield mr-1"></i>Connexion sécurisée TLS 1.3</span>
-            <a href="pages/securite/securite.html" class="btn btn-outline-primary btn-sm"><i class="ti-lock mr-1"></i>Sécurité</a>
-          </div>
-        </div>
-
-        <!-- Hero Balance Card -->
-        <div class="row mb-4" id="heroSection">
-          <div class="col-12">
-            <div style="background:linear-gradient(135deg,#4B49AC 0%,#2c2b6b 100%);border-radius:20px;padding:2rem 2.5rem;color:#fff;position:relative;overflow:hidden;">
-              <div style="position:absolute;top:-30px;right:-30px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none;"></div>
-              <div style="position:absolute;bottom:-50px;right:100px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none;"></div>
-              <div style="position:absolute;top:20px;left:50%;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.03);pointer-events:none;"></div>
-              <div class="row align-items-center">
-                <div class="col-md-6 col-12 mb-3 mb-md-0">
-                  <div style="font-size:.75rem;opacity:.75;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.4rem;">Compte Courant Principal</div>
-                  <div style="font-size:.8rem;opacity:.6;font-family:monospace;letter-spacing:.5px;margin-bottom:.75rem;" id="heroIBAN">FR76 •••• •••• •••• •••• •••• 342</div>
-                  <div style="font-size:2.6rem;font-weight:700;letter-spacing:-1.5px;line-height:1;" id="heroSolde">— €</div>
-                  <div style="font-size:.75rem;opacity:.6;margin-top:.4rem;display:flex;align-items:center;gap:.4rem;">
-                    <span style="width:7px;height:7px;border-radius:50%;background:#1bcfb4;display:inline-block;animation:pulse 2s infinite;"></span>
-                    Solde disponible · Mis à jour à l'instant
-                  </div>
-                </div>
-                <div class="col-md-6 col-12">
-                  <div class="d-flex flex-wrap mb-3" style="gap:.6rem;justify-content:flex-start;justify-content:flex-end;" id="heroActions">
-                    <a href="pages/virements/virement.html" style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.6rem 1.1rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'"><i class="ti-exchange-vertical"></i> Virer de l'argent</a>
-                    <a href="pages/transactions/historique.html" style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.6rem 1.1rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'"><i class="ti-list"></i> Historique</a>
-                    <a href="pages/cartes/mes-cartes.html" style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.6rem 1.1rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'"><i class="ti-credit-card"></i> Mes cartes</a>
-                  </div>
-                  <div class="d-flex" style="gap:2rem;justify-content:flex-end;">
-                    <div>
-                      <div style="font-size:1.15rem;font-weight:700;" id="heroCredit">+0,00 €</div>
-                      <div style="font-size:.72rem;opacity:.65;">Crédités ce mois</div>
-                    </div>
-                    <div style="width:1px;background:rgba(255,255,255,.2);"></div>
-                    <div>
-                      <div style="font-size:1.15rem;font-weight:700;" id="heroDebit">-0,00 €</div>
-                      <div style="font-size:.72rem;opacity:.65;">Débités ce mois</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <!-- ── Page Header ──────────────────────────────────── -->
+          <div class="sb-page-header">
+            <div>
+              <div class="sb-breadcrumb">Bonjour, <strong id="userName">Jean Dupont</strong> 👋</div>
+              <h1>Tableau de bord</h1>
             </div>
-          </div>
-        </div>
-
-        <!-- ═══ ROW 1 : Solde + Comptes ═══ -->
-        <div class="row mb-4">
-
-          <!-- Solde principal -->
-          <div class="col-lg-5 mb-4">
-            <div class="balance-hero">
-              <div class="balance-label">Solde global disponible</div>
-              <div class="balance-amount">12 483,75 €</div>
-              <div class="balance-iban">FR76 3000 4001 0300 0100 0947 89</div>
-              <div>
-                <span class="balance-badge"><i class="ti-arrow-up mr-1"></i>+5 646,63 € ce mois</span>
-              </div>
-              <div class="mt-4 d-flex" style="gap:10px;position:relative;z-index:1;">
-                <a href="pages/virements/virement.html" class="btn btn-sm" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:8px;font-size:0.82rem;">
-                  <i class="ti-exchange-vertical mr-1"></i>Virement
-                </a>
-                <a href="pages/transactions/historique.html" class="btn btn-sm" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:8px;font-size:0.82rem;">
-                  <i class="ti-receipt mr-1"></i>Historique
-                </a>
-                <a href="pages/comptes/mes-comptes.html" class="btn btn-sm" style="background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:8px;font-size:0.82rem;">
-                  <i class="ti-wallet mr-1"></i>Comptes
-                </a>
-              </div>
+            <div style="display:flex;align-items:center;gap:.75rem;">
+              <span style="font-size:.8rem;color:var(--sb-gray-500);" id="currentDate"></span>
+              <a href="pages/virements/virement.html" class="sb-btn sb-btn-primary">↔️ Nouveau virement</a>
             </div>
           </div>
 
-          <!-- Mini comptes -->
-          <div class="col-lg-4 mb-4">
-            <div class="card banking-card h-100">
-              <div class="card-body">
-                <h6 class="font-weight-semibold mb-3" style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;color:#6c757d;">Mes comptes</h6>
-
-                <div class="account-pill">
-                  <div class="account-icon" style="background:#f0efff;color:#4B49AC;"><i class="ti-wallet"></i></div>
-                  <div class="flex-grow-1">
-                    <div class="account-name">Compte Courant Principal</div>
-                    <div class="account-balance">12 483,75 €</div>
-                  </div>
-                  <a href="pages/comptes/mes-comptes.html" class="btn btn-sm" style="background:#f0efff;color:#4B49AC;border-radius:8px;padding:4px 10px;font-size:0.75rem;">Voir</a>
-                </div>
-
-                <div class="account-pill">
-                  <div class="account-icon" style="background:#e6fdf9;color:#1bcfb4;"><i class="ti-stats-up"></i></div>
-                  <div class="flex-grow-1">
-                    <div class="account-name">Livret A</div>
-                    <div class="account-balance">8 230,00 €</div>
-                  </div>
-                  <a href="pages/epargne/epargne.html" class="btn btn-sm" style="background:#e6fdf9;color:#1bcfb4;border-radius:8px;padding:4px 10px;font-size:0.75rem;">Voir</a>
-                </div>
-
-                <div class="account-pill">
-                  <div class="account-icon" style="background:#fff8ec;color:#f3a84b;"><i class="ti-home"></i></div>
-                  <div class="flex-grow-1">
-                    <div class="account-name">PEL</div>
-                    <div class="account-balance">15 600,00 €</div>
-                  </div>
-                  <a href="pages/epargne/epargne.html" class="btn btn-sm" style="background:#fff8ec;color:#f3a84b;border-radius:8px;padding:4px 10px;font-size:0.75rem;">Voir</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Alerte sécurité + score -->
-          <div class="col-lg-3 mb-4">
-            <div class="card banking-card h-100">
-              <div class="card-body text-center">
-                <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;color:#6c757d;margin-bottom:8px;">Score de sécurité</div>
-                <div class="security-score">87<small style="font-size:1rem;">/100</small></div>
-                <div class="progress progress-thin mt-2 mb-3">
-                  <div class="progress-bar" style="width:87%;background:linear-gradient(90deg,#1bcfb4,#4B49AC);"></div>
-                </div>
-                <div style="font-size:0.8rem;" class="text-left">
-                  <div class="d-flex align-items-center mb-2">
-                    <i class="ti-check text-success mr-2"></i><span>2FA activée</span>
-                    <span class="ml-auto badge badge-success">OK</span>
-                  </div>
-                  <div class="d-flex align-items-center mb-2">
-                    <i class="ti-check text-success mr-2"></i><span>Mot de passe fort</span>
-                    <span class="ml-auto badge badge-success">OK</span>
-                  </div>
-                  <div class="d-flex align-items-center mb-2">
-                    <i class="ti-alert text-warning mr-2"></i><span>Connexion suspecte</span>
-                    <span class="ml-auto badge badge-warning">!</span>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <i class="ti-check text-success mr-2"></i><span>Notifications activées</span>
-                    <span class="ml-auto badge badge-success">OK</span>
-                  </div>
-                </div>
-                <a href="pages/securite/securite.html" class="btn btn-gradient-primary btn-sm btn-fw mt-3">
-                  <i class="ti-shield mr-1"></i>Voir la sécurité
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ═══ ROW 2 : KPIs ═══ -->
-        <div class="row mb-4">
-          <div class="col-md-3 col-6 mb-3">
-            <div class="kpi-mini" style="background:linear-gradient(135deg,#1bcfb4,#0a9e8d);">
-              <div style="font-size:1rem;opacity:0.85;margin-bottom:4px;"><i class="ti-arrow-up mr-1"></i>Revenus mars</div>
-              <div class="kpi-mini-value">+ 7 845 €</div>
-              <div class="kpi-mini-trend"><i class="ti-arrow-up"></i> +12% vs fév.</div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-3">
-            <div class="kpi-mini" style="background:linear-gradient(135deg,#fe7c96,#e05170);">
-              <div style="font-size:1rem;opacity:0.85;margin-bottom:4px;"><i class="ti-arrow-down mr-1"></i>Dépenses mars</div>
-              <div class="kpi-mini-value">- 2 198 €</div>
-              <div class="kpi-mini-trend"><i class="ti-arrow-down"></i> -5% vs fév.</div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-3">
-            <div class="kpi-mini" style="background:linear-gradient(135deg,#f3a84b,#d4800a);">
-              <div style="font-size:1rem;opacity:0.85;margin-bottom:4px;"><i class="ti-time mr-1"></i>En attente</div>
-              <div class="kpi-mini-value">2 438 €</div>
-              <div class="kpi-mini-trend">9 opérations programmées</div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-3">
-            <div class="kpi-mini" style="background:linear-gradient(135deg,#4B49AC,#7978E9);">
-              <div style="font-size:1rem;opacity:0.85;margin-bottom:4px;"><i class="ti-stats-up mr-1"></i>Épargne totale</div>
-              <div class="kpi-mini-value">23 830 €</div>
-              <div class="kpi-mini-trend">Taux : 71,9 % ce mois</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ═══ ROW 3 : Actions rapides ═══ -->
-        <div class="row mb-4">
-          <div class="col-12 mb-3">
-            <h5 class="font-weight-semibold"><i class="ti-layout-grid2 text-primary mr-2"></i>Actions rapides</h5>
-          </div>
-          <div class="col-6 col-md-2 mb-3">
-            <a href="pages/virements/virement.html" class="quick-action">
-              <div class="quick-action-icon"><i class="ti-exchange-vertical"></i></div>
-              <div class="quick-action-label">Virement</div>
-            </a>
-          </div>
-          <div class="col-6 col-md-2 mb-3">
-            <a href="pages/virements/virement.html" class="quick-action">
-              <div class="quick-action-icon"><i class="ti-world"></i></div>
-              <div class="quick-action-label">International</div>
-            </a>
-          </div>
-          <div class="col-6 col-md-2 mb-3">
-            <a href="pages/cartes/mes-cartes.html" class="quick-action">
-              <div class="quick-action-icon"><i class="ti-credit-card"></i></div>
-              <div class="quick-action-label">Mes Cartes</div>
-            </a>
-          </div>
-          <div class="col-6 col-md-2 mb-3">
-            <a href="pages/epargne/epargne.html" class="quick-action">
-              <div class="quick-action-icon" style="background:#e6fdf9;color:#1bcfb4;"><i class="ti-calculator"></i></div>
-              <div class="quick-action-label">Simulateur</div>
-            </a>
-          </div>
-          <div class="col-6 col-md-2 mb-3">
-            <a href="pages/beneficiaires/beneficiaires.html" class="quick-action">
-              <div class="quick-action-icon" style="background:#fff8ec;color:#f3a84b;"><i class="ti-user"></i></div>
-              <div class="quick-action-label">Bénéficiaires</div>
-            </a>
-          </div>
-          <div class="col-6 col-md-2 mb-3">
-            <a href="pages/comptes/mes-comptes.html" class="quick-action">
-              <div class="quick-action-icon" style="background:#fff0f2;color:#fe7c96;"><i class="ti-bar-chart-alt"></i></div>
-              <div class="quick-action-label">Analyses</div>
-            </a>
-          </div>
-        </div>
-
-        <!-- ═══ ROW 4 : Transactions + Graphique ═══ -->
-        <div class="row mb-4">
-
-          <!-- Dernières transactions -->
-          <div class="col-lg-5 mb-4">
-            <div class="card banking-card h-100">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h6 class="font-weight-semibold mb-0"><i class="ti-receipt text-primary mr-2"></i>Dernières transactions</h6>
-                  <a href="pages/transactions/historique.html" style="font-size:0.8rem;color:#4B49AC;">Tout voir</a>
-                </div>
-
-                <div class="tx-row">
-                  <div class="tx-icon" style="background:#e6fdf9;color:#1bcfb4;"><i class="ti-money"></i></div>
-                  <div class="tx-desc">
-                    <div class="tx-title">Salaire — DURAND &amp; ASSOCIÉS</div>
-                    <div class="tx-sub">05/03/2026 · Virement reçu</div>
-                  </div>
-                  <div class="tx-amount amount-credit">+3 250 €</div>
-                </div>
-
-                <div class="tx-row">
-                  <div class="tx-icon" style="background:#f8f9fb;color:#6c757d;"><i class="ti-shopping-cart"></i></div>
-                  <div class="tx-desc">
-                    <div class="tx-title">MONOPRIX PARIS 11</div>
-                    <div class="tx-sub">12/03/2026 · Paiement CB</div>
-                  </div>
-                  <div class="tx-amount amount-debit">-78,32 €</div>
-                </div>
-
-                <div class="tx-row">
-                  <div class="tx-icon" style="background:#f8f9fb;color:#6c757d;"><i class="ti-home"></i></div>
-                  <div class="tx-desc">
-                    <div class="tx-title">SCI LES PINS — Loyer</div>
-                    <div class="tx-sub">01/03/2026 · Prélèvement</div>
-                  </div>
-                  <div class="tx-amount amount-debit">-900 €</div>
-                </div>
-
-                <div class="tx-row">
-                  <div class="tx-icon" style="background:#e6fdf9;color:#1bcfb4;"><i class="ti-exchange-vertical"></i></div>
-                  <div class="tx-desc">
-                    <div class="tx-title">MARTIN Sophie</div>
-                    <div class="tx-sub">13/03/2026 · Virement reçu</div>
-                  </div>
-                  <div class="tx-amount amount-credit">+45 €</div>
-                </div>
-
-                <div class="tx-row">
-                  <div class="tx-icon" style="background:#f8f9fb;color:#6c757d;"><i class="ti-bolt"></i></div>
-                  <div class="tx-desc">
-                    <div class="tx-title">EDF ENERGIE — Électricité</div>
-                    <div class="tx-sub">10/03/2026 · Prélèvement</div>
-                  </div>
-                  <div class="tx-amount amount-debit">-112,80 €</div>
-                </div>
-
-                <div class="tx-row">
-                  <div class="tx-icon" style="background:#f8f9fb;color:#6c757d;"><i class="ti-mobile"></i></div>
-                  <div class="tx-desc">
-                    <div class="tx-title">ORANGE TELECOM</div>
-                    <div class="tx-sub">01/03/2026 · Prélèvement</div>
-                  </div>
-                  <div class="tx-amount amount-debit">-49,99 €</div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Graphique flux + Mastercard -->
-          <div class="col-lg-7 mb-4">
-            <div class="card banking-card mb-3">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h6 class="font-weight-semibold mb-0"><i class="ti-stats-up text-primary mr-2"></i>Flux financiers — 6 mois</h6>
-                  <a href="pages/comptes/mes-comptes.html" style="font-size:0.8rem;color:#4B49AC;">Analyses complètes</a>
-                </div>
-                <div class="chart-container">
-                  <canvas id="chartDashboard"></canvas>
-                </div>
-              </div>
-            </div>
-
-            <!-- Carte Mastercard crédit -->
-            <div class="row">
-              <div class="col-md-6">
-                <div class="card banking-card">
-                  <div class="card-body">
-                    <h6 style="font-size:0.8rem;color:#6c757d;text-transform:uppercase;letter-spacing:0.05em;">Mastercard Crédit *8834</h6>
-                    <div class="d-flex justify-content-between mb-2">
-                      <small class="text-muted">Utilisé ce mois</small>
-                      <small class="font-weight-semibold">487,50 € / 3 000 €</small>
-                    </div>
-                    <div class="progress progress-thin mb-2">
-                      <div class="progress-bar bg-gradient-primary" style="width:16.25%;"></div>
-                    </div>
-                    <small class="text-muted">2 512,50 € disponibles</small>
-                    <div class="mt-2">
-                      <a href="pages/cartes/mes-cartes.html" class="btn btn-outline-primary btn-sm" style="font-size:0.75rem;">Gérer</a>
-                    </div>
-                  </div>
+          <!-- ── Hero Account Card ─────────────────────────────── -->
+          <div class="sb-hero-card mb-4">
+            <div class="row align-items-center" style="position:relative;z-index:1;">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <div class="sb-hero-label">Compte Courant Principal</div>
+                <div class="sb-hero-iban" id="dashIBAN">FR76 •••• •••• •••• •••• •••• 342</div>
+                <div class="sb-hero-balance" id="dashSolde">— €</div>
+                <div class="sb-hero-badge">
+                  <span class="dot"></span>
+                  Solde disponible · mis à jour à l'instant
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="card-promo h-100 d-flex flex-column justify-content-between" style="min-height:120px;">
+                <div class="sb-hero-actions">
+                  <a href="pages/virements/virement.html" class="sb-hero-btn">↔️ Virer</a>
+                  <a href="pages/transactions/historique.html" class="sb-hero-btn">📋 Historique</a>
+                  <a href="pages/cartes/mes-cartes.html" class="sb-hero-btn">💳 Mes cartes</a>
+                  <a href="pages/epargne/epargne.html" class="sb-hero-btn">🏦 Épargne</a>
+                </div>
+                <div style="display:flex;gap:2rem;margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.15);">
                   <div>
-                    <div style="font-size:0.8rem;opacity:0.85;font-weight:600;margin-bottom:4px;"><i class="ti-stats-up mr-1"></i>Épargne du mois</div>
-                    <div style="font-size:1.5rem;font-weight:800;">+ 5 647 €</div>
-                    <div style="font-size:0.78rem;opacity:0.85;">Taux d'épargne : 71,9 %</div>
+                    <div style="font-size:1.05rem;font-weight:700;" id="dashCredit">—</div>
+                    <div style="font-size:.7rem;opacity:.65;">Crédités ce mois</div>
                   </div>
-                  <a href="pages/epargne/epargne.html" style="color:#fff;font-size:0.78rem;opacity:0.9;text-decoration:underline;">Voir mes placements →</a>
+                  <div>
+                    <div style="font-size:1.05rem;font-weight:700;" id="dashDebit">—</div>
+                    <div style="font-size:.7rem;opacity:.65;">Débités ce mois</div>
+                  </div>
+                  <div>
+                    <div style="font-size:1.05rem;font-weight:700;" id="dashTxnCount">—</div>
+                    <div style="font-size:.7rem;opacity:.65;">Opérations</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-        </div>
-
-        <!-- ═══ ROW 5 : Prélèvements à venir + Alertes ═══ -->
-        <div class="row mb-4">
-
-          <!-- Prochains prélèvements -->
-          <div class="col-lg-6 mb-4">
-            <div class="card banking-card">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h6 class="font-weight-semibold mb-0"><i class="ti-agenda text-primary mr-2"></i>Prélèvements à venir</h6>
-                  <a href="pages/transactions/historique.html" style="font-size:0.8rem;color:#4B49AC;">Tout voir</a>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-sm mb-0" style="font-size:0.85rem;">
-                    <thead>
-                      <tr>
-                        <th style="border-top:none;">Date</th>
-                        <th style="border-top:none;">Créancier</th>
-                        <th style="border-top:none;" class="text-right">Montant</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><span class="badge badge-warning" style="font-size:0.72rem;">14/03</span></td>
-                        <td>Virement — MARTIN Sophie</td>
-                        <td class="text-right" style="color:#fe7c96;font-weight:600;">-120,00 €</td>
-                      </tr>
-                      <tr>
-                        <td><span class="badge badge-info" style="font-size:0.72rem;">15/03</span></td>
-                        <td>SCI LES PINS — Loyer</td>
-                        <td class="text-right" style="color:#fe7c96;font-weight:600;">-900,00 €</td>
-                      </tr>
-                      <tr>
-                        <td><span class="badge badge-info" style="font-size:0.72rem;">16/03</span></td>
-                        <td>EDF ENERGIE</td>
-                        <td class="text-right" style="color:#fe7c96;font-weight:600;">-112,80 €</td>
-                      </tr>
-                      <tr>
-                        <td><span class="badge badge-secondary" style="font-size:0.72rem;">18/03</span></td>
-                        <td>ORANGE TELECOM</td>
-                        <td class="text-right" style="color:#fe7c96;font-weight:600;">-49,99 €</td>
-                      </tr>
-                      <tr style="border-top:2px solid #f0f0f0;">
-                        <td colspan="2" class="font-weight-bold">Total prévu</td>
-                        <td class="text-right font-weight-bold" style="color:#fe7c96;">-1 182,79 €</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+          <!-- ── Other Accounts ────────────────────────────────── -->
+          <div class="sb-section-title">Mes comptes</div>
+          <div class="row mb-4" id="accountsGrid">
+            <!-- Populated by JS -->
+            <div class="col-md-4 mb-3">
+              <div class="sb-skeleton" style="height:90px;border-radius:16px;"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="sb-skeleton" style="height:90px;border-radius:16px;"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="sb-skeleton" style="height:90px;border-radius:16px;"></div>
             </div>
           </div>
 
-          <!-- Alertes & notifications -->
-          <div class="col-lg-6 mb-4">
-            <div class="card banking-card">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h6 class="font-weight-semibold mb-0"><i class="ti-bell text-primary mr-2"></i>Alertes &amp; Notifications</h6>
-                  <a href="pages/securite/securite.html" style="font-size:0.8rem;color:#4B49AC;">Configurer</a>
-                </div>
-
-                <div class="alert alert-warning p-2 mb-2" style="font-size:0.82rem;">
-                  <i class="ti-alert mr-2"></i>
-                  <strong>Connexion suspecte détectée</strong> — Appareil inconnu (Android) — Paris, France — il y a 2h.
-                  <a href="pages/securite/securite.html" class="ml-2" style="font-weight:600;">Vérifier →</a>
-                </div>
-
-                <div class="alert alert-info p-2 mb-2" style="font-size:0.82rem;">
-                  <i class="ti-credit-card mr-2"></i>
-                  Votre <strong>Mastercard *8834</strong> expire le 31/03/2026. Commandez votre carte de remplacement.
-                  <a href="pages/cartes/mes-cartes.html" class="ml-2" style="font-weight:600;">Commander →</a>
-                </div>
-
-                <div class="alert alert-success p-2 mb-2" style="font-size:0.82rem;">
-                  <i class="ti-money mr-2"></i>
-                  <strong>Salaire reçu</strong> — +3 250,00 € le 05/03/2026 de DURAND &amp; ASSOCIÉS SARL.
-                </div>
-
-                <div class="alert alert-light border p-2 mb-0" style="font-size:0.82rem;">
-                  <i class="ti-info-alt mr-2 text-primary"></i>
-                  Votre taux d'épargne de <strong>71,9 %</strong> ce mois est excellent ! Découvrez nos placements.
-                  <a href="pages/epargne/epargne.html" class="ml-2" style="font-weight:600;">Explorer →</a>
-                </div>
-
-              </div>
+          <!-- ── Quick Actions ──────────────────────────────────── -->
+          <div class="sb-section-title">Actions rapides</div>
+          <div class="row mb-4">
+            <div class="col-6 col-md-3 mb-3">
+              <a href="pages/virements/virement.html" class="sb-action-tile">
+                <div class="tile-icon">↔️</div>
+                <span class="tile-label">Effectuer un virement</span>
+              </a>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <a href="pages/cartes/mes-cartes.html" class="sb-action-tile">
+                <div class="tile-icon">💳</div>
+                <span class="tile-label">Gérer mes cartes</span>
+              </a>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <a href="pages/epargne/epargne.html" class="sb-action-tile">
+                <div class="tile-icon">🏦</div>
+                <span class="tile-label">Épargne &amp; placements</span>
+              </a>
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <a href="pages/beneficiaires/beneficiaires.html" class="sb-action-tile">
+                <div class="tile-icon">👥</div>
+                <span class="tile-label">Mes bénéficiaires</span>
+              </a>
             </div>
           </div>
-        </div>
 
-        <!-- Dernières activités du compte -->
-        <div class="row mb-4">
-          <div class="col-12">
-            <div class="card" style="border-radius:16px;border:none;box-shadow:0 2px 12px rgba(75,73,172,.08);">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h6 class="card-title mb-0" style="color:#4B49AC;font-weight:700;font-size:1rem;">
-                    <i class="ti-time mr-2"></i>Dernières activités du compte
-                  </h6>
-                  <a href="pages/transactions/historique.html" style="font-size:.8rem;color:#4B49AC;text-decoration:none;font-weight:500;">Voir tout →</a>
+          <!-- ── Main Grid: Transactions + Summary ─────────────── -->
+          <div class="row">
+
+            <!-- Recent Transactions -->
+            <div class="col-lg-7 mb-4">
+              <div class="sb-card h-100">
+                <div class="sb-card-header">
+                  <h5>📋 Dernières opérations</h5>
+                  <a href="pages/transactions/historique.html" class="sb-btn sb-btn-outline sb-btn-sm">Voir tout</a>
                 </div>
-                <div id="activitesList">
-                  <div class="text-center text-muted py-3"><i class="ti-reload ti-spin"></i> Chargement…</div>
-                </div>
+                <ul class="sb-txn-list" id="recentTxnList">
+                  <li class="sb-txn-item">
+                    <div class="sb-skeleton" style="width:40px;height:40px;border-radius:12px;flex-shrink:0;"></div>
+                    <div style="flex:1;"><div class="sb-skeleton" style="height:14px;width:70%;margin-bottom:6px;"></div><div class="sb-skeleton" style="height:11px;width:40%;"></div></div>
+                    <div class="sb-skeleton" style="width:70px;height:14px;"></div>
+                  </li>
+                  <li class="sb-txn-item">
+                    <div class="sb-skeleton" style="width:40px;height:40px;border-radius:12px;flex-shrink:0;"></div>
+                    <div style="flex:1;"><div class="sb-skeleton" style="height:14px;width:55%;margin-bottom:6px;"></div><div class="sb-skeleton" style="height:11px;width:35%;"></div></div>
+                    <div class="sb-skeleton" style="width:70px;height:14px;"></div>
+                  </li>
+                  <li class="sb-txn-item">
+                    <div class="sb-skeleton" style="width:40px;height:40px;border-radius:12px;flex-shrink:0;"></div>
+                    <div style="flex:1;"><div class="sb-skeleton" style="height:14px;width:65%;margin-bottom:6px;"></div><div class="sb-skeleton" style="height:11px;width:30%;"></div></div>
+                    <div class="sb-skeleton" style="width:70px;height:14px;"></div>
+                  </li>
+                </ul>
               </div>
             </div>
+
+            <!-- Right column: KPIs + Activities -->
+            <div class="col-lg-5 mb-4">
+
+              <!-- Monthly KPIs -->
+              <div class="sb-card mb-3">
+                <div class="sb-card-header">
+                  <h5>📊 Ce mois-ci</h5>
+                  <span style="font-size:.75rem;color:var(--sb-gray-500);" id="currentMonth">Mars 2026</span>
+                </div>
+                <div class="sb-card-body" style="padding:1rem 1.5rem;">
+                  <div class="sb-kpi-card mb-2" style="border:none;padding:.75rem 0;background:transparent;">
+                    <div class="sb-kpi-icon" style="background:var(--sb-success-lt);">💚</div>
+                    <div>
+                      <div class="sb-kpi-label">Revenus encaissés</div>
+                      <div class="sb-kpi-value" id="kpiCredit">—</div>
+                    </div>
+                    <span class="sb-kpi-trend up" id="kpiCreditTrend"></span>
+                  </div>
+                  <hr style="border-color:var(--sb-gray-200);margin:.25rem 0;">
+                  <div class="sb-kpi-card mb-2" style="border:none;padding:.75rem 0;background:transparent;">
+                    <div class="sb-kpi-icon" style="background:var(--sb-danger-lt);">❤️</div>
+                    <div>
+                      <div class="sb-kpi-label">Dépenses du mois</div>
+                      <div class="sb-kpi-value" id="kpiDebit">—</div>
+                    </div>
+                    <span class="sb-kpi-trend down" id="kpiDebitTrend"></span>
+                  </div>
+                  <hr style="border-color:var(--sb-gray-200);margin:.25rem 0;">
+                  <div class="sb-kpi-card" style="border:none;padding:.75rem 0;background:transparent;">
+                    <div class="sb-kpi-icon" style="background:var(--sb-primary-lt);">💜</div>
+                    <div>
+                      <div class="sb-kpi-label">Solde total comptes</div>
+                      <div class="sb-kpi-value" id="kpiTotal">—</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Activities -->
+              <div class="sb-card">
+                <div class="sb-card-header">
+                  <h5>🕒 Dernières activités</h5>
+                  <a href="pages/transactions/historique.html" class="sb-btn sb-btn-ghost sb-btn-sm" style="font-size:.75rem;">Voir tout</a>
+                </div>
+                <div id="dashActivities" style="padding:.5rem 0;">
+                  <div style="text-align:center;padding:1.5rem;color:var(--sb-gray-500);font-size:.85rem;">Chargement…</div>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
 
-      </div><!-- /content-wrapper -->
+          <!-- ── Info Banner ───────────────────────────────────── -->
+          <div style="background:linear-gradient(135deg,#e8f4fd,#f0efff);border:1px solid #c5c3e8;border-radius:var(--sb-radius-lg);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;margin-bottom:1rem;" class="mb-3">
+            <div style="font-size:1.5rem;">🛡️</div>
+            <div style="flex:1;">
+              <strong style="font-size:.875rem;color:var(--sb-primary);display:block;">Votre compte est protégé</strong>
+              <span style="font-size:.78rem;color:var(--sb-gray-600);">Chiffrement AES-256 · DSP2/SCA · PCI-DSS · RGPD · ISO 27001</span>
+            </div>
+            <a href="pages/securite/securite.html" class="sb-btn sb-btn-outline sb-btn-sm">En savoir plus</a>
+          </div>
 
-      <!-- ════════════════ FOOTER ════════════════ -->
+        </div><!-- /.sb-page -->
+      </div><!-- /.content-wrapper -->
+
+      <!-- ── Footer ─────────────────────────────────────────── -->
       <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">© 2026 SkyDash Bank. Tous droits réservés.</span>
-          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
-            <a href="pages/legal/conditions.html">Conditions d'utilisation</a> &nbsp;·&nbsp;
-            <a href="pages/legal/confidentialite.html">Confidentialité</a> &nbsp;·&nbsp;
-            <a href="pages/aide/aide.html">Aide</a> &nbsp;·&nbsp;
-            <a href="pages/securite/securite.html">Sécurité</a>
-          </span>
+        <div class="footer-links">
+          <a href="pages/legal/conditions.html">Conditions d'utilisation</a>
+          <a href="pages/legal/confidentialite.html">Politique de confidentialité</a>
+          <a href="pages/aide/aide.html">Aide &amp; Support</a>
+          <a href="pages/securite/securite.html">Sécurité</a>
         </div>
+        <div class="footer-copy">© 2026 SkyDash Bank — Établissement de crédit agréé par l'ACPR · PCI-DSS · RGPD · ISO 27001 · DSP2</div>
       </footer>
+    </div><!-- /.main-panel -->
+  </div><!-- /.page-body-wrapper -->
+</div><!-- /.container-scroller -->
 
-    </div><!-- /main-panel -->
-  </div><!-- /page-body-wrapper -->
-</div><!-- /container-scroller -->
-
-<!-- Scripts -->
 <script src="vendors/js/vendor.bundle.base.js"></script>
-<script src="js/off-canvas.js"></script>
-<script src="js/hoverable-collapse.js"></script>
-<script src="js/template.js"></script>
-<script src="js/settings.js"></script>
-<script src="js/todolist.js"></script>
-<script src="vendors/chart.js/Chart.min.js"></script>
-<script>
-(function() {
-  'use strict';
-  var ctx = document.getElementById('chartDashboard');
-  if (ctx) {
-    new Chart(ctx.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: ['Oct','Nov','Déc','Jan','Fév','Mars'],
-        datasets: [
-          {
-            label: 'Revenus',
-            data: [6900, 7100, 8200, 7000, 6980, 7845],
-            backgroundColor: 'rgba(27,207,180,0.75)',
-            borderRadius: 6,
-            borderSkipped: false
-          },
-          {
-            label: 'Dépenses',
-            data: [2400, 2600, 3100, 2200, 2310, 2198],
-            backgroundColor: 'rgba(254,124,150,0.75)',
-            borderRadius: 6,
-            borderSkipped: false
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'top', labels: { font: { size: 11 } } }
-        },
-        scales: {
-          x: { grid: { display: false } },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              font: { size: 10 },
-              callback: function(v) { return v.toLocaleString('fr-FR') + ' €'; }
-            }
-          }
-        }
-      }
-    });
-  }
-})();
-</script>
-
-<!-- ── SkyDash Bank API Integration ── -->
-<script>
-(function() {
-  'use strict';
-
-  /* Récupération du token en mémoire (stocké après login) */
-  var token = window._accessToken || null;
-  if (!token) return; // Mode démo statique si non connecté
-
-  /* Mise à jour dynamique du dashboard depuis l'API */
-  fetch('/api/dashboard/summary', {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'X-Requested-With': 'XMLHttpRequest',
-      'Accept': 'application/json',
-    },
-    credentials: 'include',
-  })
-  .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
-  .then(function(res) {
-    if (!res.success) return;
-    var d = res.data;
-
-    /* Mise à jour solde global */
-    var balanceEl = document.querySelector('.balance-amount');
-    if (balanceEl && d.soldeGlobal !== undefined) {
-      balanceEl.textContent = d.soldeGlobal.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
-    }
-
-    /* Mise à jour prénom */
-    var greetEl = document.querySelector('.greeting-name');
-    if (greetEl && d.user && d.user.prenom) {
-      greetEl.textContent = d.user.prenom;
-    }
-
-    /* Badge notifications */
-    var badgeEl = document.querySelector('.notification-badge');
-    if (badgeEl && d.notifications) {
-      badgeEl.textContent = d.notifications.nonLues;
-      badgeEl.style.display = d.notifications.nonLues > 0 ? 'inline' : 'none';
-    }
-  })
-  .catch(function(err) {
-    /* Silencieux — les données statiques restent affichées */
-    if (typeof console !== 'undefined') console.warn('[SkyDash] API non disponible, affichage statique.', err);
-  });
-
-  /* Renouvellement silencieux du token toutes les 12 min (expire à 15 min) */
-  setInterval(function() {
-    fetch('/api/auth/refresh', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'X-Requested-With': 'XMLHttpRequest' },
-    })
-    .then(function(r) { return r.ok ? r.json() : null; })
-    .then(function(data) {
-      if (data && data.data && data.data.accessToken) {
-        window._accessToken = data.data.accessToken;
-      }
-    })
-    .catch(function() {});
-  }, 12 * 60 * 1000);
-
-}());
-</script>
 <script src="js/skydash-store.js"></script>
 <script src="js/skydash-ui.js"></script>
 <script>
-// Hero balance & activities
+'use strict';
 (function() {
-  function fmt(v) { return v.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20AC'; }
-  function initHero() {
-    if(!window.SkyStore) return;
+  /* ── Helpers ─────────────────────────────────────────────── */
+  function fmt(v) {
+    return v.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
+  }
+  function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('fr-FR', {day:'2-digit', month:'short'});
+  }
+  function qs(sel) { return document.querySelector(sel); }
+
+  /* ── Current date ────────────────────────────────────────── */
+  var now = new Date();
+  var dateEl = document.getElementById('currentDate');
+  if(dateEl) dateEl.textContent = now.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  var monthEl = document.getElementById('currentMonth');
+  if(monthEl) monthEl.textContent = now.toLocaleDateString('fr-FR', {month:'long', year:'numeric'});
+
+  /* ── User name ───────────────────────────────────────────── */
+  var email = sessionStorage.getItem('sb_user_email') || '';
+  var nameEl = document.getElementById('userName');
+  if(nameEl && email) {
+    var parts = email.split('@')[0].split('.');
+    nameEl.textContent = parts.map(function(p){ return p.charAt(0).toUpperCase()+p.slice(1); }).join(' ');
+  }
+
+  /* ── Load store data ─────────────────────────────────────── */
+  function init() {
+    if(!window.SkyStore) { setTimeout(init, 100); return; }
+
+    // Log activity
+    if(SkyStore.logActivity) SkyStore.logActivity('consultation', 'Consultation du tableau de bord');
+
+    // ── Hero balance ──────────────────────────────────────── */
     var comptes = SkyStore.getComptes();
-    var courant = comptes.find(function(c){return c.id==='courant';});
+    var courant = comptes.find(function(c){ return c.id==='courant'; });
     if(courant) {
-      var el = document.getElementById('heroSolde');
-      if(el) el.textContent = fmt(courant.solde);
+      var soldeEl = document.getElementById('dashSolde');
+      if(soldeEl) soldeEl.textContent = fmt(courant.solde);
     }
-    // Monthly totals from transactions
+
+    // ── Monthly stats ─────────────────────────────────────── */
     var txns = SkyStore.getTransactions({});
-    var now = new Date(); var month = now.getMonth(); var year = now.getFullYear();
-    var credits = 0, debits = 0;
+    var m = now.getMonth(), y = now.getFullYear();
+    var credits = 0, debits = 0, count = 0;
     txns.forEach(function(t) {
       var d = new Date(t.date);
-      if(d.getMonth()===month && d.getFullYear()===year) {
-        if(t.type==='credit') credits += t.montant;
-        else debits += t.montant;
+      if(d.getMonth()===m && d.getFullYear()===y) {
+        if(t.type==='credit') credits+=t.montant;
+        else { debits+=t.montant; }
+        count++;
       }
     });
-    var hc = document.getElementById('heroCredit'); if(hc) hc.textContent='+'+fmt(credits);
-    var hd = document.getElementById('heroDebit'); if(hd) hd.textContent='-'+fmt(debits);
-    // Log dashboard visit
-    if(SkyStore.logActivity) SkyStore.logActivity('consultation','Consultation du tableau de bord');
+    var setEl = function(id, val) { var el=document.getElementById(id); if(el) el.textContent=val; };
+    setEl('dashCredit', '+'+fmt(credits));
+    setEl('dashDebit', '-'+fmt(debits));
+    setEl('dashTxnCount', count+' op.');
+    setEl('kpiCredit', '+'+fmt(credits));
+    setEl('kpiDebit', '-'+fmt(debits));
+
+    // Total all accounts
+    var total = comptes.reduce(function(s,c){ return s + (c.solde||0); }, 0);
+    setEl('kpiTotal', fmt(total));
+
+    // ── Other accounts grid ───────────────────────────────── */
+    var accountIcons = { courant:'💳', livretA:'🏦', pel:'📈', cel:'💰', csl:'📊' };
+    var accountColors = { courant:'#f0efff', livretA:'#e8fdf5', pel:'#e8f4fd', cel:'#fff3e0', csl:'#fff0f3' };
+    var accountLinks = {
+      courant: 'pages/comptes/mes-comptes.html',
+      livretA: 'pages/epargne/epargne.html',
+      pel: 'pages/epargne/epargne.html'
+    };
+    var grid = document.getElementById('accountsGrid');
+    if(grid) {
+      grid.innerHTML = comptes.map(function(c) {
+        var icon = accountIcons[c.id] || '🏦';
+        var bg = accountColors[c.id] || '#f5f6fa';
+        var link = accountLinks[c.id] || 'pages/comptes/mes-comptes.html';
+        return '<div class="col-md-4 mb-3">'
+          + '<a href="'+link+'" class="sb-account-card">'
+          + '  <div class="sb-account-icon" style="background:'+bg+';">'+icon+'</div>'
+          + '  <div class="sb-account-info">'
+          + '    <div class="sb-account-name">'+c.nom+'</div>'
+          + '    <div class="sb-account-balance">'+fmt(c.solde)+'</div>'
+          + '  </div>'
+          + '  <span class="sb-account-arrow">›</span>'
+          + '</a></div>';
+      }).join('');
+    }
+
+    // ── Recent transactions ───────────────────────────────── */
+    var catIcons = {
+      cb:'🛒', virement:'↔️', salaire:'💼', loyer:'🏠',
+      abonnement:'📱', restaurant:'🍽️', transport:'🚇',
+      sante:'💊', loisirs:'🎬', default:'💸'
+    };
+    var catColors = {
+      cb:'#fff3e0', virement:'#e8fdf5', salaire:'#e8fdf5', loyer:'#fff0f3',
+      abonnement:'#e8f4fd', restaurant:'#fff8ed', transport:'#f0efff',
+      sante:'#e8fdf5', loisirs:'#fff3e0', default:'#f5f6fa'
+    };
+    var recentTxns = SkyStore.getTransactions({ limit: 8 });
+    var txnList = document.getElementById('recentTxnList');
+    if(txnList && recentTxns.length) {
+      txnList.innerHTML = recentTxns.map(function(t) {
+        var icon = catIcons[t.categorie] || catIcons.default;
+        var bg = catColors[t.categorie] || catColors.default;
+        var amtClass = t.type==='credit' ? 'credit' : 'debit';
+        var amtSign = t.type==='credit' ? '+' : '-';
+        var dateStr = fmtDate(t.date);
+        return '<li class="sb-txn-item">'
+          + '<div class="sb-txn-cat-icon" style="background:'+bg+';">'+icon+'</div>'
+          + '<div class="sb-txn-info">'
+          + '  <div class="sb-txn-label">'+t.libelle+'</div>'
+          + '  <div class="sb-txn-meta">'+dateStr+' · '+t.compte+'</div>'
+          + '</div>'
+          + '<div class="sb-txn-amount '+amtClass+'">'+amtSign+fmt(t.montant)+'</div>'
+          + '</li>';
+      }).join('');
+    } else if(txnList) {
+      txnList.innerHTML = '<li style="padding:2rem;text-align:center;color:var(--sb-gray-500);">Aucune opération récente.</li>';
+    }
+
+    // ── Activities ────────────────────────────────────────── */
+    var acts = SkyStore.getActivities ? SkyStore.getActivities(4) : [];
+    var actEl = document.getElementById('dashActivities');
+    if(actEl && acts.length) {
+      var typeIcons = { connexion:'🔐', consultation:'👁️', virement:'💸', carte:'💳' };
+      var typeCls = { connexion:'sb-act-connexion', consultation:'sb-act-consultation', virement:'sb-act-virement', carte:'sb-act-carte' };
+      actEl.innerHTML = acts.map(function(a) {
+        var d = new Date(a.date);
+        var ds = d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'}) + ' ' + a.heure;
+        return '<div style="display:flex;align-items:center;gap:.875rem;padding:.65rem 1.25rem;border-bottom:1px solid var(--sb-gray-200);">'
+          + '<span class="sb-badge '+( typeCls[a.type]||'' )+'" style="font-size:.72rem;">' + (typeIcons[a.type]||'📋') + ' '+a.type+'</span>'
+          + '<div style="flex:1;min-width:0;">'
+          + '  <div style="font-size:.8rem;font-weight:500;color:var(--sb-gray-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+a.label+'</div>'
+          + '  <div style="font-size:.72rem;color:var(--sb-gray-500);">'+ds+' · '+a.ville+'</div>'
+          + '</div></div>';
+      }).join('');
+    } else if(actEl) {
+      actEl.innerHTML = '<div style="padding:1.5rem;text-align:center;color:var(--sb-gray-500);font-size:.85rem;">Aucune activité.</div>';
+    }
+
+    // ── Notif badge ───────────────────────────────────────── */
+    if(window.SkyUI && SkyUI.refreshNavbar) SkyUI.refreshNavbar();
+
+    // ── Listen for balance updates ───────────────────────── */
+    if(SkyStore.on) {
+      SkyStore.on('sb:balance', function() {
+        var cc = SkyStore.getComptes().find(function(c){return c.id==='courant';});
+        if(cc && document.getElementById('dashSolde')) document.getElementById('dashSolde').textContent = fmt(cc.solde);
+      });
+    }
   }
 
-  function initActivities() {
-    if(!window.SkyStore || !SkyStore.getActivities) return;
-    var acts = SkyStore.getActivities(5);
-    var container = document.getElementById('activitesList');
-    if(!container) return;
-    if(!acts.length) { container.innerHTML='<p class="text-muted text-center py-2">Aucune activité enregistrée.</p>'; return; }
-    var icons = { connexion:'🔐', consultation:'👁️', virement:'💸', carte:'💳' };
-    var colors = { connexion:'#e8f4fd', consultation:'#f0efff', virement:'#e8fdf5', carte:'#fff3e0' };
-    var textColors = { connexion:'#2196F3', consultation:'#4B49AC', virement:'#1bcfb4', carte:'#f3a84b' };
-    var flags = { France:'🇫🇷', Belgique:'🇧🇪', Suisse:'🇨🇭', Allemagne:'🇩🇪', Luxembourg:'🇱🇺' };
-    var html = '';
-    acts.forEach(function(a) {
-      var icon = icons[a.type]||'📋';
-      var bg = colors[a.type]||'#f8f9fa';
-      var tc = textColors[a.type]||'#495057';
-      var flag = flags[a.pays]||'🌍';
-      var dateStr = new Date(a.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
-      html += '<div style="display:flex;align-items:center;padding:.65rem .5rem;border-radius:8px;transition:background .15s;gap:1rem;border-bottom:1px solid #f5f5f5;">'
-        + '<div style="width:38px;height:38px;border-radius:50%;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">'+icon+'</div>'
-        + '<div style="flex:1;min-width:0;">'
-        +   '<div style="font-size:.875rem;font-weight:600;color:#1a1a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+a.label+'</div>'
-        +   '<div style="font-size:.75rem;color:#6c757d;">'+dateStr+' à '+a.heure+'</div>'
-        + '</div>'
-        + '<div style="text-align:right;flex-shrink:0;">'
-        +   '<div style="font-size:.8rem;font-weight:600;color:'+tc+';">'+flag+' '+a.ville+'</div>'
-        +   '<div style="font-size:.72rem;color:#adb5bd;">'+a.device+'</div>'
-        + '</div>'
-        + '</div>';
-    });
-    container.innerHTML = html;
-  }
-
-  if(document.readyState==='loading') {
-    document.addEventListener('DOMContentLoaded', function(){ initHero(); initActivities(); });
-  } else {
-    initHero(); initActivities();
-  }
+  document.addEventListener('DOMContentLoaded', init);
 })();
 </script>
 </body>
