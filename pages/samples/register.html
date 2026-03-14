@@ -123,6 +123,22 @@
             </div>
             <div id="em-err" class="invalid-feedback"></div>
           </div>
+          <div class="form-group">
+            <label for="pays" class="font-weight-medium small">Pays de résidence <span class="text-danger">*</span></label>
+            <select class="form-control form-control-lg country-select" id="pays" name="pays" required aria-describedby="pays-err">
+              <option value="">-- Sélectionnez votre pays --</option>
+              <option value="FR">🇫🇷 France</option>
+              <option value="BE">🇧🇪 Belgique</option>
+              <option value="CH">🇨🇭 Suisse</option>
+              <option value="CA">🇨🇦 Canada</option>
+              <option value="LU">🇱🇺 Luxembourg</option>
+              <option value="MA">🇲🇦 Maroc</option>
+              <option value="SN">🇸🇳 Sénégal</option>
+              <option value="CI">🇨🇮 Côte d'Ivoire</option>
+              <option value="XX">🌍 Autres...</option>
+            </select>
+            <div id="pays-err" class="invalid-feedback"></div>
+          </div>
           <button type="button" id="btn-next1" class="btn btn-block btn-lg btn-register font-weight-medium mt-2">
             Continuer <i class="ti-arrow-right ml-1"></i>
           </button>
@@ -260,6 +276,25 @@
             Droit d'accès, rectification et suppression garanti. Aucune revente à des tiers.
           </div>
 
+          <!-- SCA confirmation -->
+          <div class="alert alert-success mb-3" style="font-size:13px;">
+            ✅ Vérification téléphonique SCA (DSP2) complétée
+          </div>
+
+          <!-- CAPTCHA -->
+          <div class="captcha-box mb-3" style="background:#f8f9fa;border:1px solid #dee2e6;border-radius:10px;padding:1rem;">
+            <label class="font-weight-600 mb-2" style="color:#4B49AC;font-size:.875rem;">
+              <i class="ti-shield mr-1"></i> Vérification anti-robot
+            </label>
+            <div class="d-flex align-items-center gap-2">
+              <span id="captchaQuestion" style="font-size:1.1rem;font-weight:700;color:#1a1a2e;background:#fff;border:2px solid #4B49AC;padding:.4rem .9rem;border-radius:8px;min-width:120px;text-align:center;"></span>
+              <span style="font-size:1.1rem;color:#6c757d;">=</span>
+              <input type="number" id="captchaAnswer" class="form-control" placeholder="?" style="width:80px;" min="0" max="18">
+              <button type="button" onclick="refreshCaptcha()" class="btn btn-outline-secondary btn-sm" title="Nouveau code"><i class="ti-reload"></i></button>
+            </div>
+            <div id="captchaError" class="text-danger mt-1 small" style="display:none;">Réponse incorrecte. Réessayez.</div>
+          </div>
+
           <div class="d-flex" style="gap:.5rem;">
             <button type="button" id="btn-back3" class="btn btn-outline-secondary btn-lg mr-2">
               <i class="ti-arrow-left"></i>
@@ -333,13 +368,14 @@
       var emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       var ok = true;
 
-      ['firstName','lastName','email','birthDate'].forEach(function(id) {
+      var paysVal = document.getElementById('pays').value;
+      ['firstName','lastName','email','birthDate','pays'].forEach(function(id) {
         document.getElementById(id).classList.remove('is-invalid','is-valid');
       });
 
       if (!nameRx.test(fn)) { document.getElementById('firstName').classList.add('is-invalid'); document.getElementById('fn-err').textContent = 'Prénom invalide (2-50 caractères alphabétiques).'; ok = false; }
       else document.getElementById('firstName').classList.add('is-valid');
-      if (!nameRx.test(ln)) { document.getElementById('lastName').classList.add('is-invalid'); document.getElementById('ln-err').textContent = 'Nom invalide.'; ok = false; }
+      if (!nameRx.test(ln)) { document.getElementById('lastName').classList.add('is-invalid'); document.getElementById('ln-err').textContent = 'Nom invalide (2-50 caractères alphabétiques).'; ok = false; }
       else document.getElementById('lastName').classList.add('is-valid');
       if (!bd) { document.getElementById('birthDate').classList.add('is-invalid'); document.getElementById('bd-err').textContent = 'Date de naissance requise.'; ok = false; }
       else {
@@ -349,6 +385,8 @@
       }
       if (!emailRx.test(em)) { document.getElementById('email').classList.add('is-invalid'); document.getElementById('em-err').textContent = 'Adresse email invalide.'; ok = false; }
       else document.getElementById('email').classList.add('is-valid');
+      if (!paysVal) { document.getElementById('pays').classList.add('is-invalid'); document.getElementById('pays-err').textContent = 'Veuillez sélectionner votre pays de résidence.'; ok = false; }
+      else document.getElementById('pays').classList.add('is-valid');
 
       if (ok) goStep(2);
     });
@@ -470,6 +508,7 @@
     document.getElementById('btn-next3').addEventListener('click', function () {
       if (!otpVerified) { document.getElementById('otp-err').textContent = 'Veuillez saisir et valider le code SMS.'; document.getElementById('otp-err').style.display = 'block'; return; }
       goStep(4);
+      refreshCaptcha();
     });
 
     /* Retour arrière */

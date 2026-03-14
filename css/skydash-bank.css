@@ -351,3 +351,65 @@ button:focus:not(:focus-visible) { outline: none; }
   z-index: 999;
 }
 [data-tooltip]:hover::after { opacity: 1; }
+
+
+/* ================================================
+   SG PARTICULIERS INSPIRED & EPIC ENHANCEMENTS
+   ================================================ */
+
+/* Quick nav bar */
+.sg-quick-nav { scrollbar-width: none; -ms-overflow-style: none; }
+.sg-quick-nav::-webkit-scrollbar { display: none; }
+.sg-nav-item:hover { background: #f0efff !important; color: #4B49AC !important; text-decoration: none; }
+
+/* Hero card pulse dot */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(1.4); }
+}
+
+/* Transaction row */
+.txn-row { display: flex; align-items: center; padding: .75rem 1rem; border-radius: 8px; transition: background .15s; }
+.txn-row:hover { background: #f8f9ff; }
+.txn-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; margin-right: 1rem; }
+.txn-label { flex: 1; }
+.txn-label strong { display: block; font-size: .875rem; color: #1a1a2e; }
+.txn-label small { color: #6c757d; font-size: .78rem; }
+.txn-amount { font-weight: 700; font-size: .95rem; }
+.txn-amount.debit { color: #fe7c96; }
+.txn-amount.credit { color: #1bcfb4; }
+
+/* Activity badges */
+.activity-connexion { background: #e8f4fd !important; color: #2196F3 !important; }
+.activity-consultation { background: #f0efff !important; color: #4B49AC !important; }
+.activity-virement { background: #e8fdf5 !important; color: #1bcfb4 !important; }
+.activity-carte { background: #fff3e0 !important; color: #f3a84b !important; }
+
+/* CAPTCHA */
+.captcha-box input[type=number] { -moz-appearance: textfield; }
+.captcha-box input[type=number]::-webkit-outer-spin-button,
+.captcha-box input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* SG-style card */
+.sg-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(75,73,172,.08); border: 1px solid #f0efff; transition: box-shadow .2s, transform .2s; }
+.sg-card:hover { box-shadow: 0 4px 20px rgba(75,73,172,.14); transform: translateY(-2px); }
+
+/* Trend indicators */
+.trend-up { color: #1bcfb4; font-size: .78rem; font-weight: 600; }
+.trend-down { color: #fe7c96; font-size: .78rem; font-weight: 600; }
+
+/* Responsive hero */
+@media (max-width: 576px) {
+  #heroSection [style*="font-size:2.6rem"] { font-size: 1.9rem !important; }
+  .sg-quick-nav a { font-size: .78rem !important; padding: .4rem .65rem !important; }
+}
+
+/* Hist tabs */
+#histTabs .nav-link { transition: all .2s; }
+#histTabs .nav-link:hover { background: #f0efff !important; color: #4B49AC !important; }
+
+/* Register country select */
+#pays { background-image: none; }
+
+/* Table activités */
+#activitesTableBody tr:hover td { background: #f8f9ff; }

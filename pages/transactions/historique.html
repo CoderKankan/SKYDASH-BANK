@@ -101,6 +101,22 @@
           </nav>
         </div>
 
+        <!-- Onglets Transactions / Activités -->
+        <ul class="nav nav-pills mb-4" id="histTabs" style="background:#f8f9ff;padding:.4rem;border-radius:12px;gap:.25rem;">
+          <li class="nav-item">
+            <a class="nav-link active" id="tab-txn" href="#" onclick="showTab('txn',this);return false;" style="border-radius:8px;font-weight:600;font-size:.875rem;color:#4B49AC;background:#fff;box-shadow:0 2px 6px rgba(75,73,172,.1);">
+              <i class="ti-list mr-1"></i>Transactions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="tab-act" href="#" onclick="showTab('act',this);return false;" style="border-radius:8px;font-weight:600;font-size:.875rem;color:#6c757d;">
+              <i class="ti-time mr-1"></i>Activités du compte
+            </a>
+          </li>
+        </ul>
+
+        <div id="panel-txn">
+
         <!-- Summary row — live from store -->
         <div class="row mb-4">
           <div class="col-md-4 col-12 mb-3">
@@ -209,6 +225,39 @@
           </div>
         </div>
 
+        </div><!-- /panel-txn -->
+
+        <div id="panel-act" style="display:none;">
+          <div class="card" style="border-radius:16px;border:none;box-shadow:0 2px 12px rgba(75,73,172,.08);">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 style="color:#4B49AC;font-weight:700;margin:0;"><i class="ti-shield mr-2"></i>Historique des activités du compte</h6>
+                <div>
+                  <span style="font-size:.75rem;color:#6c757d;">Toutes les consultations, connexions et actions sur le compte</span>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover" style="font-size:.875rem;">
+                  <thead>
+                    <tr style="background:#f8f9ff;">
+                      <th style="color:#4B49AC;border:none;padding:.75rem 1rem;border-radius:8px 0 0 8px;">Date</th>
+                      <th style="color:#4B49AC;border:none;padding:.75rem .5rem;">Heure</th>
+                      <th style="color:#4B49AC;border:none;padding:.75rem .5rem;">Activité</th>
+                      <th style="color:#4B49AC;border:none;padding:.75rem .5rem;">Ville</th>
+                      <th style="color:#4B49AC;border:none;padding:.75rem .5rem;">Pays</th>
+                      <th style="color:#4B49AC;border:none;padding:.75rem .5rem;">Appareil</th>
+                      <th style="color:#4B49AC;border:none;padding:.75rem 1rem;border-radius:0 8px 8px 0;">IP</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activitesTableBody">
+                    <tr><td colspan="7" class="text-center text-muted py-4"><i class="ti-reload ti-spin"></i> Chargement…</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div><!-- /content-wrapper -->
 
       <footer class="footer">
@@ -233,6 +282,54 @@
 <script src="../../js/settings.js"></script>
 <script src="../../js/skydash-store.js"></script>
 <script src="../../js/skydash-ui.js"></script>
+
+<script>
+function showTab(tab, el) {
+  document.getElementById('panel-txn').style.display = tab==='txn' ? '' : 'none';
+  document.getElementById('panel-act').style.display = tab==='act' ? '' : 'none';
+  document.querySelectorAll('#histTabs .nav-link').forEach(function(a){
+    a.style.color='#6c757d'; a.style.background='transparent'; a.style.boxShadow='none';
+  });
+  el.style.color='#4B49AC'; el.style.background='#fff'; el.style.boxShadow='0 2px 6px rgba(75,73,172,.1)';
+  if(tab==='act') loadActivities();
+}
+
+function loadActivities() {
+  if(!window.SkyStore || !SkyStore.getActivities) return;
+  var acts = SkyStore.getActivities(50);
+  var tbody = document.getElementById('activitesTableBody');
+  if(!tbody) return;
+  var typeLabels = { connexion:'Connexion', consultation:'Consultation', virement:'Virement', carte:'Carte' };
+  var typeBadge = {
+    connexion:'background:#e8f4fd;color:#2196F3',
+    consultation:'background:#f0efff;color:#4B49AC',
+    virement:'background:#e8fdf5;color:#1bcfb4',
+    carte:'background:#fff3e0;color:#f3a84b'
+  };
+  var flags = { France:'🇫🇷', Belgique:'🇧🇪', Suisse:'🇨🇭', Allemagne:'🇩🇪', Luxembourg:'🇱🇺', default:'🌍' };
+  var icons = { connexion:'🔐', consultation:'👁️', virement:'💸', carte:'💳' };
+  if(!acts.length) { tbody.innerHTML='<tr><td colspan="7" class="text-center text-muted py-4">Aucune activité enregistrée.</td></tr>'; return; }
+  tbody.innerHTML = acts.map(function(a) {
+    var d = new Date(a.date);
+    var dateStr = d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+    var badge = typeBadge[a.type]||'background:#f5f5f5;color:#495057';
+    var flag = flags[a.pays]||flags.default;
+    var icon = icons[a.type]||'📋';
+    return '<tr>'
+      +'<td style="padding:.75rem 1rem;color:#495057;">'+dateStr+'</td>'
+      +'<td style="padding:.75rem .5rem;color:#6c757d;font-family:monospace;">'+a.heure+'</td>'
+      +'<td style="padding:.75rem .5rem;">'
+      +  '<span style="padding:.2rem .6rem;border-radius:20px;font-size:.75rem;font-weight:600;'+badge+';">'+icon+' '+(typeLabels[a.type]||a.type)+'</span>'
+      +  '<div style="font-size:.8rem;color:#495057;margin-top:.25rem;">'+a.label+'</div>'
+      +'</td>'
+      +'<td style="padding:.75rem .5rem;font-size:.875rem;color:#495057;">'+a.ville+'</td>'
+      +'<td style="padding:.75rem .5rem;font-size:.875rem;">'+flag+' '+a.pays+'</td>'
+      +'<td style="padding:.75rem .5rem;font-size:.8rem;color:#6c757d;">'+a.device+'</td>'
+      +'<td style="padding:.75rem 1rem;font-size:.78rem;font-family:monospace;color:#adb5bd;">'+a.ip+'</td>'
+      +'</tr>';
+  }).join('');
+}
+</script>
 
 <script>
 (function () {

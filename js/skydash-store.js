@@ -72,6 +72,16 @@
       { id:'NOT-002', titre:'Salaire reçu',           msg:'+3 845,00 € — ACME Corp',                   type:'credit', date:'2026-03-10', lue:false },
       { id:'NOT-003', titre:'Carte expirante',        msg:'Visa Premier — expiration dans 3 mois',      type:'info',   date:'2026-03-10', lue:true  },
     ],
+
+    activites: [
+      { id:'act1', type:'connexion',    label:'Connexion au compte',                             date:'2026-03-14T08:23:00Z', heure:'08:23', pays:'France', ville:'Paris', ip:'82.67.142.18', device:'Desktop Chrome' },
+      { id:'act2', type:'consultation', label:'Consultation solde — Compte Courant',             date:'2026-03-14T08:25:00Z', heure:'08:25', pays:'France', ville:'Paris', ip:'82.67.142.18', device:'Desktop Chrome' },
+      { id:'act3', type:'virement',     label:'Virement vers Sophie Martin — 450,00 €',         date:'2026-03-13T14:10:00Z', heure:'14:10', pays:'France', ville:'Lyon',  ip:'82.67.142.18', device:'Mobile Safari' },
+      { id:'act4', type:'consultation', label:'Consultation historique transactions',            date:'2026-03-13T09:05:00Z', heure:'09:05', pays:'France', ville:'Paris', ip:'82.67.142.18', device:'Desktop Chrome' },
+      { id:'act5', type:'carte',        label:'Blocage temporaire carte Visa Infinite',         date:'2026-03-12T17:30:00Z', heure:'17:30', pays:'France', ville:'Paris', ip:'82.67.142.18', device:'Desktop Chrome' },
+      { id:'act6', type:'connexion',    label:'Connexion au compte',                            date:'2026-03-12T09:15:00Z', heure:'09:15', pays:'France', ville:'Paris', ip:'82.67.142.18', device:'Desktop Chrome' },
+      { id:'act7', type:'virement',     label:'Virement reçu de Marc Dupont — 1 200,00 €',     date:'2026-03-11T11:20:00Z', heure:'11:20', pays:'France', ville:'Paris', ip:'82.67.142.18', device:'Desktop Firefox' },
+    ],
   };
 
   /* ── Chargement / sauvegarde sessionStorage ──────────────────────── */
@@ -260,6 +270,59 @@
       _data.notifications.unshift(notif);
       save(_data);
       store._dispatch('sb:notification', notif);
+    },
+
+    /* ── Activités ──────────────────────────────────────────────────── */
+    getLocation: function () {
+      var pays  = sessionStorage.getItem('sb_loc_pays')  || 'France';
+      var ville = sessionStorage.getItem('sb_loc_ville') || 'Paris';
+      var ip    = sessionStorage.getItem('sb_loc_ip')    || '82.67.xxx.xxx';
+      if (!sessionStorage.getItem('sb_loc_pays')) {
+        sessionStorage.setItem('sb_loc_pays',  pays);
+        sessionStorage.setItem('sb_loc_ville', ville);
+        sessionStorage.setItem('sb_loc_ip',    '82.67.' + (100 + Math.floor(Math.random()*99)) + '.' + Math.floor(Math.random()*254));
+        ip = sessionStorage.getItem('sb_loc_ip');
+      }
+      return { pays: pays, ville: ville, ip: ip };
+    },
+
+    logActivity: function (type, label) {
+      var loc = store.getLocation();
+      var now = new Date();
+      var hh  = now.getHours().toString().padStart(2,'0');
+      var mm  = now.getMinutes().toString().padStart(2,'0');
+      var ua  = (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : '';
+      var device = 'Desktop';
+      if (/Mobile|Android|iPhone|iPad/.test(ua)) {
+        device = /iPad/.test(ua) ? 'Tablet' : 'Mobile';
+      }
+      var browser = 'Navigateur';
+      if (/Firefox/.test(ua))      browser = 'Firefox';
+      else if (/Edg/.test(ua))     browser = 'Edge';
+      else if (/Chrome/.test(ua))  browser = 'Chrome';
+      else if (/Safari/.test(ua))  browser = 'Safari';
+      var entry = {
+        id: 'act-' + Date.now(),
+        type: type,
+        label: label,
+        date: now.toISOString(),
+        heure: hh + ':' + mm,
+        pays: loc.pays,
+        ville: loc.ville,
+        ip: loc.ip,
+        device: device + ' ' + browser,
+      };
+      if (!_data.activites) _data.activites = [];
+      _data.activites.unshift(entry);
+      save(_data);
+      return entry;
+    },
+
+    getActivities: function (limit) {
+      var acts = (_data.activites || []).slice();
+      acts.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+      var n = (limit === undefined || limit === null) ? 20 : limit;
+      return acts.slice(0, n);
     },
 
     /* ── Reset (logout) ─────────────────────────────────────────────── */

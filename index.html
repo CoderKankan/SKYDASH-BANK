@@ -286,6 +286,19 @@
 
     <!-- ════════════════ MAIN PANEL ════════════════ -->
     <div class="main-panel">
+
+      <!-- SG-style Quick Navigation -->
+      <div class="sg-quick-nav" style="background:#fff;border-bottom:2px solid #f0efff;padding:.5rem 1.5rem;display:flex;gap:.25rem;overflow-x:auto;position:sticky;top:70px;z-index:99;box-shadow:0 2px 8px rgba(75,73,172,.06);">
+        <a href="index.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#4B49AC;font-weight:600;font-size:.875rem;text-decoration:none;border-bottom:2px solid #4B49AC;white-space:nowrap;">🏠 Tableau de bord</a>
+        <a href="pages/comptes/mes-comptes.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">💳 Mes comptes</a>
+        <a href="pages/virements/virement.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">↔️ Virements</a>
+        <a href="pages/epargne/epargne.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">🏦 Épargne</a>
+        <a href="pages/cartes/mes-cartes.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">💳 Mes cartes</a>
+        <a href="pages/beneficiaires/beneficiaires.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">👥 Bénéficiaires</a>
+        <a href="pages/transactions/historique.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">📋 Historique</a>
+        <a href="pages/aide/aide.html" class="sg-nav-item" style="padding:.5rem 1rem;border-radius:6px;color:#495057;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:all .2s;">❓ Aide</a>
+      </div>
+
       <div class="content-wrapper">
 
         <!-- Page Header -->
@@ -297,6 +310,46 @@
           <div class="d-none d-md-flex align-items-center" style="gap:10px;">
             <span class="badge badge-success py-1 px-2"><i class="ti-shield mr-1"></i>Connexion sécurisée TLS 1.3</span>
             <a href="pages/securite/securite.html" class="btn btn-outline-primary btn-sm"><i class="ti-lock mr-1"></i>Sécurité</a>
+          </div>
+        </div>
+
+        <!-- Hero Balance Card -->
+        <div class="row mb-4" id="heroSection">
+          <div class="col-12">
+            <div style="background:linear-gradient(135deg,#4B49AC 0%,#2c2b6b 100%);border-radius:20px;padding:2rem 2.5rem;color:#fff;position:relative;overflow:hidden;">
+              <div style="position:absolute;top:-30px;right:-30px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none;"></div>
+              <div style="position:absolute;bottom:-50px;right:100px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none;"></div>
+              <div style="position:absolute;top:20px;left:50%;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.03);pointer-events:none;"></div>
+              <div class="row align-items-center">
+                <div class="col-md-6 col-12 mb-3 mb-md-0">
+                  <div style="font-size:.75rem;opacity:.75;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.4rem;">Compte Courant Principal</div>
+                  <div style="font-size:.8rem;opacity:.6;font-family:monospace;letter-spacing:.5px;margin-bottom:.75rem;" id="heroIBAN">FR76 •••• •••• •••• •••• •••• 342</div>
+                  <div style="font-size:2.6rem;font-weight:700;letter-spacing:-1.5px;line-height:1;" id="heroSolde">— €</div>
+                  <div style="font-size:.75rem;opacity:.6;margin-top:.4rem;display:flex;align-items:center;gap:.4rem;">
+                    <span style="width:7px;height:7px;border-radius:50%;background:#1bcfb4;display:inline-block;animation:pulse 2s infinite;"></span>
+                    Solde disponible · Mis à jour à l'instant
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="d-flex flex-wrap mb-3" style="gap:.6rem;justify-content:flex-start;justify-content:flex-end;" id="heroActions">
+                    <a href="pages/virements/virement.html" style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.6rem 1.1rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'"><i class="ti-exchange-vertical"></i> Virer de l'argent</a>
+                    <a href="pages/transactions/historique.html" style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.6rem 1.1rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'"><i class="ti-list"></i> Historique</a>
+                    <a href="pages/cartes/mes-cartes.html" style="background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.6rem 1.1rem;border-radius:10px;text-decoration:none;font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'"><i class="ti-credit-card"></i> Mes cartes</a>
+                  </div>
+                  <div class="d-flex" style="gap:2rem;justify-content:flex-end;">
+                    <div>
+                      <div style="font-size:1.15rem;font-weight:700;" id="heroCredit">+0,00 €</div>
+                      <div style="font-size:.72rem;opacity:.65;">Crédités ce mois</div>
+                    </div>
+                    <div style="width:1px;background:rgba(255,255,255,.2);"></div>
+                    <div>
+                      <div style="font-size:1.15rem;font-weight:700;" id="heroDebit">-0,00 €</div>
+                      <div style="font-size:.72rem;opacity:.65;">Débités ce mois</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -680,6 +733,25 @@
           </div>
         </div>
 
+        <!-- Dernières activités du compte -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card" style="border-radius:16px;border:none;box-shadow:0 2px 12px rgba(75,73,172,.08);">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="card-title mb-0" style="color:#4B49AC;font-weight:700;font-size:1rem;">
+                    <i class="ti-time mr-2"></i>Dernières activités du compte
+                  </h6>
+                  <a href="pages/transactions/historique.html" style="font-size:.8rem;color:#4B49AC;text-decoration:none;font-weight:500;">Voir tout →</a>
+                </div>
+                <div id="activitesList">
+                  <div class="text-center text-muted py-3"><i class="ti-reload ti-spin"></i> Chargement…</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div><!-- /content-wrapper -->
 
       <!-- ════════════════ FOOTER ════════════════ -->
@@ -823,5 +895,73 @@
 </script>
 <script src="js/skydash-store.js"></script>
 <script src="js/skydash-ui.js"></script>
+<script>
+// Hero balance & activities
+(function() {
+  function fmt(v) { return v.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' \u20AC'; }
+  function initHero() {
+    if(!window.SkyStore) return;
+    var comptes = SkyStore.getComptes();
+    var courant = comptes.find(function(c){return c.id==='courant';});
+    if(courant) {
+      var el = document.getElementById('heroSolde');
+      if(el) el.textContent = fmt(courant.solde);
+    }
+    // Monthly totals from transactions
+    var txns = SkyStore.getTransactions({});
+    var now = new Date(); var month = now.getMonth(); var year = now.getFullYear();
+    var credits = 0, debits = 0;
+    txns.forEach(function(t) {
+      var d = new Date(t.date);
+      if(d.getMonth()===month && d.getFullYear()===year) {
+        if(t.type==='credit') credits += t.montant;
+        else debits += t.montant;
+      }
+    });
+    var hc = document.getElementById('heroCredit'); if(hc) hc.textContent='+'+fmt(credits);
+    var hd = document.getElementById('heroDebit'); if(hd) hd.textContent='-'+fmt(debits);
+    // Log dashboard visit
+    if(SkyStore.logActivity) SkyStore.logActivity('consultation','Consultation du tableau de bord');
+  }
+
+  function initActivities() {
+    if(!window.SkyStore || !SkyStore.getActivities) return;
+    var acts = SkyStore.getActivities(5);
+    var container = document.getElementById('activitesList');
+    if(!container) return;
+    if(!acts.length) { container.innerHTML='<p class="text-muted text-center py-2">Aucune activité enregistrée.</p>'; return; }
+    var icons = { connexion:'🔐', consultation:'👁️', virement:'💸', carte:'💳' };
+    var colors = { connexion:'#e8f4fd', consultation:'#f0efff', virement:'#e8fdf5', carte:'#fff3e0' };
+    var textColors = { connexion:'#2196F3', consultation:'#4B49AC', virement:'#1bcfb4', carte:'#f3a84b' };
+    var flags = { France:'🇫🇷', Belgique:'🇧🇪', Suisse:'🇨🇭', Allemagne:'🇩🇪', Luxembourg:'🇱🇺' };
+    var html = '';
+    acts.forEach(function(a) {
+      var icon = icons[a.type]||'📋';
+      var bg = colors[a.type]||'#f8f9fa';
+      var tc = textColors[a.type]||'#495057';
+      var flag = flags[a.pays]||'🌍';
+      var dateStr = new Date(a.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+      html += '<div style="display:flex;align-items:center;padding:.65rem .5rem;border-radius:8px;transition:background .15s;gap:1rem;border-bottom:1px solid #f5f5f5;">'
+        + '<div style="width:38px;height:38px;border-radius:50%;background:'+bg+';display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">'+icon+'</div>'
+        + '<div style="flex:1;min-width:0;">'
+        +   '<div style="font-size:.875rem;font-weight:600;color:#1a1a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+a.label+'</div>'
+        +   '<div style="font-size:.75rem;color:#6c757d;">'+dateStr+' à '+a.heure+'</div>'
+        + '</div>'
+        + '<div style="text-align:right;flex-shrink:0;">'
+        +   '<div style="font-size:.8rem;font-weight:600;color:'+tc+';">'+flag+' '+a.ville+'</div>'
+        +   '<div style="font-size:.72rem;color:#adb5bd;">'+a.device+'</div>'
+        + '</div>'
+        + '</div>';
+    });
+    container.innerHTML = html;
+  }
+
+  if(document.readyState==='loading') {
+    document.addEventListener('DOMContentLoaded', function(){ initHero(); initActivities(); });
+  } else {
+    initHero(); initActivities();
+  }
+})();
+</script>
 </body>
 </html>
